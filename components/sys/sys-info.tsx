@@ -24,14 +24,14 @@ export default function SysInfo({
     <>
       <div
         className={cn(
-          'flex items-center gap-2 border-dashed border-2 rounded-lg  py-2 px-4',
+          'flex items-center gap-2 border-dashed border rounded-lg  py-2 px-4',
           getColors(),
           className
         )}
       >
         <Info size={'2rem'} className='text-gray-400' />
 
-        <div className='text-gray-500'>{text}</div>
+        <div className='text-gray-500 text-sm'>{text}</div>
       </div>
     </>
   );

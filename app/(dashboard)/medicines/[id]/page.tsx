@@ -106,7 +106,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <BasePageDialog
         title='Medicine Details'
         subtitle='Fill Medicine Data'
-        className='w-[1200px]'
+        className='w-full h-full'
         onOpenChange={goBack}
       >
         <SysInfo
@@ -117,7 +117,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-2 gap-4 max-h-[325px] overflow-auto'>
               <FormField
                 control={form.control}
                 name='tradeName'

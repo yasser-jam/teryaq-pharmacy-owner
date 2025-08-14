@@ -1,0 +1,129 @@
+import z from 'zod';
+
+const requiredString = () => {
+  return z.string().trim().nonempty();
+};
+
+export const EMPLOYEE_SCHEMA = z.object({
+  id: z.number().optional(),
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
+  email: z.string().email('Valid email is required'),
+  phoneNumber: z.string().min(1, 'Phone number is required'),
+  status: z.enum(['ACTIVE', 'INACTIVE']),
+  dateOfHire: z.string().min(1, 'Date of hire is required'),
+  roleName: z.string().min(1, 'Role name is required'),
+  pharmacyId: z.number().optional(),
+  workingHours: z.array(
+    z.object({
+      dayOfWeek: z.enum([
+        'MONDAY',
+        'TUESDAY',
+        'WEDNESDAY',
+        'THURSDAY',
+        'FRIDAY',
+        'SATURDAY',
+        'SUNDAY',
+      ]),
+      shifts: z.array(
+        z.object({
+          startTime: z
+            .string()
+            .regex(
+              /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
+              'Invalid time format (HH:MM)'
+            ),
+          endTime: z
+            .string()
+            .regex(
+              /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
+              'Invalid time format (HH:MM)'
+            ),
+          description: z.string().optional(),
+        })
+      ),
+    })
+  ),
+});
+
+export type Employee = z.infer<typeof EMPLOYEE_SCHEMA>;
+
+// Role and Permission Types
+export interface Permission {
+  id: number;
+  name: string;
+  description: string;
+  resource: string;
+  action: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
+  active: boolean;
+  systemGenerated: boolean;
+}
+
+export interface Role {
+  id: number;
+  name: string;
+  description: string;
+  permissions: Permission[];
+  createdAt: string;
+  updatedAt: string;
+  createdBy: number;
+  updatedBy: number;
+  active: boolean;
+  system: boolean;
+  systemGenerated: boolean;
+}
+
+// Schema for role creation/update
+export const ROLE_SCHEMA = z.object({
+  name: z.string().min(1, 'Role name is required'),
+  description: z.string().min(1, 'Role description is required'),
+  permissions: z
+    .array(z.number())
+    .min(1, 'At least one permission is required'),
+  active: z.boolean().default(true),
+});
+
+export type RoleFormData = z.infer<typeof ROLE_SCHEMA>;
+
+// Login Schema
+export const LOGIN_SCHEMA = z.object({
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
+
+export type LoginFormData = z.infer<typeof LOGIN_SCHEMA>;
+
+export const MEDICINE_SCHEMA = z.object({
+  tradeName: z.string().min(1, 'Trade name is required'),
+  scientificName: z.string().min(1, 'Scientific name is required'),
+  concentration: z.string().optional(),
+  manufacturerId: z.string().min(1, 'Manufacturer is required'),
+  size: z.string().optional(),
+  notes: z.string().optional(),
+  tax: z.string().optional(),
+  barcodes: z.array(z.string()).optional(),
+  categoryIds: z.array(z.number()).optional(),
+  formId: z.string().optional(),
+  typeId: z.string().optional(),
+  requiresPrescription: z.boolean().default(false),
+});
+
+export const REGISTER_SCHEMA = z.object({
+  newPassword: z.string().min(1),
+  location: z.string().min(1),
+  pharmacyEmail: z.string().min(1),
+  pharmacyPhone: z.string().min(1),
+  managerFirstName: z.string().min(1),
+  managerLastName: z.string().min(1),
+});
+
+export const SUPPLIER_SCHEMA = z.object({
+  name: requiredString(),
+  phone: requiredString(),
+  preferredCurrency: requiredString(),
+  address: requiredString(),
+});

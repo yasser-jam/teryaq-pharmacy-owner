@@ -112,7 +112,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <SysInfo
           color='blue'
           text='Please consider that the medicine you add from this list will be available only for your pharmacy and you can NOT add medicine that already exists in the system medicines'
-          className='mb-4 bg-teal-50'
+          className='mb-4 bg-muted/50'
         />
 
         <Form {...form}>

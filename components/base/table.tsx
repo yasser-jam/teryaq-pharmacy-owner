@@ -75,7 +75,7 @@ export default function BaseTable({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map(row => (
+            table.getRowModel()?.rows?.map(row => (
               <TableRow
                 className={cn(!!row.depth && 'bg-background/25')}
                 key={row.id}

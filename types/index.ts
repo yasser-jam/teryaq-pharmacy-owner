@@ -1,3 +1,9 @@
+export interface Pagination {
+  page: number
+  limit: number
+  totalCount: number
+}
+
 export interface Medicine {
   id: number;
   tradeName: string;
@@ -13,6 +19,9 @@ export interface Medicine {
   manufacturerId?: number;
   categories: string[];
   categoryIds?: number[];
+  type?: string
+  manufacturer?: string
+  form?: string
   translations?: MedicineTranslation[];
 }
 

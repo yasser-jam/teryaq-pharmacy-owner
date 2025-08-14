@@ -4,6 +4,23 @@ const requiredString = () => {
   return z.string().trim().nonempty();
 };
 
+const passwordSchema = z
+  .string()
+  .min(8, "Password must be at least 8 characters long")
+  .refine(
+    (password) => {
+      const hasNumber = /[0-9]/.test(password);
+      const hasUppercase = /[A-Z]/.test(password);
+      const hasSpecialChar = /[^a-zA-Z0-9]/.test(password);
+      
+      return hasNumber && hasUppercase && hasSpecialChar;
+    },
+    {
+      message: "Password must contain at least one number, one uppercase letter, and one special character",
+    }
+  );
+
+
 export const EMPLOYEE_SCHEMA = z.object({
   id: z.number().optional(),
   firstName: z.string().min(1, 'First name is required'),
@@ -113,12 +130,14 @@ export const MEDICINE_SCHEMA = z.object({
 });
 
 export const REGISTER_SCHEMA = z.object({
-  newPassword: z.string().min(1),
-  location: z.string().min(1),
-  pharmacyEmail: z.string().min(1),
-  pharmacyPhone: z.string().min(1),
-  managerFirstName: z.string().min(1),
-  managerLastName: z.string().min(1),
+  newPassword: passwordSchema,
+  location: requiredString(),
+  pharmacyEmail: requiredString().email(),
+  pharmacyPhone: requiredString(),
+  managerFirstName: requiredString(),
+  managerLastName: requiredString(),
+  startTime: requiredString(),
+  endTime: requiredString()
 });
 
 export const SUPPLIER_SCHEMA = z.object({

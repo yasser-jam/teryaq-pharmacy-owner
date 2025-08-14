@@ -36,9 +36,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const form = useForm<FormData>({
     resolver: zodResolver(SUPPLIER_SCHEMA),
-    defaultValues: {
-      preferredCurrency: 'USD',
-    },
   });
 
   const { data: supplier, isFetching } = useQuery({
@@ -55,6 +52,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       api('/suppliers', {
         body: {
           ...data,
+          preferredCurrency: 'USD'
         },
         method: 'POST',
       }),
@@ -65,13 +63,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   });
 
   const { mutate: update, isPending: updatePending } = useMutation({
-    mutationKey: ['supplier-create'],
+    mutationKey: ['supplier-update'],
     mutationFn: (data: any) =>
       api(`/suppliers/${id}`, {
         body: {
           ...data,
+          preferredCurrency: 'USD'
         },
-        method: 'POST',
+        method: 'PUT',
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['suppliers'] });

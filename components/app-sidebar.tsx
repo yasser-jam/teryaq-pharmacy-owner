@@ -60,6 +60,11 @@ const data = {
       url: '/employees',
       icon: IconDatabase,
     },
+    {
+      title: 'Suppliers',
+      url: '/suppliers',
+      icon: IconDatabase,
+    },
   ],
 };
 

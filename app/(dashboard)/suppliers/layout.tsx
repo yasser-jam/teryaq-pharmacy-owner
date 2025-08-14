@@ -15,7 +15,7 @@ export default function Page() {
 
       </BaseHeader>
     
-    <div className='grid grid-cols-3 mt-12'>
+    <div className='grid grid-cols-1 mt-12'>
         <SupplierCard ></SupplierCard>
     </div>
     

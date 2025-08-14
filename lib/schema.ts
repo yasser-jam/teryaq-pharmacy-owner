@@ -124,6 +124,6 @@ export const REGISTER_SCHEMA = z.object({
 export const SUPPLIER_SCHEMA = z.object({
   name: requiredString(),
   phone: requiredString(),
-  preferredCurrency: requiredString(),
+  preferredCurrency: z.string().optional(),
   address: requiredString(),
 });

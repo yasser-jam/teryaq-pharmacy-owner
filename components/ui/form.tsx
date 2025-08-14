@@ -94,13 +94,15 @@ function FormLabel({
   const { error, formItemId } = useFormField()
 
   return (
+    <div className="flex gap-2">
     <Label
       data-slot="form-label"
       data-error={!!error}
-      className={cn("data-[error=true]:text-destructive text-xs font-medium text-gray-500", className)}
+      className={cn("relative data-[error=true]:text-destructive text-xs font-medium text-gray-500", className)}
       htmlFor={formItemId}
       {...props}
     />
+    </div>
   )
 }
 

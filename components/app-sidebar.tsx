@@ -82,7 +82,7 @@ export function AppSidebar({ logoTitle = 'Teryaq', onLogout }: SidebarProps) {
       children: [
         {
           title: 'List',
-          url: '/customers',
+          url: '/customers/list',
         },
         {
           title: 'Debts',
@@ -115,9 +115,9 @@ export function AppSidebar({ logoTitle = 'Teryaq', onLogout }: SidebarProps) {
                   <button
                     onClick={() => toggleExpanded(item.title)}
                     className={cn(
-                      'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+                      'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-colors ',
                       isParentActive(item)
-                        ? 'bg-primary text-sidebar-accent-foreground'
+                        ? 'text-primary'
                         : 'text-sidebar-foreground'
                     )}
                   >
@@ -140,7 +140,7 @@ export function AppSidebar({ logoTitle = 'Teryaq', onLogout }: SidebarProps) {
                           <Link
                             href={child.url}
                             className={cn(
-                              'block rounded-lg px-3 py-2 text-sm transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
+                              'block rounded-lg px-3 py-2 text-sm transition-all hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
                               isActive(child.url)
                                 ? 'bg-primary text-sidebar-primary-foreground'
                                 : 'text-sidebar-foreground'

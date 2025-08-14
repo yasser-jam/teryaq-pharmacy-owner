@@ -116,3 +116,11 @@ export interface Supplier {
   preferredCurrency: string
   address: string
 }
+
+export interface Customer {
+  id: number
+  name: string
+  phoneNumber?: string
+  address?: string
+  notes?: string
+}

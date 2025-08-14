@@ -146,3 +146,10 @@ export const SUPPLIER_SCHEMA = z.object({
   // preferredCurrency: z.string().optional(),
   address: requiredString(),
 });
+
+export const CUSTOMER_SCHEMA = z.object({
+  name: requiredString(),
+  phoneNumber: z.string().optional(),
+  address: z.string().optional(),
+  notes: z.string().optional(),
+})

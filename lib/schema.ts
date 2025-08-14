@@ -115,18 +115,18 @@ export const LOGIN_SCHEMA = z.object({
 export type LoginFormData = z.infer<typeof LOGIN_SCHEMA>;
 
 export const MEDICINE_SCHEMA = z.object({
-  tradeName: z.string().min(1, 'Trade name is required'),
-  scientificName: z.string().min(1, 'Scientific name is required'),
+  tradeName: requiredString(),
+  scientificName: requiredString(),
   concentration: z.string().optional(),
-  manufacturerId: z.string().min(1, 'Manufacturer is required'),
-  size: z.string().optional(),
+  size: requiredString(),
   notes: z.string().optional(),
   tax: z.string().optional(),
-  barcodes: z.array(z.string()).optional(),
-  categoryIds: z.array(z.number()).optional(),
-  formId: z.string().optional(),
+  barcodes: z.array(z.string()).min(1, 'You should at least add one barcode'),
   typeId: z.string().optional(),
-  requiresPrescription: z.boolean().default(false),
+  formId: z.string().optional(),
+  manufacturerId: z.string().min(1, 'Manufacturer is required'),
+  categoryIds: z.array(z.number()).optional(),
+  requiresPrescription: z.boolean(),
 });
 
 export const REGISTER_SCHEMA = z.object({

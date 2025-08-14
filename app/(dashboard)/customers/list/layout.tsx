@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         title='Customers'
         subtitle='Customers page for adding the customers to handle sales operations'
       >
-        <Button onClick={() => router.push('/customers/create')}>
+        <Button onClick={() => router.push('/customers/list/create')}>
           <Plus />
           Add Customer
         </Button>

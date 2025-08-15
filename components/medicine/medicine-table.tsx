@@ -5,9 +5,9 @@ import { useUpdateEffect } from 'ahooks';
 
 import { useRouter } from 'next/navigation';
 
-import { Eye, Reply, Trash } from 'iconoir-react';
+import { Eye, Flask, Reply, Trash } from 'iconoir-react';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Medicine, Pagination } from '@/types';
@@ -18,12 +18,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 import BaseTable from '@/components/base/table';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Pill } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface Props {
   search: string;
+  medicines: Medicine[];
 }
 
-export function MedicineTable({ search }: Props) {
+export function MedicineTable({ search, medicines }: Props) {
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
     limit: 10,
@@ -32,63 +36,56 @@ export function MedicineTable({ search }: Props) {
 
   const router = useRouter();
 
-  const fetchMedicines = async () => {
-    const response = await api('/pharmacy_products', {
-      params: {
-      },
-    });
-
-    // update the total count
-    setPagination((val) => ({ limit: response?.size, page: response?.number, totalCount: response?.totalElements }));
-
-    return response?.content;
-  };
-
-  const {
-    data: medicines,
-    isFetching,
-    refetch,
-  } = useQuery({
-    queryKey: ['medicines-list-table', pagination.limit, pagination.page],
-    queryFn: fetchMedicines,
-    initialData: [],
-  });
+  const queryClient = useQueryClient();
 
   // reset pagination on filters or search change
   // refetch when change search or filters
   useUpdateEffect(() => {
     setPagination((prev) => ({ ...prev, page: 1, limit: 10 }));
-    refetch();
+    queryClient.invalidateQueries({ queryKey: ['medicines-list'] });
   }, [search]);
 
   const columns: ColumnDef<Medicine>[] = [
     {
       accessorKey: 'name',
-      header: 'Trade Name',
+      header: 'Name',
       cell: ({ row }) => (
-        <div className='text-sm font-medium'>{row.original.tradeName}</div>
-      ),
-    },
-    {
-      accessorKey: 'description',
-      header: 'Type',
-      cell: ({ row }) => (
-        <div className='text-sm text-text-secondary whitespace-pre-wrap max-w-xs'>
-          {row.original.type}
+        <div className='flex'>
+          <Avatar>
+            <AvatarFallback className='bg-teal-500 text-white'>
+              <Flask></Flask>
+            </AvatarFallback>
+          </Avatar>
+
+          <div className='ms-2'>
+            <div className='text-sm font-medium'>{row.original.tradeName}</div>
+            <div className='text-xs text-gray-500 font-medium'>
+              {row.original.scientificName}
+            </div>
+          </div>
         </div>
       ),
     },
     {
-      accessorKey: 'category',
-      header: 'Categories',
-      cell: ({ row }) =>
-        row.original.categories?.length ? (
-          row.original.categories?.map((el) => <Badge>{el}</Badge>)
-        ) : (
-          <span className='text-sm text-text-secondary italic'>
-            No category
-          </span>
-        ),
+      accessorKey: 'type',
+      header: 'Type',
+      cell: ({ row }) => (
+        <Badge className='text-purple-600 bg-purple-100 px-2 py-1'>{row.original.productTypeName}</Badge>
+      ),
+    },
+
+    {
+      accessorKey: 'size',
+      header: 'Size',
+      cell: ({ row }) => (
+        <Badge className='text-amber-600 bg-amber-100 px-2 py-1'>{row.original.size}</Badge>
+      ),
+    },
+    {
+      accessorKey: 'requiresPrescription',
+      header: 'Require Prescription',
+      cell: ({ row }) => 
+        <Badge className={cn('', row.original.requiresPrescription ? 'text-destructive bg-destructive/5' : 'text-primary bg-primary/5')}>{row.original.requiresPrescription ? 'Require' : 'Do not Require'}</Badge>
     },
     {
       accessorKey: 'actions',
@@ -106,7 +103,7 @@ export function MedicineTable({ search }: Props) {
           <Button
             disabled
             variant='outline'
-            className='size-8 text-secondary'
+            className='size-8 text-destructive'
             size='icon'
           >
             <Trash />

@@ -54,8 +54,8 @@ export default function BaseTable({
 
   return (
     <>
-      <Table className={className}>
-        <TableHeader>
+      <Table className={cn(className, '!border-none !shadow-none !outline-0')}>
+        <TableHeader className='!shadow-none'>
           {table.getHeaderGroups().map(headerGroup => (
             <TableRow className="!bg-transparent" key={headerGroup.id}>
               {headerGroup.headers.map(header => {
@@ -73,7 +73,7 @@ export default function BaseTable({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className='!border-none'>
           {table.getRowModel().rows?.length ? (
             table.getRowModel()?.rows?.map(row => (
               <TableRow

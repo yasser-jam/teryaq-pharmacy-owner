@@ -23,6 +23,7 @@ export interface Medicine {
   manufacturer?: string
   form?: string
   translations?: MedicineTranslation[];
+  productTypeName?: string
 }
 
 export interface MedicineTranslation {

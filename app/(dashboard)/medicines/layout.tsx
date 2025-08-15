@@ -3,6 +3,7 @@ import BaseHeader from '@/components/base/base-header';
 import BaseSkeleton from '@/components/base/base-skeleton';
 import BasePagination from '@/components/base/pagination';
 import { MedicineCard } from '@/components/medicine/medicine-card';
+import { MedicineInlineCard } from '@/components/medicine/medicine-inline-card';
 import { MedicineTable } from '@/components/medicine/medicine-table';
 import { SysViewSwitch } from '@/components/sys/view-switch';
 import { Button } from '@/components/ui/button';
@@ -54,13 +55,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, [search]);
 
   const { mutate: remove, isPending } = useMutation({
-    mutationFn: (med: Medicine) => api(`/pharmacy_products/${med.id}`, {
-      method: 'DELETE'
-    }),
+    mutationFn: (med: Medicine) =>
+      api(`/pharmacy_products/${med.id}`, {
+        method: 'DELETE',
+      }),
     onSuccess: () => {
-      refetch()
-    }
-  })
+      refetch();
+    },
+  });
 
   return (
     <>
@@ -93,11 +95,26 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       ) : (
         <>
           {mode == 'table' ? (
-            <MedicineTable search='' medicines={medicines?.content || []} onDelete={remove} />
-          ) : (
+            <MedicineTable
+              search=''
+              medicines={medicines?.content || []}
+              onDelete={remove}
+            />
+          ) : mode == 'cards' ? (
             <div className='grid grid-cols-3 gap-4 max-h-[800px] overflow-auto mt-4'>
               {medicines?.content?.map((el: Medicine) => (
                 <MedicineCard key={el.id} medicine={el} />
+              ))}
+            </div>
+          ) : (
+            <div className='grid grid-cols-1 gap-2'>
+              {medicines?.content?.map((el: Medicine) => (
+                <MedicineInlineCard
+                  key={el.id}
+                  medicine={el}
+                  // onDelete={() => remove(el)}
+                  // onEdit={() => router.replace(`medicines/${el.id}`)}
+                />
               ))}
             </div>
           )}

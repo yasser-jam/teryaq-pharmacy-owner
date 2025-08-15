@@ -5,9 +5,10 @@ import { Medicine } from '@/types';
 
 interface MedicineCardProps {
   medicine: Medicine;
+  className?: string;
 }
 
-export function MedicineCard({ medicine }: MedicineCardProps) {
+export function MedicineInlineCard({ medicine, className }: MedicineCardProps) {
   const getCardGradient = (type: string) => {
     switch (type) {
       case 'tablet':
@@ -19,7 +20,7 @@ export function MedicineCard({ medicine }: MedicineCardProps) {
       case 'capsule':
         return 'bg-gradient-to-br from-violet-50 to-indigo-100 border-violet-200';
       default:
-        return 'bg-gradient-to-br from-gray-50 to-slate-100 border-gray-200';
+        return 'bg-gradient-to-br from-violet-50 to-indigo-100 border-violet-200';
     }
   };
 
@@ -70,43 +71,44 @@ export function MedicineCard({ medicine }: MedicineCardProps) {
 
   return (
     <div
-      className={`rounded-xl border-2 px-4 py-2 relative overflow-hidden ${getCardGradient(
+      className={`rounded-xl border px-4 py-1 relative overflow-hidden ${getCardGradient(
         String(medicine.type)
       )}`}
     >
       <div className='absolute top-0 right-0 w-20 h-20 rounded-full bg-white/20 -translate-y-10 translate-x-10' />
       <div className='absolute bottom-0 left-0 w-16 h-16 rounded-full bg-white/10 translate-y-8 -translate-x-8' />
 
-      <div className='flex items-center gap-4 relative z-10'>
-        <Avatar
-          className={`h-14 w-14 shadow-lg ${getAvatarColor(
-            String(medicine.type)
-          )}`}
-        >
-          <AvatarFallback className={getAvatarColor(String(medicine.type))}>
-            {getTypeIcon(String(medicine.type))}
-          </AvatarFallback>
-        </Avatar>
+      <div className='flex items-center justify-between gap-4 relative z-10'>
+        <div className='flex items-center gap-2'>
+          <Avatar
+            className={`h-9 w-9 shadow-lg ${getAvatarColor(
+              String(medicine.type)
+            )}`}
+          >
+            <AvatarFallback className={getAvatarColor(String(medicine.type))}>
+              {getTypeIcon(String(medicine.type))}
+            </AvatarFallback>
+          </Avatar>
 
-        <div className='flex-1 min-w-0'>
+          <div>
+            <h3 className='font-bold text-base leading-tight mt-3 mb-1 text-gray-900'>
+              {medicine.tradeName}
+            </h3>
 
-          <h3 className='font-bold text-xl leading-tight mt-3 mb-1 text-gray-900'>
-            {medicine.tradeName}
-          </h3>
+            <p className='text-sm text-gray-500 mb-4 leading-tight'>
+              {medicine.scientificName}
+            </p>
+          </div>
+        </div>
 
-          <p className='text-sm text-gray-600 mb-4 leading-tight font-medium'>
-            {medicine.scientificName}
-          </p>
-
-          <div className='flex items-center gap-6 text-sm text-gray-700'>
-            <div className='flex items-center gap-2 bg-white/50 px-3 py-1 rounded-full'>
-              <Scale className='h-4 w-4' />
-              <span className='font-medium'>{medicine.size}</span>
-            </div>
-            <div className='flex items-center gap-2 bg-white/50 px-3 py-1 rounded-full'>
-              <Ruler className='h-4 w-4' />
-              <span className='font-medium'>{medicine.concentration}</span>
-            </div>
+        <div className='flex items-center gap-6 text-sm text-gray-700'>
+          <div className='flex items-center gap-2 bg-white/100 px-3 py-1 rounded-full'>
+            <Scale className='h-4 w-4' />
+            <span className='font-medium'>{medicine.size}</span>
+          </div>
+          <div className='flex items-center gap-2 bg-white/100 px-3 py-1 rounded-full'>
+            <Ruler className='h-4 w-4' />
+            <span className='font-medium'>{medicine.concentration}</span>
           </div>
         </div>
       </div>

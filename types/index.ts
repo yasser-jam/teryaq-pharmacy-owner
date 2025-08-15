@@ -19,7 +19,7 @@ export interface Medicine {
   manufacturerId?: number;
   categories: string[];
   categoryIds?: number[];
-  type?: string
+  type?: 'PHARMACY' | 'MASTER'
   manufacturer?: string
   form?: string
   translations?: MedicineTranslation[];
@@ -133,4 +133,19 @@ export interface Customer {
   phoneNumber?: string
   address?: string
   notes?: string
+}
+
+export interface PurchaseItem {
+  productId: number
+  quantity: number
+  price: number
+  barcode: string
+  productType: 'MASTER' | 'PHARMACY'
+}
+
+export interface PurchaseOrder {
+  id: number
+  supplierId: number
+  currency: string
+  items: PurchaseItem[]
 }

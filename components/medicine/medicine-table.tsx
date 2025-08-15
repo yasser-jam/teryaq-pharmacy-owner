@@ -21,29 +21,16 @@ import BaseTable from '@/components/base/table';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Pill } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import DeleteButton from '../base/delete-button';
 
 interface Props {
   search: string;
   medicines: Medicine[];
+  onDelete?: (med: Medicine) => void
 }
 
-export function MedicineTable({ search, medicines }: Props) {
-  const [pagination, setPagination] = useState<Pagination>({
-    page: 1,
-    limit: 10,
-    totalCount: 100,
-  });
-
+export function MedicineTable({ medicines, onDelete }: Props) {
   const router = useRouter();
-
-  const queryClient = useQueryClient();
-
-  // reset pagination on filters or search change
-  // refetch when change search or filters
-  useUpdateEffect(() => {
-    setPagination((prev) => ({ ...prev, page: 1, limit: 10 }));
-    queryClient.invalidateQueries({ queryKey: ['medicines-list'] });
-  }, [search]);
 
   const columns: ColumnDef<Medicine>[] = [
     {
@@ -95,19 +82,12 @@ export function MedicineTable({ search, medicines }: Props) {
           <Button
             onClick={() => router.push(`/medicines/${row.original.id}`)}
             variant='outline'
-            className='size-8 text-primary'
+            className='text-primary'
             size='icon'
           >
             <Eye />
           </Button>
-          <Button
-            disabled
-            variant='outline'
-            className='size-8 text-destructive'
-            size='icon'
-          >
-            <Trash />
-          </Button>
+          <DeleteButton onDelete={() => onDelete?.(row.original)} />
         </div>
       ),
     },
@@ -118,8 +98,7 @@ export function MedicineTable({ search, medicines }: Props) {
       <BaseTable
         columns={columns}
         data={medicines || []}
-        pagination={pagination}
-        onPaginationChange={setPagination}
+        hidePagination
       />
     </div>
   );

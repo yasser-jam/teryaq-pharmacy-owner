@@ -23,7 +23,7 @@ export default function DeleteButton({
     <Button
       disabled={disabled}
       variant="outline"
-      className="text-secondary"
+      className="text-destructive"
       size="icon"
     >
       <Trash />

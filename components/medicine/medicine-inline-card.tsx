@@ -6,9 +6,10 @@ import { Medicine } from '@/types';
 interface MedicineCardProps {
   medicine: Medicine;
   className?: string;
+  onSelect?: () => void
 }
 
-export function MedicineInlineCard({ medicine, className }: MedicineCardProps) {
+export function MedicineInlineCard({ medicine, className, onSelect }: MedicineCardProps) {
   const getCardGradient = (type: string) => {
     switch (type) {
       case 'tablet':
@@ -20,7 +21,7 @@ export function MedicineInlineCard({ medicine, className }: MedicineCardProps) {
       case 'capsule':
         return 'bg-gradient-to-br from-violet-50 to-indigo-100 border-violet-200';
       default:
-        return 'bg-gradient-to-br from-violet-50 to-indigo-100 border-violet-200';
+        return 'bg-gradient-to-br from-slate-50 to-slate-50 border-violet-200';
     }
   };
 
@@ -71,9 +72,10 @@ export function MedicineInlineCard({ medicine, className }: MedicineCardProps) {
 
   return (
     <div
-      className={`rounded-xl border px-4 py-1 relative overflow-hidden ${getCardGradient(
+      className={`rounded-sm border px-4 py-1 relative overflow-hidden border-dashed cursor-pointer ${getCardGradient(
         String(medicine.type)
       )}`}
+      onClick={onSelect}
     >
       <div className='absolute top-0 right-0 w-20 h-20 rounded-full bg-white/20 -translate-y-10 translate-x-10' />
       <div className='absolute bottom-0 left-0 w-16 h-16 rounded-full bg-white/10 translate-y-8 -translate-x-8' />

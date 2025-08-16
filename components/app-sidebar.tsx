@@ -12,6 +12,7 @@ import {
   Home,
   LogOut,
   Pill,
+  ShoppingCart,
   User,
   Users,
 } from 'lucide-react';
@@ -74,6 +75,11 @@ export function AppSidebar({ logoTitle = 'Teryaq', onLogout }: SidebarProps) {
       title: 'Suppliers',
       url: '/suppliers',
       icon: Cable,
+    },
+    {
+      title: 'Purchase Orders',
+      url: '/purchase-orders',
+      icon: ShoppingCart,
     },
     {
       title: 'Customers',

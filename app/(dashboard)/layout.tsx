@@ -1,9 +1,17 @@
+'use client'
 import { AppSidebar } from '@/components/app-sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { api } from '@/lib/api';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 export default function Page({ children }: any) {
+
+  const { data } = useQuery({
+    queryKey: ['me'],
+    queryFn: () => api('/users/me')
+  })
+
   return (
       <SidebarProvider
         style={

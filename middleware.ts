@@ -10,15 +10,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
   }
 
-  if (
-    (!isCompleteAccount || isCompleteAccount === 'false') &&
-    !request.nextUrl.pathname.includes('/complete-registration') &&
-    !request.nextUrl.pathname.includes('/login')
-  ) {
-    return NextResponse.redirect(
-      new URL('/auth/complete-registration', request.url)
-    );
-  }
+  // if (
+  //   (!isCompleteAccount || isCompleteAccount === 'false') &&
+  //   !request.nextUrl.pathname.includes('/complete-registration') &&
+  //   !request.nextUrl.pathname.includes('/login')
+  // ) {
+  //   return NextResponse.redirect(
+  //     new URL('/auth/complete-registration', request.url)
+  //   );
+  // }
 
   // Otherwise, allow the request
   return NextResponse.next();

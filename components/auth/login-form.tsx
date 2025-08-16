@@ -15,7 +15,7 @@ import { successToast } from '@/lib/toast';
 import { setCookie } from '@/lib/utils';
 
 import BasePasswordInput from '@/components/base/base-password-input';
-import Link  from 'next/link';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +37,10 @@ export default function LoginForm() {
     onSuccess(response) {
       successToast('Logged in Successfully');
       setCookie('tp.access-token', response.token);
-      router.push('/');
+
+      // complete register (if not) or redirect to home page
+      if (response?.isActive) router.push('/');
+      else router.push('/complete-register')
     },
   });
 

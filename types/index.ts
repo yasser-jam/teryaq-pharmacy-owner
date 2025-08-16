@@ -137,16 +137,23 @@ export interface Customer {
 }
 
 export interface PurchaseItem {
+  id: number
   productId: number
+  productName: string
   quantity: number
   price: number
   barcode: string
-  productType: string
+  productType: 'MASTER' | 'PHARMACY'
 }
 
 export interface PurchaseOrder {
   id: number
   supplierId: number
+  supplierName: string
   currency: string
+  total: number
+  status: 'PENDING' | 'RECEIVED' | 'CANCELLED'
+  createdAt: [number, number, number, number, number, number, number]
+  createdBy: number
   items: PurchaseItem[]
 }

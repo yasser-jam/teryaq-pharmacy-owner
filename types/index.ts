@@ -23,7 +23,8 @@ export interface Medicine {
   manufacturer?: string
   form?: string
   translations?: MedicineTranslation[];
-  productTypeName?: string
+  productTypeName?: string;
+  refSellingPrice?: number
 }
 
 export interface MedicineTranslation {
@@ -140,7 +141,7 @@ export interface PurchaseItem {
   quantity: number
   price: number
   barcode: string
-  productType: 'MASTER' | 'PHARMACY'
+  productType: string
 }
 
 export interface PurchaseOrder {

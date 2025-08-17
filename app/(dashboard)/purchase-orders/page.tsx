@@ -15,9 +15,10 @@ export default function Page() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'pending' | 'received'>('pending');
 
-  const queryClient = useQueryClient();
   const [receivingOrderId, setReceivingOrderId] = useState<number | null>(null);
+  const [deletingOrderId, setDeletingOrderId] = useState<number | null>(null);
 
+  const queryClient = useQueryClient();
   const { data: orders = { content: [] }, isLoading } = useQuery<{ content: PurchaseOrder[] }>({
     queryKey: ['purchase-orders'],
     queryFn: () => api('/purchase-orders'),
@@ -42,12 +43,36 @@ export default function Page() {
     activeTab === 'pending' ? order.status === 'PENDING' : order.status === 'RECEIVED'
   );
 
+  const deleteOrderMutation = useMutation({
+    mutationFn: (orderId: number) => 
+      api(`/purchase-orders/${orderId}`, { method: 'DELETE' }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['purchase-orders'] });
+      toast.success('Order deleted successfully');
+      setDeletingOrderId(null);
+    },
+    onError: (error) => {
+      console.error('Error deleting order:', error);
+      toast.error('Failed to delete order');
+      setDeletingOrderId(null);
+    }
+  });
+
   const handleReceiveOrder = async (orderId: number) => {
     try {
       setReceivingOrderId(orderId);
       await receiveOrderMutation.mutateAsync(orderId);
     } catch (error) {
       console.error('Error in handleReceiveOrder:', error);
+    }
+  };
+
+  const handleDeleteOrder = async (orderId: number) => {
+    try {
+      setDeletingOrderId(orderId);
+      await deleteOrderMutation.mutateAsync(orderId);
+    } catch (error) {
+      console.error('Error in handleDeleteOrder:', error);
     }
   };
 
@@ -90,6 +115,8 @@ export default function Page() {
                   order={order}
                   onReceive={handleReceiveOrder}
                   isReceiving={receivingOrderId === order.id}
+                  onDelete={handleDeleteOrder}
+                  isDeleting={deletingOrderId === order.id}
                 />
               ))}
             </div>

@@ -143,7 +143,7 @@ export interface PurchaseItem {
   quantity: number
   price: number
   barcode: string
-  productType: 'MASTER' | 'PHARMACY'
+  productType: 'MASTER' | 'PHARMACY' | 'مركزي' | 'صيدلية'
 }
 
 export interface PurchaseOrder {

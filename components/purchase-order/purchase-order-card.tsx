@@ -3,14 +3,29 @@ import { format } from 'date-fns'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import ActionMenu from "@/components/base/action-menu"
+import { useRouter } from 'next/navigation'
 
 interface PurchaseOrderCardProps {
   order: PurchaseOrder
   onReceive?: (orderId: number) => void
   isReceiving?: boolean
+  onDelete?: (orderId: number) => Promise<void>
+  isDeleting?: boolean
 }
 
-export default function PurchaseOrderCard({ order, onReceive, isReceiving = false }: PurchaseOrderCardProps) {
+export default function PurchaseOrderCard({ 
+  order, 
+  onReceive, 
+  isReceiving = false,
+  onDelete,
+  isDeleting = false
+}: PurchaseOrderCardProps) {
+  const router = useRouter()
+
+  const handleEdit = () => {
+    router.push(`/purchase-orders/${order.id}`)
+  }
   const formattedDate = format(
     new Date(
       order.createdAt[0],
@@ -33,9 +48,18 @@ export default function PurchaseOrderCard({ order, onReceive, isReceiving = fals
     <Card className="w-full overflow-hidden border py-0">
       <CardHeader className="bg-gray-50 p-3">
         <div className="flex justify-between items-start gap-2">
-          <div>
-            <CardTitle className="text-base font-semibold">Order #{order.id}</CardTitle>
-            <CardDescription className="text-xs">
+          <div className="flex-1">
+            <div className="flex justify-between items-start">
+              <CardTitle className="text-base font-semibold">Order #{order.id}</CardTitle>
+              <ActionMenu
+                item="purchase order"
+                editAction={order.status === 'PENDING'}
+                deleteAction={order.status === 'PENDING'}
+                onEdit={handleEdit}
+                onDelete={onDelete ? () => onDelete(order.id) : undefined}
+              />
+            </div>
+            <CardDescription className="text-xs mt-1">
               Supplier: <span className="font-medium text-gray-900">{order.supplierName}</span>
             </CardDescription>
             <div className="text-xs text-gray-500">

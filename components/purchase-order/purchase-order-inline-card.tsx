@@ -30,7 +30,6 @@ export default function PurchaseOrderInlineCard({
     onItemChange({ ...purchaseItem, price });
   };
 
-  console.log(purchaseItem);
   const isFixedPrice = purchaseItem.productType === 'مركزي' || purchaseItem.productType === 'MASTER';
   const refSellingPrice = purchaseItem.medicine?.refSellingPrice || 0;
 

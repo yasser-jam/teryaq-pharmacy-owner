@@ -27,6 +27,7 @@ import { z } from 'zod';
 import { SUPPLIER_SCHEMA } from '@/lib/schema';
 import { BasePhoneInput } from '@/components/base/phone-input';
 import { Textarea } from '@/components/ui/textarea';
+import { successToast } from '@/lib/toast';
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -58,6 +59,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
+      successToast('Supplier created successfully');
       goBack();
     },
   });

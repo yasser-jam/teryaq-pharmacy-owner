@@ -9,6 +9,7 @@ import { SysViewSwitch } from '@/components/sys/view-switch';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { api } from '@/lib/api';
+import { successToast } from '@/lib/toast';
 import { Medicine, Pagination } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Plus, Search } from 'lucide-react';
@@ -29,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   } = useQuery({
     queryKey: ['medicines-list'],
     queryFn: () =>
-      api('pharmacy_products', {
+      api('search/all-products', {
         params: {
           page: pagination.page,
           size: pagination.limit,
@@ -60,6 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         method: 'DELETE',
       }),
     onSuccess: () => {
+      successToast('Medicine deleted successfully');
       refetch();
     },
   });

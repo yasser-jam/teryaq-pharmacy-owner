@@ -20,8 +20,9 @@ import { Badge } from '@/components/ui/badge';
 import BaseTable from '@/components/base/table';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { Pill } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn, isMasterProduct } from '@/lib/utils';
 import DeleteButton from '../base/delete-button';
+import MedicineTypeBadge from './medicine-type-badge';
 
 interface Props {
   search: string;
@@ -57,7 +58,7 @@ export function MedicineTable({ medicines, onDelete }: Props) {
       accessorKey: 'type',
       header: 'Type',
       cell: ({ row }) => (
-        <Badge className='text-purple-600 bg-purple-100 px-2 py-1'>{row.original.productTypeName}</Badge>
+        <MedicineTypeBadge med={row.original}></MedicineTypeBadge>
       ),
     },
 
@@ -84,10 +85,11 @@ export function MedicineTable({ medicines, onDelete }: Props) {
             variant='outline'
             className='text-primary'
             size='icon'
+            disabled={isMasterProduct(row.original)}
           >
             <Eye />
           </Button>
-          <DeleteButton onDelete={() => onDelete?.(row.original)} />
+          <DeleteButton disabled={isMasterProduct(row.original)} onDelete={() => onDelete?.(row.original)} />
         </div>
       ),
     },

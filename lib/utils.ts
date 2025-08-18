@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 import Cookies from 'js-cookie';
-import { Medicine } from '@/types';
+import { Medicine, ProductType } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -21,4 +21,8 @@ export const setCookie = (name: string, value: string) => {
 
 export const isMasterProduct = (med: Medicine) => {
   return med.productTypeName == "MASTER" || med.productTypeName == "مركزي";
+}
+
+export const getProductType = (type: ProductType) => {
+  return type == "MASTER" || type == "مركزي" ? "MASTER" : "PHARMACY";
 }

@@ -13,12 +13,15 @@ import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { errorToast, successToast } from "@/lib/toast";
 import BasePageDialog from "@/components/base/page-dialog";
+import PurchaseOrderHeader from "@/components/purchase-order/purchase-order-header";
+import { Input } from "@/components/ui/input";
+import { getProductType } from "@/lib/utils";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-    const { id } = use(params)
-  
-  const isEditMode = id !== 'create';
+  const { id } = use(params);
+
+  const isEditMode = id !== "create";
   const orderId = isEditMode ? parseInt(id) : null;
 
   // Fetch order details in edit mode
@@ -29,13 +32,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   });
 
   // Fetch all medicines for the form
-  const { data: medicines, isFetching: medicinesLoading } = useQuery<{ content: Medicine[] }>({
+  const { data: medicines, isFetching: medicinesLoading } = useQuery<{
+    content: Medicine[];
+  }>({
     queryKey: ["medicines-orders-list"],
     queryFn: () => api("search/all-products"),
   });
 
   // Fetch all suppliers for the form
-  const { data: suppliers, isFetching: suppliersLoading } = useQuery<Supplier[]>({
+  const { data: suppliers, isFetching: suppliersLoading } = useQuery<
+    Supplier[]
+  >({
     queryKey: ["suppliers-orders-list"],
     queryFn: () => api("suppliers"),
   });
@@ -45,6 +52,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [items, setItems] = useState<PurchaseItem[]>([]);
   const [supplierId, setSupplierId] = useState<number>(0);
 
+  const [search, setSearch] = useState("");
+  const [filteredMedicines, setFilteredMedicines] = useState<Medicine[]>(medicines?.content || []);
+
+  useEffect(() => {
+    setFilteredMedicines(medicines?.content || [])
+  }, [medicines])
+
   // Initialize form with order data when loaded
   useEffect(() => {
     if (order) {
@@ -53,6 +67,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       setSupplierId(order.supplierId);
     }
   }, [order]);
+
+  useEffect(() => {
+    if (search) {
+      if (medicines?.content)
+        setFilteredMedicines(medicines?.content?.filter((el) =>
+          el.tradeName.toLowerCase().includes(search.toLowerCase())
+        ));
+    } else {
+      setFilteredMedicines(medicines?.content || []);
+    }
+  }, [search]);
 
   // Handle navigation back
   const goBack = () => router.replace("/purchase-orders");
@@ -67,13 +92,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     // Add new item with all required PurchaseItem fields
     const newItem: PurchaseItem = {
-      id: 0, // Temporary ID, will be replaced by the server
       productId: med.id,
       productName: med.tradeName || "",
       quantity: 1,
       barcode: med.barcodes?.[0] || "",
       price: med.refSellingPrice || 0,
-      productType: (med.productTypeName === "MASTER" || med.productTypeName === "PHARMACY") ? med.productTypeName : "MASTER",
+      productType: med.productTypeName,
     };
     setItems((prev) => [...prev, newItem]);
   };
@@ -85,9 +109,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         items: items.map((el) => ({
           ...el,
           medicine: undefined,
-          productType: (el.productType === "MASTER" || el.productType === "PHARMACY") 
-            ? el.productType 
-            : "MASTER",
+          productName: undefined,
+          productType: getProductType(el.productType)
         })),
         supplierId,
         currency,
@@ -105,7 +128,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     },
     onSuccess: () => {
       successToast(
-        isEditMode 
+        isEditMode
           ? "Purchase Order Updated Successfully"
           : "Purchase Order Created Successfully"
       );
@@ -113,7 +136,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     },
     onError: (error) => {
       errorToast(
-        `Failed to ${isEditMode ? 'update' : 'create'} purchase order`
+        `Failed to ${isEditMode ? "update" : "create"} purchase order`
       );
     },
   });
@@ -172,16 +195,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Card className="col-span-2">
           <CardContent>
             <CardTitle className="mb-4">Medicines</CardTitle>
+            <Input
+              placeholder="Search for Medicine"
+              className="my-2"
+              value={search}
+              onChange={(e) => setSearch(String(e))}
+            />
             <div className="grid gap-2 max-h-[200px] overflow-auto">
-              {medicines?.content?.map((medicine) => {
+              {filteredMedicines?.map((medicine) => {
                 const isSelected = items.some(
                   (item) => item.productId === medicine.id
                 );
                 return (
                   <div
                     key={medicine.id}
-                    className={`p-2 rounded cursor-pointer ${
-                      isSelected ? "bg-blue-50 border border-blue-200" : "hover:bg-gray-50"
+                    className={`p-2 rounded cursor-pointer border-dashed border-2 ${
+                      isSelected
+                        ? "bg-blue-50 border border-blue-200"
+                        : "hover:bg-gray-50"
                     }`}
                     onClick={() => selectMedicine(medicine)}
                   >
@@ -200,7 +231,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Card className="col-span-1 bg-muted/10">
           <CardContent>
             <CardTitle className="mb-4">Supplier</CardTitle>
-            <div className="max-h-[200px] overflow-auto">
+            <div className="max-h-[200px] grid gap-4 overflow-auto">
               {suppliers?.map((supplier) => (
                 <SupplierInlineCard
                   key={supplier.id}
@@ -214,7 +245,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         </Card>
 
         {/* Current Order Items */}
-        <Card className="col-span-3">
+        <Card className="col-span-2">
           <CardContent>
             <CardTitle className="mb-4">Order Items</CardTitle>
             {items.length > 0 ? (
@@ -226,9 +257,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     currency={currency}
                     onItemChange={(updatedItem) => {
                       setItems((prev) =>
-                        prev.map((i, idx) =>
-                          idx === index ? updatedItem : i
-                        )
+                        prev.map((i, idx) => (idx === index ? updatedItem : i))
                       );
                     }}
                     onRemove={() => {
@@ -246,6 +275,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             )}
           </CardContent>
         </Card>
+
+        {/* Order Summary */}
+        {items.length > 0 && (
+          <div className="col-span-1">
+            <PurchaseOrderHeader items={items} currency={currency} />
+          </div>
+        )}
       </div>
     </BasePageDialog>
   );

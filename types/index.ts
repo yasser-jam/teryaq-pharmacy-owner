@@ -23,7 +23,7 @@ export interface Medicine {
   manufacturer?: string
   form?: string
   translations?: MedicineTranslation[];
-  productTypeName?: string;
+  productTypeName: 'MASTER' | 'PHARMACY' | 'مركزي' | 'صيدلية';
   refSellingPrice?: number
 }
 
@@ -136,14 +136,15 @@ export interface Customer {
   notes?: string
 }
 
+export type ProductType = 'MASTER' | 'PHARMACY' | 'مركزي' | 'صيدلية'
 export interface PurchaseItem {
-  id: number
+  id?: number
   productId: number
   productName: string
   quantity: number
   price: number
   barcode: string
-  productType: 'MASTER' | 'PHARMACY' | 'مركزي' | 'صيدلية'
+  productType: ProductType
 }
 
 export interface PurchaseOrder {

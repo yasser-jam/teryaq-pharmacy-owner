@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Minus, Plus, X, Package } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { log } from "console";
 
 interface PurchaseOrderInlineCardProps {
   purchaseItem: PurchaseItem & { medicine?: Medicine };
@@ -83,14 +84,11 @@ export default function PurchaseOrderInlineCard({
             <Input
               type="number"
               min="0"
-              step="0.01"
+              step="0.1"
               value={purchaseItem.price}
               onChange={(e) => handlePriceChange(String(e))}
-              className="h-8 text-right pr-7 text-sm"
+              className="h-2 py-1 leading-[0] text-right pr-0 text-sm"
             />
-            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-              {currency}
-            </span>
           </div>
         ) : (
           <div className="h-8 flex items-center justify-end px-2 text-sm font-medium bg-blue-50 rounded-md">
@@ -104,7 +102,7 @@ export default function PurchaseOrderInlineCard({
         )}
       </div>
 
-      <div className="w-20 text-right">
+      <div className=" text-right">
         <div className="font-medium">
           {(purchaseItem.quantity * purchaseItem.price).toFixed(2)} {currency}
         </div>

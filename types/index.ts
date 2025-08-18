@@ -158,3 +158,29 @@ export interface PurchaseOrder {
   createdBy: number
   items: PurchaseItem[]
 }
+
+export interface InvoiceItem {
+  id?: number
+  productId: number
+  productName: string
+  receivedQty: number
+  bonusQty: number
+  invoicePrice: number
+  batchNo: string
+  expiryDate: string
+  productType: ProductType
+  sellingPrice: number
+  minStockLevel: number
+}
+
+export interface PurchaseInvoice {
+  id: number
+  purchaseOrderId: number
+  invoiceNumber: string
+  invoiceDate: string
+  total: number
+  status: 'PENDING' | 'RECEIVED' | 'CANCELLED'
+  createdAt: [number, number, number, number, number, number, number]
+  createdBy: number
+  items: InvoiceItem[]
+}

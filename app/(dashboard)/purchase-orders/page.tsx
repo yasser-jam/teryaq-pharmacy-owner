@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import PurchaseOrderCard from '@/components/purchase-order/purchase-order-card';
 import { toast } from 'sonner';
+import { PurchaseInvoiceDialog } from '@/components/purchase-invoice/purchase-invoice-dialog';
 
 export default function Page() {
   const router = useRouter();
@@ -17,6 +18,9 @@ export default function Page() {
 
   const [receivingOrderId, setReceivingOrderId] = useState<number | null>(null);
   const [deletingOrderId, setDeletingOrderId] = useState<number | null>(null);
+  const [createInvoiceDialogOpen, setCreateInvoiceDialogOpen] = useState(false);
+
+  const [selectedPurchaseOrder, setSelectedPurchaseOrder] = useState<PurchaseOrder | null>(null);
 
   const queryClient = useQueryClient();
   const { data: orders = { content: [] }, isLoading } = useQuery<{ content: PurchaseOrder[] }>({
@@ -58,12 +62,14 @@ export default function Page() {
     }
   });
 
-  const handleReceiveOrder = async (orderId: number) => {
+  const handleReceiveOrder = async (order: PurchaseOrder) => {
+    setSelectedPurchaseOrder(order);
+    setCreateInvoiceDialogOpen(true);
     try {
-      setReceivingOrderId(orderId);
-      await receiveOrderMutation.mutateAsync(orderId);
+      // setReceivingOrderId(orderId);
+      // await receiveOrderMutation.mutateAsync(orderId);
     } catch (error) {
-      console.error('Error in handleReceiveOrder:', error);
+      // console.error('Error in handleReceiveOrder:', error);
     }
   };
 
@@ -113,7 +119,7 @@ export default function Page() {
                 <PurchaseOrderCard 
                   key={order.id} 
                   order={order}
-                  onReceive={handleReceiveOrder}
+                  onReceive={() => handleReceiveOrder(order)}
                   isReceiving={receivingOrderId === order.id}
                   onDelete={handleDeleteOrder}
                   isDeleting={deletingOrderId === order.id}
@@ -127,6 +133,16 @@ export default function Page() {
 
         </TabsContent>
       </Tabs>
+
+      {
+        createInvoiceDialogOpen && (
+          <PurchaseInvoiceDialog
+            isOpen={createInvoiceDialogOpen}
+            onClose={() => setCreateInvoiceDialogOpen(false)}
+            purchaseOrder={selectedPurchaseOrder!}
+          />
+        )
+      }          
     </div>
   );
 }

@@ -184,3 +184,28 @@ export interface PurchaseInvoice {
   createdBy: number
   items: InvoiceItem[]
 }
+
+export interface StockItem {
+  id: number
+  productId: number
+  productName: string
+  productType: ProductType
+  quantity: number
+  bonusQty: number
+  total: number
+  supplier: string
+  categories: string[]
+  minQuantity: number
+  expiryDate: string
+  batchNo: string
+  actualPurchasePrice: number
+  sellingPrice: number
+  dateAdded: string
+  addedBy: number
+  purchaseInvoiceId: number
+  isExpired: boolean
+  isExpiringSoon: boolean
+  daysUntilExpiry: number
+  pharmacyId: number
+  purchaseInvoiceNumber: string
+}

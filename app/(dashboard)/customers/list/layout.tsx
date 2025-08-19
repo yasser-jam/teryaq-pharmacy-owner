@@ -3,7 +3,6 @@ import BaseHeader from '@/components/base/base-header';
 import BaseNotFound from '@/components/base/base-not-found';
 import BaseSkeleton from '@/components/base/base-skeleton';
 import CustomerCard from '@/components/customer/customer-card';
-import SysInfo from '@/components/sys/sys-info';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
 import { successToast } from '@/lib/toast';

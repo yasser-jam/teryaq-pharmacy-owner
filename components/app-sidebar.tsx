@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Home,
   LogOut,
+  Package,
   Pill,
   ShoppingCart,
   User,
@@ -80,6 +81,11 @@ export function AppSidebar({ logoTitle = 'Teryaq', onLogout }: SidebarProps) {
       title: 'Purchase Orders',
       url: '/purchase-orders',
       icon: ShoppingCart,
+    },
+    {
+      title: 'Stock',
+      url: '/stock',
+      icon: Package,
     },
     {
       title: 'Customers',

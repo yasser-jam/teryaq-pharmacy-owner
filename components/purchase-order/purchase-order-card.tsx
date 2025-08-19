@@ -12,6 +12,7 @@ interface PurchaseOrderCardProps {
   isReceiving?: boolean
   onDelete?: (orderId: number) => Promise<void>
   isDeleting?: boolean
+  hideActionMenu?: boolean
 }
 
 export default function PurchaseOrderCard({ 
@@ -19,7 +20,8 @@ export default function PurchaseOrderCard({
   onReceive, 
   isReceiving = false,
   onDelete,
-  isDeleting = false
+  isDeleting = false,
+  hideActionMenu = false
 }: PurchaseOrderCardProps) {
   const router = useRouter()
 
@@ -41,7 +43,8 @@ export default function PurchaseOrderCard({
   const statusColors = {
     PENDING: 'bg-yellow-100 text-yellow-800',
     RECEIVED: 'bg-green-100 text-green-800',
-    CANCELLED: 'bg-red-100 text-red-800'
+    CANCELLED: 'bg-red-100 text-red-800',
+    DONE: 'bg-green-100 text-green-800'
   }
 
   return (
@@ -51,6 +54,8 @@ export default function PurchaseOrderCard({
           <div className="flex-1">
             <div className="flex justify-between items-start">
               <CardTitle className="text-base font-semibold">Order #{order.id}</CardTitle>
+              {
+                !hideActionMenu &&
               <ActionMenu
                 item="purchase order"
                 editAction={order.status === 'PENDING'}
@@ -58,6 +63,7 @@ export default function PurchaseOrderCard({
                 onEdit={handleEdit}
                 onDelete={onDelete ? () => onDelete(order.id) : undefined}
               />
+              }
             </div>
             <CardDescription className="text-xs mt-1">
               Supplier: <span className="font-medium text-gray-900">{order.supplierName}</span>

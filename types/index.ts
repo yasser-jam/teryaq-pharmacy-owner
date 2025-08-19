@@ -153,7 +153,7 @@ export interface PurchaseOrder {
   supplierName: string
   currency: string
   total: number
-  status: 'PENDING' | 'RECEIVED' | 'CANCELLED'
+  status: 'PENDING' | 'RECEIVED' | 'CANCELLED' | 'DONE'
   createdAt: [number, number, number, number, number, number, number]
   createdBy: number
   items: PurchaseItem[]

@@ -10,6 +10,7 @@ interface PurchaseInvoiceBillProps {
   purchaseOrder: Pick<PurchaseOrder, 'supplierName' | 'currency'>;
   onCancel: () => void;
   onSubmit: () => void;
+  loading?: boolean
 }
 
 export function PurchaseInvoiceBill({
@@ -18,6 +19,7 @@ export function PurchaseInvoiceBill({
   purchaseOrder,
   onCancel,
   onSubmit,
+  loading
 }: PurchaseInvoiceBillProps) {
   const calculateSubtotal = (item: InvoiceItem) => {
     return (item.receivedQty + item.bonusQty) * item.invoicePrice;
@@ -123,7 +125,16 @@ export function PurchaseInvoiceBill({
       </div>
 
       <div className="sticky bottom-0 bg-background/95 backdrop-blur-sm pt-4 border-t">
-        <Button className="w-full" size="lg" onClick={onSubmit}>
+        <Button 
+          className="w-full" 
+          size="lg" 
+          onClick={onSubmit}
+          loading={loading}
+          disabled={
+            !invoiceNumber || 
+            invoiceItems.some(item => !item.batchNo || !item.expiryDate)
+          }
+        >
           Create Invoice
         </Button>
         <Button

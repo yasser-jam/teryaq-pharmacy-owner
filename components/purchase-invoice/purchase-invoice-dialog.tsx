@@ -13,6 +13,10 @@ import { InvoiceItem, PurchaseOrder } from "@/types";
 import { PurchaseInvoiceBill } from "./purchase-invoice-bill";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { BaseDatePicker } from "../base/date-picker";
+import { useMutation } from "@tanstack/react-query";
+import { api } from "@/lib/api";
+import { successToast } from "@/lib/toast";
 
 interface PurchaseInvoiceDialogProps {
   isOpen: boolean;
@@ -69,17 +73,33 @@ export function PurchaseInvoiceDialog({
     );
   };
 
+  const { mutate: createInvoice, isPending } = useMutation({
+    mutationKey: ["purchase-invoice"],
+    mutationFn: () =>
+      api("purchase-invoices", {
+        method: "POST",
+        body: {
+          purchaseOrderId: purchaseOrder.id,
+          supplierId: purchaseOrder.supplierId,
+          currency: purchaseOrder.currency,
+          total: purchaseOrder.total,
+          invoiceNumber,
+          items: invoiceItems.map(el => ({
+            ...el,
+            productName: undefined
+          })),
+        },
+      }),
+
+      onSuccess: () => {
+        successToast('Invoice created successfully')
+        onClose()
+      }
+  });
+
   const handleSubmit = () => {
     // Handle invoice creation logic here
-    console.log("Creating invoice:", {
-      purchaseOrderId: purchaseOrder.id,
-      supplierId: purchaseOrder.supplierId,
-      currency: purchaseOrder.currency,
-      total: calculateTotal(),
-      invoiceNumber,
-      items: invoiceItems,
-    });
-    onClose();
+    createInvoice()
   };
 
   return (
@@ -92,7 +112,9 @@ export function PurchaseInvoiceDialog({
               <div className="flex items-center gap-3 mb-8">
                 <Receipt className="h-8 w-8 text-primary" />
                 <div>
-                  <DialogTitle className="text-3xl font-bold">Create Invoice</DialogTitle>
+                  <DialogTitle className="text-3xl font-bold">
+                    Create Invoice
+                  </DialogTitle>
                   <p className="text-muted-foreground">
                     Generate invoice from purchase order {purchaseOrder.id}
                   </p>
@@ -114,7 +136,9 @@ export function PurchaseInvoiceDialog({
                         <Label className="text-sm font-medium text-muted-foreground">
                           Order ID
                         </Label>
-                        <p className="font-mono text-sm italic text-gray-500">#{purchaseOrder.id}</p>
+                        <p className="font-mono text-sm italic text-gray-500">
+                          #{purchaseOrder.id}
+                        </p>
                       </div>
                       <div>
                         <Label className="text-sm font-medium text-muted-foreground">
@@ -191,7 +215,7 @@ export function PurchaseInvoiceDialog({
                               updateInvoiceItem(
                                 index,
                                 "receivedQty",
-                                Number.parseInt(e.target.value) || 0
+                                Number.parseInt(String(e)) || 0
                               )
                             }
                           />
@@ -206,7 +230,7 @@ export function PurchaseInvoiceDialog({
                               updateInvoiceItem(
                                 index,
                                 "bonusQty",
-                                Number.parseInt(e.target.value) || 0
+                                Number.parseInt(String(e)) || 0
                               )
                             }
                           />
@@ -222,7 +246,7 @@ export function PurchaseInvoiceDialog({
                               updateInvoiceItem(
                                 index,
                                 "invoicePrice",
-                                Number.parseFloat(e.target.value) || 0
+                                Number.parseFloat(String(e)) || 0
                               )
                             }
                           />
@@ -238,7 +262,7 @@ export function PurchaseInvoiceDialog({
                               updateInvoiceItem(
                                 index,
                                 "sellingPrice",
-                                Number.parseFloat(e.target.value) || 0
+                                Number.parseFloat(String(e)) || 0
                               )
                             }
                           />
@@ -249,25 +273,16 @@ export function PurchaseInvoiceDialog({
                             placeholder="Enter batch number"
                             value={item.batchNo}
                             onChange={(e) =>
-                              updateInvoiceItem(
-                                index,
-                                "batchNo",
-                                e.target.value
-                              )
+                              updateInvoiceItem(index, "batchNo", String(e))
                             }
                           />
                         </div>
                         <div className="space-y-2">
                           <Label>Expiry Date *</Label>
-                          <Input
-                            type="date"
+                          <BaseDatePicker
                             value={item.expiryDate}
                             onChange={(e) =>
-                              updateInvoiceItem(
-                                index,
-                                "expiryDate",
-                                e.target.value
-                              )
+                              updateInvoiceItem(index, "expiryDate", String(e))
                             }
                           />
                         </div>
@@ -301,6 +316,7 @@ export function PurchaseInvoiceDialog({
             purchaseOrder={purchaseOrder}
             onCancel={onClose}
             onSubmit={handleSubmit}
+            loading={isPending}
           />
         </div>
       </DialogContent>

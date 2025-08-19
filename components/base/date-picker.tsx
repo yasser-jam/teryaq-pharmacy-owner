@@ -37,9 +37,9 @@ export function BaseDatePicker({
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={'default'}
+          variant={'outline'}
           className={cn(
-            'px-3 py-2 w-full justify-start text-left font-normal',
+            'px-3 w-full justify-start text-left font-normal h-11',
             !value && 'text-muted-foreground'
           )}
         >
@@ -51,7 +51,7 @@ export function BaseDatePicker({
         <Calendar
           mode="single"
           selected={new Date(String(value))}
-          onSelect={(e) => onChange(e?.toISOString())}
+          onSelect={(e) => onChange(e?.toISOString().split('T')[0])}
           initialFocus
           defaultMonth={value ? new Date(value) : undefined}
         />

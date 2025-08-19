@@ -14,7 +14,7 @@ import { PurchaseInvoiceDialog } from '@/components/purchase-invoice/purchase-in
 
 export default function Page() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<'pending' | 'received'>('pending');
+  const [activeTab, setActiveTab] = useState<'pending' | 'done'>('pending');
 
   const [receivingOrderId, setReceivingOrderId] = useState<number | null>(null);
   const [deletingOrderId, setDeletingOrderId] = useState<number | null>(null);
@@ -44,7 +44,7 @@ export default function Page() {
   });
 
   const filteredOrders = orders.content.filter(order => 
-    activeTab === 'pending' ? order.status === 'PENDING' : order.status === 'RECEIVED'
+    activeTab === 'pending' ? order.status === 'PENDING' : order.status === 'DONE'
   );
 
   const deleteOrderMutation = useMutation({
@@ -97,11 +97,11 @@ export default function Page() {
       <Tabs 
         defaultValue='pending' 
         className='mt-6'
-        onValueChange={(value) => setActiveTab(value as 'pending' | 'received')}
+        onValueChange={(value) => setActiveTab(value as 'pending' | 'done')}
       >
         <TabsList className='grid w-full grid-cols-2'>
           <TabsTrigger value='pending'>Pending Orders</TabsTrigger>
-          <TabsTrigger value='received'>Received Orders</TabsTrigger>
+          <TabsTrigger value='done'>Received Orders</TabsTrigger>
         </TabsList>
 
         <TabsContent value='pending' className='mt-4 space-y-4'>
@@ -129,8 +129,30 @@ export default function Page() {
           )}
         </TabsContent>
 
-        <TabsContent value='received' className='mt-4 space-y-4'>
-
+        <TabsContent value='done' className='mt-4 space-y-4'>
+          {isLoading ? (
+            <div className='flex justify-center '>
+              <div className='h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-primary' />
+            </div>
+          ) : filteredOrders.length === 0 ? (
+            <div className='rounded-lg border border-dashed p-6 text-center text-sm'>
+              <p className='text-muted-foreground'>No {activeTab} purchase orders found</p>
+            </div>
+          ) : (
+            <div className='space-y-3'>
+              {filteredOrders.map((order) => (
+                <PurchaseOrderCard 
+                  key={order.id} 
+                  order={order}
+                  onReceive={() => handleReceiveOrder(order)}
+                  isReceiving={receivingOrderId === order.id}
+                  onDelete={handleDeleteOrder}
+                  isDeleting={deletingOrderId === order.id}
+                  hideActionMenu
+                />
+              ))}
+            </div>
+          )}
         </TabsContent>
       </Tabs>
 

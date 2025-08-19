@@ -84,27 +84,30 @@ export function PurchaseInvoiceDialog({
           currency: purchaseOrder.currency,
           total: purchaseOrder.total,
           invoiceNumber,
-          items: invoiceItems.map(el => ({
+          items: invoiceItems.map((el) => ({
             ...el,
-            productName: undefined
+            productName: undefined,
           })),
         },
       }),
 
-      onSuccess: () => {
-        successToast('Invoice created successfully')
-        onClose()
-      }
+    onSuccess: () => {
+      successToast("Invoice created successfully");
+      onClose();
+    },
   });
 
   const handleSubmit = () => {
     // Handle invoice creation logic here
-    createInvoice()
+    createInvoice();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="!max-w-none !w-screen max-h-[95vh] p-0 gap-0 flex flex-col">
+      <DialogContent
+        showCloseButton={false}
+        className="!max-w-none !w-screen max-h-[95vh] p-0 gap-0 flex flex-col"
+      >
         <div className="flex flex-1 overflow-hidden">
           {/* Left Side - Form */}
           <div className="flex-1 p-8 overflow-y-auto">
@@ -190,18 +193,17 @@ export function PurchaseInvoiceDialog({
                       key={item.productId}
                       className="border rounded-lg p-4 space-y-4"
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between w-full">
                         <div>
                           <h4 className="font-semibold">{item.productName}</h4>
                           <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="secondary">
-                              {item.productType}
-                            </Badge>
-                            <span className="text-sm text-muted-foreground font-mono">
-                              {item.productId}
+                            <span className="text-sm italic text-muted-foreground font-mono">
+                              #{item.productId}
                             </span>
                           </div>
                         </div>
+
+                        <Badge variant="blue">{item.productType}</Badge>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">

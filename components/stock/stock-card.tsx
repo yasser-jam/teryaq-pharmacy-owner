@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import {
   Package,
   User,
@@ -11,11 +11,11 @@ import {
   Hash,
   TrendingUp,
   ShoppingCart,
-} from "lucide-react";
-import { ProductType, StockItem } from "@/types";
+} from "lucide-react"
+import type { ProductType, StockItem } from "@/types"
 
 interface StockCardProps {
-  stockItem: StockItem;
+  stockItem: StockItem
 }
 
 export function StockCard({ stockItem }: StockCardProps) {
@@ -23,12 +23,12 @@ export function StockCard({ stockItem }: StockCardProps) {
     switch (type) {
       case "MASTER":
       case "مركزي":
-        return "bg-purple-100 text-purple-800 border-purple-200";
+        return "bg-purple-100 text-purple-800 border-purple-200"
       case "PHARMACY":
       case "صيدلية":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "bg-green-100 text-green-800 border-green-200"
     }
-  };
+  }
 
   const getExpiryStatus = () => {
     if (stockItem.isExpired) {
@@ -37,7 +37,7 @@ export function StockCard({ stockItem }: StockCardProps) {
         bg: "bg-red-50",
         icon: AlertTriangle,
         text: "Expired",
-      };
+      }
     }
     if (stockItem.isExpiringSoon) {
       return {
@@ -45,26 +45,26 @@ export function StockCard({ stockItem }: StockCardProps) {
         bg: "bg-amber-50",
         icon: Clock,
         text: `${stockItem.daysUntilExpiry} days left`,
-      };
+      }
     }
     return {
       color: "text-green-600",
       bg: "bg-green-50",
       icon: CheckCircle,
       text: "Good",
-    };
-  };
+    }
+  }
 
   const getStockStatus = () => {
     if (stockItem.minQuantity && stockItem.quantity <= stockItem.minQuantity) {
-      return { color: "text-red-600", bg: "bg-red-50", text: "Low Stock" };
+      return { color: "text-red-600", bg: "bg-red-50", text: "Low Stock" }
     }
-    return { color: "text-green-600", bg: "bg-green-50", text: "In Stock" };
-  };
+    return { color: "text-green-600", bg: "bg-green-50", text: "In Stock" }
+  }
 
-  const expiryStatus = getExpiryStatus();
-  const stockStatus = getStockStatus();
-  const ExpiryIcon = expiryStatus.icon;
+  const expiryStatus = getExpiryStatus()
+  const stockStatus = getStockStatus()
+  const ExpiryIcon = expiryStatus.icon
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 border-0 shadow-md pt-0">
@@ -72,17 +72,9 @@ export function StockCard({ stockItem }: StockCardProps) {
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-2">
             <Pill className="h-5 w-5" />
-            <h3 className="font-semibold text-lg truncate">
-              {stockItem.productName}
-            </h3>
+            <h3 className="font-semibold text-lg truncate">{stockItem.productName}</h3>
           </div>
-          <Badge
-            className={`${getProductTypeColor(
-              stockItem.productType
-            )} font-medium`}
-          >
-            {stockItem.productType}
-          </Badge>
+          <Badge className={`${getProductTypeColor(stockItem.productType)} font-medium`}>{stockItem.productType}</Badge>
         </div>
         <div className="flex items-center gap-2 text-indigo-100">
           <Hash className="h-4 w-4" />
@@ -96,23 +88,13 @@ export function StockCard({ stockItem }: StockCardProps) {
           <div className={`p-3 rounded-lg ${stockStatus.bg}`}>
             <div className="flex items-center gap-2 mb-1">
               <Package className={`h-4 w-4 ${stockStatus.color}`} />
-              <span className="text-sm font-medium text-gray-700">
-                Quantity
-              </span>
+              <span className="text-sm font-medium text-gray-700">Quantity</span>
             </div>
             <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-bold text-gray-900">
-                {stockItem.quantity}
-              </span>
-              {stockItem.bonusQty > 0 && (
-                <span className="text-sm text-green-600">
-                  +{stockItem.bonusQty}
-                </span>
-              )}
+              <span className="text-2xl font-bold text-gray-900">{stockItem.quantity}</span>
+              {stockItem.bonusQty > 0 && <span className="text-sm text-green-600">+{stockItem.bonusQty}</span>}
             </div>
-            <span className={`text-xs ${stockStatus.color} font-medium`}>
-              {stockStatus.text}
-            </span>
+            <span className={`text-xs ${stockStatus.color} font-medium`}>{stockStatus.text}</span>
           </div>
 
           <div className={`p-3 rounded-lg ${expiryStatus.bg}`}>
@@ -123,9 +105,7 @@ export function StockCard({ stockItem }: StockCardProps) {
             <div className="text-sm font-medium text-gray-900">
               {new Date(stockItem.expiryDate).toLocaleDateString()}
             </div>
-            <span className={`text-xs ${expiryStatus.color} font-medium`}>
-              {expiryStatus.text}
-            </span>
+            <span className={`text-xs ${expiryStatus.color} font-medium`}>{expiryStatus.text}</span>
           </div>
         </div>
 
@@ -133,17 +113,11 @@ export function StockCard({ stockItem }: StockCardProps) {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <div className="h-4 w-4 bg-gradient-to-r from-pink-400 to-red-400 rounded-full"></div>
-            <span className="text-sm font-medium text-gray-700">
-              Categories
-            </span>
+            <span className="text-sm font-medium text-gray-700">Categories</span>
           </div>
           <div className="flex flex-wrap gap-1">
             {stockItem.categories.map((category, index) => (
-              <Badge
-                key={index}
-                variant="secondary"
-                className="text-xs bg-gray-100 text-gray-700"
-              >
+              <Badge key={index} variant="secondary" className="text-xs bg-gray-100 text-gray-700">
                 {category}
               </Badge>
             ))}
@@ -155,9 +129,7 @@ export function StockCard({ stockItem }: StockCardProps) {
           <User className="h-4 w-4 text-blue-600" />
           <div>
             <span className="text-sm font-medium text-gray-700">Supplier</span>
-            <p className="text-sm text-blue-700 font-medium">
-              {stockItem.supplier}
-            </p>
+            <p className="text-sm text-blue-700 font-medium">{stockItem.supplier}</p>
           </div>
         </div>
 
@@ -167,18 +139,14 @@ export function StockCard({ stockItem }: StockCardProps) {
             <ShoppingCart className="h-4 w-4 text-green-600" />
             <div>
               <span className="text-xs text-gray-600">Purchase</span>
-              <p className="text-sm font-bold text-green-700">
-                ${stockItem.actualPurchasePrice}
-              </p>
+              <p className="text-sm font-bold text-green-700">${stockItem.actualPurchasePrice}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 p-2 bg-emerald-50 rounded-lg">
             <TrendingUp className="h-4 w-4 text-emerald-600" />
             <div>
               <span className="text-xs text-gray-600">Selling</span>
-              <p className="text-sm font-bold text-emerald-700">
-                ${stockItem.sellingPrice}
-              </p>
+              <p className="text-sm font-bold text-emerald-700">${stockItem.sellingPrice}</p>
             </div>
           </div>
         </div>
@@ -191,12 +159,10 @@ export function StockCard({ stockItem }: StockCardProps) {
           </div>
           <div className="flex items-center gap-2 text-xs text-gray-500">
             <Calendar className="h-3 w-3" />
-            <span>
-              Added: {new Date(stockItem.dateAdded).toLocaleDateString()}
-            </span>
+            <span>Added: {new Date(stockItem.dateAdded).toLocaleDateString()}</span>
           </div>
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

@@ -33,9 +33,9 @@ export function PurchaseInvoiceBill({
   };
 
   return (
-    <div className="w-96 border-l border-border overflow-y-auto bg-muted/5 p-6 flex flex-col">
+    <div className="w-96 border-l border-border overflow-y-auto bg-white p-6 flex flex-col">
       <div className="flex-1">
-        <div className="sticky top-0 bg-background/95 backdrop-blur-sm pb-4 z-10">
+        <div className="sticky top-0 pb-4 z-10">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold">Order Summary</h3>
             <div className="text-right">

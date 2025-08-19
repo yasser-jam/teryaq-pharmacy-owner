@@ -3,6 +3,7 @@ import BaseHeader from "@/components/base/base-header";
 import BaseNotFound from "@/components/base/base-not-found";
 import BaseSkeleton from "@/components/base/base-skeleton";
 import { StockCard } from "@/components/stock/stock-card";
+import { StockMiniCard } from "@/components/stock/stock-mini-card";
 import SysInfo from "@/components/sys/sys-info";
 import { api } from "@/lib/api";
 import { StockItem } from "@/types";
@@ -32,7 +33,8 @@ export default function Page() {
       ) : stockItems?.length ? (
         <div className="grid grid-cols-3 gap-8 mt-12">
           {stockItems?.map((el) => (
-            <StockCard key={el.id} stockItem={el} />
+            <StockMiniCard key={el.id} stockItem={el} />
+            // <StockCard key={el.id} stockItem={el} />
           ))}
         </div>
       ) : <BaseNotFound item="Stock Item" />}

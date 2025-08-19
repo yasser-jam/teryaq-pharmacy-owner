@@ -33,7 +33,7 @@ export default function BasePageDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={cn('!min-w-none !max-w-none', className)}>
+      <DialogContent className={cn('bg-white !min-w-none !max-w-none !px-0', className)}>
         <div className='relative'>
           {
             loading &&
@@ -43,9 +43,9 @@ export default function BasePageDialog({
           }
 
           {title && (
-            <div className="flex items-center justify-between mb-6 pe-6">
-              <DialogHeader className={cn(classTitle, 'text-slate-800')}>
-                <DialogTitle className={cn(classTitle, 'text-xl')}>
+            <div className="flex items-center justify-between mb-6">
+              <DialogHeader className={cn(classTitle, 'text-slate-800 px-6')}>
+                <DialogTitle className={cn(classTitle, 'text-xl font-semibold')}>
                   {title}
                 </DialogTitle>
                 {subtitle && (
@@ -57,7 +57,7 @@ export default function BasePageDialog({
             </div>
           )}
 
-          <div className='max-h-[450px] overflow-auto'>{children}</div>
+          <div className='max-h-[450px] overflow-auto px-6'>{children}</div>
 
           {footer && <DialogFooter>{footer}</DialogFooter>}
         </div>

@@ -53,7 +53,7 @@ This page is responsible for adding suppliers and update their data in order to 
       {isFetching ? (
         <BaseSkeleton />
       ) : suppliers?.length ?  (
-        <div className='grid grid-cols-2 gap-8 mt-12'>
+        <div className='grid grid-cols-3 gap-8 mt-12'>
           {suppliers?.map((el) => (
             <SupplierCard key={el.id} supplier={el} onEdit={() => router.replace(`/suppliers/${el.id}`)} onDelete={() => removeSupplier(el.id)}></SupplierCard>
           ))}

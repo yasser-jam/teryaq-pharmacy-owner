@@ -40,7 +40,7 @@ export default function LoginForm() {
 
       // complete register (if not) or redirect to home page
       if (response?.isActive) router.push('/');
-      else router.push('/complete-register')
+      else router.push('/auth/complete-registration')
     },
   });
 

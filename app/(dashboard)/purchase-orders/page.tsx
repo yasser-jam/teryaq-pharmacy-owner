@@ -114,7 +114,7 @@ export default function Page() {
               <p className='text-muted-foreground'>No {activeTab} purchase orders found</p>
             </div>
           ) : (
-            <div className='space-y-3'>
+            <div className='grid grid-cols-3 space-y-3'>
               {filteredOrders.map((order) => (
                 <PurchaseOrderCard 
                   key={order.id} 

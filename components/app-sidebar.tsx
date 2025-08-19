@@ -15,7 +15,6 @@ import {
   Pill,
   ShoppingCart,
   User,
-  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -87,25 +86,25 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
       url: "/stock",
       icon: Package,
     },
-    {
-      title: "Customers",
-      url: "/customers",
-      icon: Users,
-      children: [
-        {
-          title: "List",
-          url: "/customers/list",
-        },
-        {
-          title: "Debts",
-          url: "/customers/debts",
-        },
-      ],
-    },
+    // {
+    //   title: "Customers",
+    //   url: "/customers",
+    //   icon: Users,
+    //   children: [
+    //     {
+    //       title: "List",
+    //       url: "/customers/list",
+    //     },
+    //     {
+    //       title: "Debts",
+    //       url: "/customers/debts",
+    //     },
+    //   ],
+    // },
   ];
 
   return (
-    <div className="flex min-h-screen w-64 flex-col bg-white border-r border-sidebar-border">
+    <div className="flex sticky left-0 top-0 min-h-screen w-64 flex-col bg-white border-r border-sidebar-border">
       {/* Logo and Title */}
       <div className="flex items-center gap-3 px-6 pt-6 pb-0 mb-7">
         <h1 className="text-4xl text-center font-bold text-primary">
@@ -116,9 +115,9 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
       {/* Navigation Menu */}
       <nav className="flex-1 overflow-y-auto space-y-4">
         <ul className="space-y-2">
-          {menuItems.map((item) => (
+          {menuItems?.map((item) => (
             <li key={item.title}>
-              {item.children ? (
+              {item?.children ? (
                 // Parent item with children
                 <div>
                   <button

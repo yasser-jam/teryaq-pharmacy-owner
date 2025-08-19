@@ -13,15 +13,20 @@ export default function Page({ children }: { children: React.ReactNode }) {
   })
 
   return (
+
       <SidebarProvider
         style={
           {
             '--sidebar-width': 'calc(var(--spacing) * 60)',
             '--header-height': 'calc(var(--spacing) * 14)',
+            position: 'relative',
           } as React.CSSProperties
         }
       >
+        <div className="relative">
+
         <AppSidebar />
+        </div>
 
         <SidebarInset className='flex flex-col gap-4 min-h-screen'>
           <SiteHeader />

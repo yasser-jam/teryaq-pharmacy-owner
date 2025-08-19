@@ -38,7 +38,7 @@ export function MedicineTable({ medicines, onDelete }: Props) {
       accessorKey: 'name',
       header: 'Name',
       cell: ({ row }) => (
-        <div className='flex'>
+        <div className='flex items-center'>
           <Avatar>
             <AvatarFallback className='bg-teal-500 text-white'>
               <Flask></Flask>
@@ -46,7 +46,7 @@ export function MedicineTable({ medicines, onDelete }: Props) {
           </Avatar>
 
           <div className='ms-2'>
-            <div className='text-sm font-medium'>{row.original.tradeName}</div>
+            <div className='text-base font-medium'>{row.original.tradeName}</div>
             <div className='text-xs text-gray-500 font-medium'>
               {row.original.scientificName}
             </div>
@@ -66,14 +66,14 @@ export function MedicineTable({ medicines, onDelete }: Props) {
       accessorKey: 'size',
       header: 'Size',
       cell: ({ row }) => (
-        <Badge className='text-amber-600 bg-amber-100 px-2 py-1'>{row.original.size}</Badge>
+        <Badge variant='warning' size="lg">{row.original.size}</Badge>
       ),
     },
     {
       accessorKey: 'requiresPrescription',
       header: 'Require Prescription',
       cell: ({ row }) => 
-        <Badge className={cn('', row.original.requiresPrescription ? 'text-destructive bg-destructive/5' : 'text-primary bg-primary/5')}>{row.original.requiresPrescription ? 'Require' : 'Do not Require'}</Badge>
+        <Badge variant={row.original.requiresPrescription ? 'destructive' : 'default'} size="lg">{row.original.requiresPrescription ? 'Require Prescription' : 'Do not Require'}</Badge>
     },
     {
       accessorKey: 'actions',
@@ -96,7 +96,7 @@ export function MedicineTable({ medicines, onDelete }: Props) {
   ];
 
   return (
-    <div className='rounded-md border'>
+    <div className='rounded-md'>
       <BaseTable
         columns={columns}
         data={medicines || []}

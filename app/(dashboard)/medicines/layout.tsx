@@ -1,20 +1,20 @@
-'use client';
-import BaseHeader from '@/components/base/base-header';
-import BaseSkeleton from '@/components/base/base-skeleton';
-import BasePagination from '@/components/base/pagination';
-import { MedicineCard } from '@/components/medicine/medicine-card';
-import { MedicineInlineCard } from '@/components/medicine/medicine-inline-card';
-import { MedicineTable } from '@/components/medicine/medicine-table';
-import { SysViewSwitch } from '@/components/sys/view-switch';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { api } from '@/lib/api';
-import { successToast } from '@/lib/toast';
-import { Medicine, Pagination } from '@/types';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { Plus, Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+"use client";
+import BaseHeader from "@/components/base/base-header";
+import BaseSkeleton from "@/components/base/base-skeleton";
+import BasePagination from "@/components/base/pagination";
+import { MedicineCard } from "@/components/medicine/medicine-card";
+import { MedicineInlineCard } from "@/components/medicine/medicine-inline-card";
+import { MedicineTable } from "@/components/medicine/medicine-table";
+import { SysViewSwitch } from "@/components/sys/view-switch";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { api } from "@/lib/api";
+import { successToast } from "@/lib/toast";
+import { Medicine, Pagination } from "@/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Plus, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [pagination, setPagination] = useState<Pagination>({
@@ -28,9 +28,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: ['medicines-list'],
+    queryKey: ["medicines-list"],
     queryFn: () =>
-      api('search/all-products', {
+      api("search/all-products", {
         params: {
           page: pagination.page,
           size: pagination.limit,
@@ -45,8 +45,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }),
   });
 
-  const [search, setSearch] = useState('');
-  const [mode, setMode] = useState<'cards' | 'inline-cards' | 'table'>('table');
+  const [search, setSearch] = useState("");
+  const [mode, setMode] = useState<"cards" | "inline-cards" | "table">("table");
 
   const router = useRouter();
 
@@ -58,58 +58,58 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { mutate: remove } = useMutation({
     mutationFn: (med: Medicine) =>
       api(`/pharmacy_products/${med.id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       }),
     onSuccess: () => {
-      successToast('Medicine deleted successfully');
+      successToast("Medicine deleted successfully");
       refetch();
     },
   });
 
   return (
     <>
-      <div>
-        <BaseHeader
-          title='Medicines'
-          subtitle='From this page you can see all the Medicines related to your Pharmacy'
+      {/* <BaseHeader
+          title="Medicines"
+          subtitle="From this page you can see all the Medicines related to your Pharmacy"
         >
-          <Button onClick={() => router.push('/medicines/create')}>
-            <Plus />
-            Add Medicine
-          </Button>
-        </BaseHeader>
+          
+        </BaseHeader> */}
 
-        <div className='flex items-center gap-4 my-4'>
-          <Input
-            value={search}
-            onChange={(val) => setSearch(String(val))}
-            prefix={<Search></Search>}
-            className='grow'
-            placeholder='Search for Medicine'
-          />
+      <div className="flex items-center gap-4 my-4">
+        <Input
+          value={search}
+          onChange={(val) => setSearch(String(val))}
+          prefix={<Search></Search>}
+          className="grow"
+          placeholder="Search for Medicine"
+        />
 
-          <SysViewSwitch mode={mode} onModeChange={setMode} />
-        </div>
+        <SysViewSwitch mode={mode} onModeChange={setMode} />
+
+        <Button onClick={() => router.push("/medicines/create")}>
+          <Plus />
+          Add Medicine
+        </Button>
       </div>
 
       {isFetching ? (
         <BaseSkeleton />
       ) : (
         <>
-          {mode == 'table' ? (
+          {mode == "table" ? (
             <MedicineTable
-              search=''
+              search=""
               medicines={medicines?.content || []}
               onDelete={remove}
             />
-          ) : mode == 'cards' ? (
-            <div className='grid grid-cols-3 gap-4 max-h-[800px] overflow-auto mt-4'>
+          ) : mode == "cards" ? (
+            <div className="grid grid-cols-3 gap-4 max-h-[800px] overflow-auto mt-4">
               {medicines?.content?.map((el: Medicine) => (
                 <MedicineCard key={el.id} medicine={el} />
               ))}
             </div>
           ) : (
-            <div className='grid grid-cols-1 gap-2'>
+            <div className="grid grid-cols-1 gap-2">
               {medicines?.content?.map((el: Medicine) => (
                 <MedicineInlineCard
                   key={el.id}

@@ -5,8 +5,8 @@ import { Medicine } from "@/types";
 export default function MedicineTypeBadge({ med }: { med: Medicine }) {
   return (
     <Badge
+      size="lg"
       className={cn(
-        "px-2 py-1",
         isMasterProduct(med)
           ? "text-destructive bg-destructive/5"
           : "text-primary bg-primary/5"

@@ -23,9 +23,12 @@ export default function Page({ children }: { children: React.ReactNode }) {
       >
         <AppSidebar />
 
-        <SidebarInset>
+        <SidebarInset className='flex flex-col gap-4 min-h-screen'>
           <SiteHeader />
-          <div className='container px-4 py-2'>{children}</div>
+          <div className='px-4'>
+
+          <div className='container px-4 py-2 bg-white rounded-sm' style={{minHeight: 'calc(100vh - 100px)'}}>{children}</div>
+          </div>
         </SidebarInset>
       </SidebarProvider>
   );

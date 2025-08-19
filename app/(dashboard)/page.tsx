@@ -6,17 +6,17 @@ export default function Dashboard() {
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Pharmacy Dashboard</h1>
+          {/* <h1 className="text-3xl font-bold tracking-tight">Pharmacy Dashboard</h1>
           <p className="text-muted-foreground">
             Welcome back!
-          </p>
+          </p> */}
         </div>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        <BaseCardButton title='Add Medicine'  variant={'primary'} />
+        {/* <BaseCardButton title='Add Medicine'  variant={'primary'} />
         <BaseCardButton title='Add Employee'  variant={'secondary'} />
-        <BaseCardButton title='Make a Sale'  variant={'destructive'} />
+        <BaseCardButton title='Make a Sale'  variant={'destructive'} /> */}
       </div>
 
     </div>

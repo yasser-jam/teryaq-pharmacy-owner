@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -28,7 +28,6 @@ const queryClient = new QueryClient({
   },
 });
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,11 +38,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-    <QueryClientProvider client={queryClient}>
-        <Toaster />
-        {children}
-
-</QueryClientProvider>
+        <QueryClientProvider client={queryClient}>
+          <Toaster />
+          {children}
+        </QueryClientProvider>
       </body>
     </html>
   );

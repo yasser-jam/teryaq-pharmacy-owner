@@ -46,7 +46,7 @@
 :root {
   --radius: 0.625rem;
   /* Layout colors */
-  --background: #fefefe; /* Very light grayish blue - #F9FAFC */
+  --background: #f5f7fb; /* Very light grayish blue - #F9FAFC */
   --foreground: oklch(0.18 0.03 250); /* For dark text on light background */
 
   --sidebar: oklch(0.2 0.05 259.4); /* Dark navy for sidebar */
@@ -152,6 +152,6 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
   }
 }

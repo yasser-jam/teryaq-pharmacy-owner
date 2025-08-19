@@ -25,7 +25,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
 
         <SidebarInset>
           <SiteHeader />
-          <div className='container p-4'>{children}</div>
+          <div className='container px-4 py-2'>{children}</div>
         </SidebarInset>
       </SidebarProvider>
   );

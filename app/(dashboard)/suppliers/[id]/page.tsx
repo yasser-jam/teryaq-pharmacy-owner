@@ -2,13 +2,6 @@
 import BasePageDialog from '@/components/base/page-dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
-import { BaseMultipleSelect } from '@/components/base/multiple-select';
-import { BaseSelect } from '@/components/base/select';
-import TypeSelect from '@/components/sys/type-select';
-import FormSelect from '@/components/sys/form-select';
-import ProductTypeSelect from '@/components/sys/product-type-select';
 import {
   Form,
   FormControl,
@@ -26,7 +19,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { SUPPLIER_SCHEMA } from '@/lib/schema';
 import { BasePhoneInput } from '@/components/base/phone-input';
-import { Textarea } from '@/components/ui/textarea';
 import { successToast } from '@/lib/toast';
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -39,7 +31,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     resolver: zodResolver(SUPPLIER_SCHEMA),
   });
 
-  const { data: supplier, isFetching } = useQuery({
+  const { data: supplier } = useQuery({
     queryKey: ['supplier', id],
     queryFn: () => api(`/suppliers/${id}`),
     enabled: id !== 'create',
@@ -49,7 +41,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { mutate: create, isPending: createPending } = useMutation({
     mutationKey: ['supplier-create'],
-    mutationFn: (data: any) =>
+    mutationFn: (data: FormData) =>
       api('/suppliers', {
         body: {
           ...data,
@@ -66,7 +58,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { mutate: update, isPending: updatePending } = useMutation({
     mutationKey: ['supplier-update'],
-    mutationFn: (data: any) =>
+    mutationFn: (data: FormData) =>
       api(`/suppliers/${id}`, {
         body: {
           ...data,

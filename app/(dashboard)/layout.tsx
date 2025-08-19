@@ -3,11 +3,11 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { api } from '@/lib/api';
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
-export default function Page({ children }: any) {
+export default function Page({ children }: { children: React.ReactNode }) {
 
-  const { data } = useQuery({
+  useQuery({
     queryKey: ['me'],
     queryFn: () => api('/users/me')
   })

@@ -9,7 +9,7 @@ import { api } from '@/lib/api';
 import { successToast } from '@/lib/toast';
 import { Supplier } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Info, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 

@@ -55,7 +55,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setPagination((prev) => ({ ...prev, page: 0, limit: 10 }));
   }, [search]);
 
-  const { mutate: remove, isPending } = useMutation({
+  const { mutate: remove } = useMutation({
     mutationFn: (med: Medicine) =>
       api(`/pharmacy_products/${med.id}`, {
         method: 'DELETE',

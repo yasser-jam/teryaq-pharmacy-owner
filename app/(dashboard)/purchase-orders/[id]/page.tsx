@@ -1,7 +1,4 @@
 "use client";
-import BaseHeader from "@/components/base/base-header";
-import BaseNotFound from "@/components/base/base-not-found";
-import { MedicineInlineCard } from "@/components/medicine/medicine-inline-card";
 import SupplierInlineCard from "@/components/supplier/supplier-inline-card";
 import PurchaseOrderInlineCard from "@/components/purchase-order/purchase-order-inline-card";
 import { Button } from "@/components/ui/button";
@@ -32,7 +29,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   });
 
   // Fetch all medicines for the form
-  const { data: medicines, isFetching: medicinesLoading } = useQuery<{
+  const { data: medicines } = useQuery<{
     content: Medicine[];
   }>({
     queryKey: ["medicines-orders-list"],
@@ -40,7 +37,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   });
 
   // Fetch all suppliers for the form
-  const { data: suppliers, isFetching: suppliersLoading } = useQuery<
+  const { data: suppliers } = useQuery<
     Supplier[]
   >({
     queryKey: ["suppliers-orders-list"],

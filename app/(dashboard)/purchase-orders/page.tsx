@@ -28,7 +28,7 @@ export default function Page() {
     queryFn: () => api('/purchase-orders'),
   });
 
-  const receiveOrderMutation = useMutation({
+  useMutation({
     mutationFn: (orderId: number) => 
       api(`/purchase-orders/${orderId}/receive`, { method: 'PATCH' }),
     onSuccess: () => {
@@ -69,7 +69,7 @@ export default function Page() {
       // setReceivingOrderId(orderId);
       // await receiveOrderMutation.mutateAsync(orderId);
     } catch (error) {
-      // console.error('Error in handleReceiveOrder:', error);
+      console.error('Error in handleReceiveOrder:', error);
     }
   };
 

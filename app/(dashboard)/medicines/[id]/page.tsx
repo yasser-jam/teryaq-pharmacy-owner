@@ -2,7 +2,6 @@
 import BasePageDialog from "@/components/base/page-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
 import CategoriesMultiSelect from "@/components/sys/categories-multi-select";
 import TypeSelect from "@/components/sys/type-select";
 import FormSelect from "@/components/sys/form-select";
@@ -52,7 +51,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { mutate: create, isPending: createPending } = useMutation({
     mutationKey: ["medicine-create"],
-    mutationFn: (data: any) =>
+    mutationFn: (data: FormData) =>
       api("pharmacy_products", {
         body: {
           ...data,
@@ -80,7 +79,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { mutate: update, isPending: updatePending } = useMutation({
     mutationKey: ["medicine-update"],
-    mutationFn: (data: any) =>
+    mutationFn: (data: FormData) =>
       api(`pharmacy_products/${id}`, {
         body: {
           ...data,

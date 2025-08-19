@@ -20,6 +20,7 @@ import { z } from 'zod'
 import { CUSTOMER_SCHEMA } from '@/lib/schema'
 import { Textarea } from '@/components/ui/textarea'
 import { BasePhoneInput } from '@/components/base/phone-input'
+import { Customer } from '@/types';
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -41,7 +42,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { mutate: create, isPending: createPending } = useMutation({
     mutationKey: ['customer-create'],
-    mutationFn: (data: any) =>
+    mutationFn: (data: Customer) =>
       api('/customers', {
         body: data,
         method: 'POST',
@@ -54,7 +55,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { mutate: update, isPending: updatePending } = useMutation({
     mutationKey: ['customer-update'],
-    mutationFn: (data: any) =>
+    mutationFn: (data: Customer) =>
       api(`/customers/${id}`, {
         body: data,
         method: 'PUT',
@@ -76,7 +77,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }
 
   const onSubmit = (data: FormData) => {
-    id == 'create' ? create(data) : update(data)
+    id == 'create' ? create(data as Customer) : update(data as Customer)
   }
 
   return (

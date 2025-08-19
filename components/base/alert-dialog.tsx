@@ -1,6 +1,10 @@
-'use client'
+"use client";
 
-import React from 'react'
+import React, {
+  ForwardRefExoticComponent,
+  RefAttributes,
+  SVGProps,
+} from "react";
 
 import {
   Dialog,
@@ -9,27 +13,26 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
-import { Button } from '@/components/ui/button'
-import { Restart } from 'iconoir-react'
-import { cva } from 'class-variance-authority'
-import { cn } from '@/lib/utils'
-const iconVariants = cva('mx-auto size-16', {
+import { Button } from "@/components/ui/button";
+import { cva } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+const iconVariants = cva("mx-auto size-16", {
   variants: {
     variant: {
-      default: '',
-      destructive: 'text-destructive',
-      secondary: 'text-secondary',
-      primary: 'text-primary',
-      tertiary: 'text-tertiary'
-    }
+      default: "",
+      destructive: "text-destructive",
+      secondary: "text-secondary",
+      primary: "text-primary",
+      tertiary: "text-tertiary",
+    },
   },
   defaultVariants: {
-    variant: 'default'
-  }
-})
+    variant: "default",
+  },
+});
 
 export default function AlertDialog({
   children,
@@ -38,25 +41,27 @@ export default function AlertDialog({
   loading,
   title,
   subtitle,
-  action = 'Continue',
-  variant = 'default',
+  action = "Continue",
+  variant = "default",
   onAction,
-  onOpenChange
+  onOpenChange,
 }: {
-  children?: React.ReactNode
-  Icon: any
-  open?: boolean
-  loading?: boolean
-  title?: string
-  subtitle?: string
-  action?: string
-  variant?: 'default' | 'destructive' | 'primary' | 'secondary' | 'tertiary'
-  onAction?: () => any
-  onOpenChange?: (open: boolean) => any
+  children?: React.ReactNode;
+  Icon: ForwardRefExoticComponent<
+    Omit<SVGProps<SVGSVGElement>, "ref"> & RefAttributes<SVGSVGElement>
+  >;
+  open?: boolean;
+  loading?: boolean;
+  title?: string;
+  subtitle?: string;
+  action?: string;
+  variant?: "default" | "destructive" | "secondary" | "tertiary";
+  onAction?: () => void;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const handleOpenChange = (open: boolean) => {
-    if (onOpenChange) onOpenChange(open)
-  }
+    if (onOpenChange) onOpenChange(open);
+  };
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -83,9 +88,9 @@ export default function AlertDialog({
           <Button
             onClick={() => (onAction ? onAction() : null)}
             variant={
-              (['default', 'destructive', 'secondary'].includes(variant)
+              (["default", "destructive", "secondary", 'tertiary'].includes(variant)
                 ? variant
-                : 'default') as any
+                : "default") as any
             }
             loading={loading}
           >
@@ -94,5 +99,5 @@ export default function AlertDialog({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

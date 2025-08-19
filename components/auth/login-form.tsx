@@ -3,12 +3,12 @@
 import type React from 'react';
 
 import { useState } from 'react';
-import { Eye, EyeOff, Smartphone, Lock } from 'lucide-react';
+import { Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { successToast } from '@/lib/toast';
@@ -44,13 +44,9 @@ export default function LoginForm() {
     },
   });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     submitMutation.mutate();
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (

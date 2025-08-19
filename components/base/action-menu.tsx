@@ -17,7 +17,7 @@ import AlertDialog from '@/components/base/alert-dialog'
 export default function ActionMenu({
   children,
   toggler = (
-    <Button variant="ghost" size="action">
+    <Button variant="ghost" size="icon">
       <MoreVert />
     </Button>
   ),
@@ -35,9 +35,9 @@ export default function ActionMenu({
   editAction?: boolean
   deleteAction?: boolean
   viewAction?: boolean
-  onEdit?: () => any
-  onDelete?: () => any
-  onView?: () => any
+  onEdit?: () => void
+  onDelete?: () => Promise<void>
+  onView?: () => void
 }) {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [loading, setLoading] = useState(false)

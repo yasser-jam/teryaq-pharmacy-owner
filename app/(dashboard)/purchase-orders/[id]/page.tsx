@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { api } from "@/lib/api";
 import { Medicine, PurchaseItem, PurchaseOrder, Supplier } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { errorToast, successToast } from "@/lib/toast";
@@ -99,6 +99,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     setItems((prev) => [...prev, newItem]);
   };
 
+  const queryClient = useQueryClient()
+
   // Create or update order mutation
   const { mutate: saveOrder, isPending } = useMutation({
     mutationFn: () => {
@@ -124,6 +126,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["purchase-orders"] });
       successToast(
         isEditMode
           ? "Purchase Order Updated Successfully"

@@ -9,12 +9,14 @@ import {
   Cable,
   ChevronDown,
   ChevronRight,
+  Group,
   Home,
   LogOut,
   Package,
   Pill,
   ShoppingCart,
   User,
+  Users,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -85,6 +87,11 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
       title: "Stock",
       url: "/stock",
       icon: Package,
+    },
+    {
+      title: "Customers",
+      url: "/customers",
+      icon: Users,
     },
     // {
     //   title: "Customers",

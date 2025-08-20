@@ -24,7 +24,7 @@ export default function POSInvoiceSummary({ invoice, onProcessSale }: POSInvoice
           <div className="flex justify-between">
             <span>Subtotal:</span>
             <span>
-              {subtotal.toFixed(2)} {invoice.currency}
+              {subtotal?.toFixed(2)} {invoice.currency}
             </span>
           </div>
           <div className="flex justify-between text-red-600">

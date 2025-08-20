@@ -2,7 +2,7 @@ import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 import Cookies from 'js-cookie';
-import { Medicine, ProductType } from '@/types';
+import { Medicine, ProductType, StockItem } from '@/types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,4 +25,29 @@ export const isMasterProduct = (med: Medicine) => {
 
 export const getProductType = (type: ProductType) => {
   return type == "MASTER" || type == "مركزي" ? "MASTER" : "PHARMACY";
+}
+
+// this function to merge all products with same id from different batch to make them in one product with sum of all qtn and oldest expiry date
+export const mergeStockItems = (items: StockItem[]) => {
+  const merged: any = {};
+
+  items.forEach(item => {
+    if (!merged[item.productId]) {
+      // If product not yet added, copy it
+      merged[item.productId] = { ...item };
+    } else {
+      const existing = merged[item.productId];
+      
+      // Sum quantities
+      existing.quantity += item.quantity;
+      
+      // Keep the earliest expiry date
+      existing.expiryDate = (new Date(item.expiryDate) < new Date(existing.expiryDate))
+        ? item.expiryDate
+        : existing.expiryDate;
+    }
+  });
+
+  return Object.values(merged)
+
 }

@@ -42,6 +42,7 @@ import POSCurrencyToggle from "@/components/pos/pos-currency-toggle";
 import POSInvoiceItems from "@/components/pos/pos-invoice-items";
 import { initSaleInvoice } from "@/lib/init";
 import POSInvoiceSummary from "@/components/pos/pos-invoice-summary";
+import POSStockItems from "@/components/pos/pos-stock-items";
 
 // Mock stock items data
 const mockStockItems: StockItem[] = [
@@ -149,10 +150,9 @@ export default function POSPage({ open, onOpenChange }: POSPageProps) {
   const [filteredItems, setFilteredItems] =
     useState<StockItem[]>(mockStockItems);
 
-
   const onProcessSale = () => {
     console.log(invoice);
-  }
+  };
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -253,60 +253,11 @@ export default function POSPage({ open, onOpenChange }: POSPageProps) {
                     </span>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <div className="mb-4">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                      <Input
-                        placeholder="Search products by name or ID..."
-                        value={searchTerm}
-                        onChange={(e) => handleSearch(e.target.value)}
-                        className="pl-10"
-                      />
-                    </div>
-                  </div>
 
-                  <div className="max-h-64 overflow-y-auto">
-                    <div className="space-y-2">
-                      {filteredItems.map((item) => (
-                        <div
-                          key={item.id}
-                          onClick={() => selectStockItem(item)}
-                          className="flex items-center justify-between p-3 bg-white border rounded-lg hover:bg-blue-50 cursor-pointer transition-colors"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                              <Package className="h-4 w-4 text-blue-600" />
-                            </div>
-                            <div>
-                              <h4 className="font-medium">
-                                {item.productName}
-                              </h4>
-                              <p className="text-sm text-gray-600">
-                                ID: {item.id} • Stock: {item.quantity}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="text-right">
-                            <p className="font-semibold">
-                              {item.sellingPrice.toFixed(2)} {invoice.currency}
-                            </p>
-                            <Badge
-                              variant={
-                                item.productType === "MASTER"
-                                  ? "default"
-                                  : "secondary"
-                              }
-                              className="text-xs"
-                            >
-                              {item.productType}
-                            </Badge>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                <CardContent>
+                  <POSStockItems selectStockItem={selectStockItem} invoice={invoice} />
                 </CardContent>
+              
               </Card>
               <div className="space-y-6">
                 <Card>
@@ -408,7 +359,10 @@ export default function POSPage({ open, onOpenChange }: POSPageProps) {
                 </CardContent>
               </Card>
 
-              <POSInvoiceSummary invoice={invoice} onProcessSale={onProcessSale} />
+              <POSInvoiceSummary
+                invoice={invoice}
+                onProcessSale={onProcessSale}
+              />
 
               <div className="xl:col-span-2 space-y-6">
                 {/* Discount */}

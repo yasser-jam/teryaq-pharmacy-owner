@@ -41,6 +41,7 @@ import SysInfo from "@/components/sys/sys-info";
 import POSCurrencyToggle from "@/components/pos/pos-currency-toggle";
 import POSInvoiceItems from "@/components/pos/pos-invoice-items";
 import { initSaleInvoice } from "@/lib/init";
+import POSInvoiceSummary from "@/components/pos/pos-invoice-summary";
 
 // Mock stock items data
 const mockStockItems: StockItem[] = [
@@ -148,6 +149,11 @@ export default function POSPage({ open, onOpenChange }: POSPageProps) {
   const [filteredItems, setFilteredItems] =
     useState<StockItem[]>(mockStockItems);
 
+
+  const onProcessSale = () => {
+    console.log(invoice);
+  }
+
   const handleSearch = (term: string) => {
     setSearchTerm(term);
     if (term.trim() === "") {
@@ -212,10 +218,6 @@ export default function POSPage({ open, onOpenChange }: POSPageProps) {
     return stockItem ? stockItem.productName : `Item ID: ${stockItemId}`;
   };
 
-  const subtotal = invoice.items.reduce(
-    (sum, item) => sum + item.quantity * item.unitPrice,
-    0
-  );
   //   const discountAmount =
   //     invoice.invoiceDiscountType === "PERCENTAGE"
   //       ? (subtotal * invoice.invoiceDiscountValue) / 100
@@ -321,6 +323,32 @@ export default function POSPage({ open, onOpenChange }: POSPageProps) {
                         }))
                       }
                     />
+
+                    {/* {invoice.paymentType === "CREDIT" && (
+      <div className="mt-4">
+        <Label>Amount Paid</Label>
+        <Input
+          type="number"
+          step="0.01"
+          value={invoice.paidAmount || ""}
+          onChange={(e) =>
+            setInvoice((prev) => ({
+              ...prev,
+              paidAmount: Number.parseFloat(e.target.value),
+            }))
+          }
+          placeholder="0.00"
+        />
+        {invoice.paidAmount &&
+          invoice.paidAmount > invoice.totalAmount && (
+            <p className="text-sm text-green-600 mt-1">
+              Change:{" "}
+              {(invoice.paidAmount - invoice.totalAmount).toFixed(2)}{" "}
+              {invoice.currency}
+            </p>
+          )}
+      </div>
+    )} */}
                   </CardContent>
                 </Card>
 
@@ -379,65 +407,9 @@ export default function POSPage({ open, onOpenChange }: POSPageProps) {
                   />
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Invoice Summary</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between">
-                    <span>Subtotal:</span>
-                    <span>
-                      {subtotal.toFixed(2)} {invoice.currency}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-red-600">
-                    <span>Discount:</span>
-                    <span>
-                      -{invoice.discount?.toFixed(2)} {invoice.currency}
-                    </span>
-                  </div>
-                  <Separator />
-                  <div className="flex justify-between text-lg font-bold">
-                    <span>Total:</span>
-                    <span>
-                      {invoice.totalAmount?.toFixed(2)} {invoice.currency}
-                    </span>
-                  </div>
 
-                  {invoice.paymentType === "CREDIT" && (
-                    <div className="mt-4">
-                      <Label>Amount Paid</Label>
-                      <Input
-                        type="number"
-                        step="0.01"
-                        value={invoice.paidAmount || ""}
-                        onChange={(e) =>
-                          setInvoice((prev) => ({
-                            ...prev,
-                            paidAmount:
-                              Number.parseFloat(e.target.value),
-                          }))
-                        }
-                        placeholder="0.00"
-                      />
-                      {invoice.paidAmount && invoice.paidAmount > invoice.totalAmount && (
-                        <p className="text-sm text-green-600 mt-1">
-                          Change: {(invoice.paidAmount - invoice.totalAmount).toFixed(2)}{" "}
-                          {invoice.currency}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                  <Button
-                    className="w-full"
-                    size="lg"
-                    disabled={invoice.items.length === 0}
-                  >
-                    Process Sale
-                  </Button>
-                </CardContent>
-              </Card>
-              x {/* Right Column - Summary */}
+              <POSInvoiceSummary invoice={invoice} onProcessSale={onProcessSale} />
+
               <div className="xl:col-span-2 space-y-6">
                 {/* Discount */}
                 {/* <Card>

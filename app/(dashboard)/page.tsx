@@ -1,8 +1,14 @@
+'use client'
 import BaseCardButton from '@/components/base/base-card-button'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export default function Dashboard() {
+
+  const router = useRouter()
   return (
     <div className="flex-1 space-y-6 p-6">
+      <Button variant={'default'} onClick={() => router.push('/pos')}>Make a Sale</Button>
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>

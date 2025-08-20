@@ -14,8 +14,6 @@ export default function FormSelect({ onChange, className, ...props }: FormSelect
     queryFn: () => api('/Forms')
   })
 
-  console.log(props.value);
-  
 
   return (
     <BaseSelect

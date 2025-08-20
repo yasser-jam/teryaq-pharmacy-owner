@@ -59,32 +59,24 @@ export interface MedicineRecord {
   translations: MedicineTranslation[];
 }
 
-export interface SaleItemRecord {
-  id: number,
-  stockItemId: number;
-  productName: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-  discountType: string;
-  subTotal: number;
-}
 
-export interface SaleRecord {
-  id: number;
-  customerId: number;
-  customerName: string;
-  invoiceDate: string;
+export type Currency = "SYP" | "USD"
+
+export interface SaleInvoice {
+  id?: number;
+  customerId?: number;
+  customerName?: string;
+  invoiceDate?: string;
   totalAmount: number;
-  paymentType: string;
+  paymentType: 'CASH' | 'CREDIT';
   paymentMethod: string;
-  currency: string;
-  discount: number;
-  discountType: string;
+  currency: Currency;
+  discount?: number;
+  discountType?: string;
   paidAmount: number;
-  remainingAmount: number;
-  status: string;
-  items: SaleItemRecord[];
+  remainingAmount?: number;
+  status?: string;
+  items: SaleInvoiceItem[];
 }
 
 type DaysOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
@@ -151,7 +143,7 @@ export interface PurchaseOrder {
   id: number
   supplierId: number
   supplierName: string
-  currency: string
+  currency: Currency
   total: number
   status: 'PENDING' | 'RECEIVED' | 'CANCELLED' | 'DONE'
   createdAt: [number, number, number, number, number, number, number]
@@ -208,4 +200,10 @@ export interface StockItem {
   daysUntilExpiry: number
   pharmacyId: number
   purchaseInvoiceNumber: string
+}
+
+export interface SaleInvoiceItem {
+  stockItemId: number;
+  quantity: number;
+  unitPrice: number;
 }

@@ -56,6 +56,7 @@ export default function DeleteButton({
       subtitle={`Are you sure you want to delete this ${item}, this cannot be undone`}
       onAction={handleDelete}
       loading={loading}
+      className='bg-white'
     >
       {togglerToShow}
     </AlertDialog>

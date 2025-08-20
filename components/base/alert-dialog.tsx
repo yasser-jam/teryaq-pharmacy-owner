@@ -45,6 +45,7 @@ export default function AlertDialog({
   variant = "default",
   onAction,
   onOpenChange,
+  className
 }: {
   children?: React.ReactNode;
   Icon: ForwardRefExoticComponent<
@@ -58,6 +59,7 @@ export default function AlertDialog({
   variant?: "default" | "destructive" | "secondary" | "tertiary";
   onAction?: () => void;
   onOpenChange?: (open: boolean) => void;
+  className?: string
 }) {
   const handleOpenChange = (open: boolean) => {
     if (onOpenChange) onOpenChange(open);
@@ -66,7 +68,7 @@ export default function AlertDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-w-96!">
+      <DialogContent className={cn("max-w-96!", className)}>
         <DialogHeader>
           <Icon className={cn(iconVariants({ variant }))} />
           {title ? (

@@ -21,6 +21,8 @@ import { CUSTOMER_SCHEMA } from '@/lib/schema'
 import { Textarea } from '@/components/ui/textarea'
 import { BasePhoneInput } from '@/components/base/phone-input'
 import { Customer } from '@/types';
+import { Phone } from 'lucide-react';
+import { successToast } from '@/lib/toast';
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -49,6 +51,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['customers'] })
+      successToast("Customer Created Successfully")
       goBack()
     },
   })
@@ -62,6 +65,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['customers'] })
+      successToast("Customer Updated Successfully")
       goBack()
     },
   })
@@ -73,7 +77,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }, [customer, form])
 
   const goBack = () => {
-    router.replace('/customers/list')
+    router.replace('/customers')
   }
 
   const onSubmit = (data: FormData) => {
@@ -112,7 +116,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <FormItem>
                     <FormLabel>Phone Number</FormLabel>
                     <FormControl>
-                      <BasePhoneInput {...field} placeholder='Customer Phone Number' />
+                      <Input {...field} placeholder='Customer Phone Number' prefix={<Phone />} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

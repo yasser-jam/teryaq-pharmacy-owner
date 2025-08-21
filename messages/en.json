@@ -1,0 +1,24 @@
+{
+  "Roles": {
+    "PHARMACY_MANAGER": "Manager",
+    "PHARMACY_EMPLOYEE": "Employee",
+    "PHARMACY_TRAINEE": "Trainee",
+    "Unknown": "Unknown"
+  },
+  "General": {
+    "teryaq": "Teryaq",
+    "logout": "Logout"
+  },
+  "Placeholder": {
+    "searchProject": "Search in All Pages"
+  },
+  "Sidebar": {
+    "home": "Home",
+    "medicines": "Medicines",
+    "employees": "Employees",
+    "suppliers": "Suppliers",
+    "purchaseOrders": "Purchase Orders",
+    "stock": "Stock",
+    "customers": "Customers"
+  }
+}

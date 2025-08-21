@@ -1,0 +1,25 @@
+{
+    "Roles": {
+      "PHARMACY_MANAGER": "مدير",
+      "PHARMACY_EMPLOYEE": "موظف",
+      "PHARMACY_TRAINEE": "متدرب",
+      "Unknown": "غير معروف"
+    },
+    "General": {
+      "teryaq": "ترياق",
+      "logout": "تسجيل الخروج"
+    },
+    "Placeholder": {
+      "searchProject": "بحث في جميع الصفحات"
+    },
+    "Sidebar": {
+      "home": "الرئيسية",
+      "medicines": "الأدوية",
+      "employees": "الموظفين",
+      "suppliers": "الموردين",
+      "purchaseOrders": "طلبات الشراء",
+      "stock": "المخزون",
+      "customers": "العملاء"
+    }
+  }
+  

@@ -1,7 +1,15 @@
+'use client'
 import Image from 'next/image';
 import LoginForm from '@/components/auth/login-form';
+import { setCookie } from '@/lib/utils';
+
+import Cookies from 'js-cookie';
 
 export default function LoginPage() {
+
+  // delete the cookie in that page
+  Cookies.remove('tp.access-token');
+
   return (
     <div className='min-h-screen lg:grid lg:grid-cols-2'>
       {/* Left Section - Hero Image */}

@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
+import {useTranslations} from 'next-intl';
 export interface MenuItem {
   title: string;
   url: string;
@@ -39,6 +39,8 @@ interface SidebarProps {
 export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+
+  const t = useTranslations('Sidebar')
 
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) =>
@@ -59,37 +61,37 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
 
   const menuItems = [
     {
-      title: "Home",
+      title: t('home'),
       url: "/",
       icon: Home,
     },
     {
-      title: "Medicines",
+      title: t('medicines'),
       url: "/medicines",
       icon: Pill,
     },
     {
-      title: "Employees",
+      title: t('employees'),
       url: "/employees",
       icon: User,
     },
     {
-      title: "Suppliers",
+      title: t('suppliers'),
       url: "/suppliers",
       icon: Cable,
     },
     {
-      title: "Purchase Orders",
+      title: t('purchaseOrders'),
       url: "/purchase-orders",
       icon: ShoppingCart,
     },
     {
-      title: "Stock",
+      title: t('stock'),
       url: "/stock",
       icon: Package,
     },
     {
-      title: "Customers",
+      title: t('customers'),
       url: "/customers",
       icon: Users,
     },

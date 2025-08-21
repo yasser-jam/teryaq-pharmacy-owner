@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 import Cookies from 'js-cookie';
 import { Medicine, ProductType, StockItem } from '@/types';
+import { useTranslations } from 'next-intl';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -50,4 +51,20 @@ export const mergeStockItems = (items: StockItem[]) => {
 
   return Object.values(merged)
 
+}
+
+export const getRoleName = (role: string) => {
+  
+  const t = useTranslations('Roles');
+
+  switch (role) {
+    case "PHARMACY_MANAGER":
+      return t('PHARMACY_MANAGER');
+    case "PHARMACY_EMPLOYEE":
+      return t('PHARMACY_EMPLOYEE');
+    case "PHARMACY_TRAINEE":
+      return t('PHARMACY_TRAINEE');
+    default:
+      return t('Unknown');
+  }
 }

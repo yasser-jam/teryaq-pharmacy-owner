@@ -102,8 +102,8 @@ export default function BasePagination({
       className={cn(className, 'flex justify-between items-center px-4 py-2')}
     >
       <div className="text-xs flex items-center gap-2">
-        <span className="text-text-secondary">show</span>
-        <DropdownMenu>
+        {/* <spf className="text-text-secondary">show</span> */}
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" className="size-8 font-bold">
               {limit}
@@ -119,14 +119,14 @@ export default function BasePagination({
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
-        <span className="text-nowrap text-text-secondary">
+        </DropdownMenu> */}
+        {/* <span className="text-nowrap text-text-secondary">
           {' '}
           records from <span className="text-foreground">
             {totalCount}
           </span>{' '}
           records
-        </span>
+        </span> */}
       </div>
 
       <div className="flex gap-4 items-center">

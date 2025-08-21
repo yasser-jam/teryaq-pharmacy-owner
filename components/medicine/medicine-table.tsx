@@ -23,6 +23,7 @@ import { Pill } from 'lucide-react';
 import { cn, isMasterProduct } from '@/lib/utils';
 import DeleteButton from '../base/delete-button';
 import MedicineTypeBadge from './medicine-type-badge';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   search: string;
@@ -32,11 +33,12 @@ interface Props {
 
 export function MedicineTable({ medicines, onDelete }: Props) {
   const router = useRouter();
+  const t = useTranslations('Medicines');
 
   const columns: ColumnDef<Medicine>[] = [
     {
       accessorKey: 'name',
-      header: 'Name',
+      header: t('table.name'),
       cell: ({ row }) => (
         <div className='flex items-center'>
           <Avatar>
@@ -56,7 +58,7 @@ export function MedicineTable({ medicines, onDelete }: Props) {
     },
     {
       accessorKey: 'type',
-      header: 'Type',
+      header: t('table.type'),
       cell: ({ row }) => (
         <MedicineTypeBadge med={row.original}></MedicineTypeBadge>
       ),
@@ -64,20 +66,20 @@ export function MedicineTable({ medicines, onDelete }: Props) {
 
     {
       accessorKey: 'size',
-      header: 'Size',
+      header: t('table.size'),
       cell: ({ row }) => (
         <Badge variant='warning' size="lg">{row.original.size}</Badge>
       ),
     },
     {
       accessorKey: 'requiresPrescription',
-      header: 'Require Prescription',
+      header: t('table.prescription.required'),
       cell: ({ row }) => 
-        <Badge variant={row.original.requiresPrescription ? 'destructive' : 'default'} size="lg">{row.original.requiresPrescription ? 'Require Prescription' : 'Do not Require'}</Badge>
+        <Badge variant={row.original.requiresPrescription ? 'destructive' : 'default'} size="lg">{row.original.requiresPrescription ? t('table.prescription.required') : t('table.prescription.notRequired')}</Badge>
     },
     {
       accessorKey: 'actions',
-      header: '',
+      header: t('table.actions'),
       cell: ({ row }) => (
         <div className='flex items-center justify-end gap-2'>
           <Button

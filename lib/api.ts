@@ -30,6 +30,9 @@ export const api = async function (
   url: string,
   options: APIOptions = { showToaster: true }
 ) {
+
+  const locale = Cookies.get('tp.locale') || 'en'
+
   try {
     // Add token manually
     const token = getCookie('tp.access-token')
@@ -41,7 +44,10 @@ export const api = async function (
       headers: {
         Authorization: token ? `Bearer ${token}` : undefined
       },
-      params: options.params, // Axios handles URLSearchParams internally
+      params: {
+        ...options.params,
+        lang: locale
+      }, // Axios handles URLSearchParams internally
       data: options.body, // Axios uses `data` instead of `body`
     })
 

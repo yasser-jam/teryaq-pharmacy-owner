@@ -15,8 +15,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Plus, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const t = useTranslations();
   const [pagination, setPagination] = useState<Pagination>({
     limit: 10,
     page: 0,
@@ -61,34 +63,27 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         method: "DELETE",
       }),
     onSuccess: () => {
-      successToast("Medicine deleted successfully");
+      successToast(t("Medicines.deleteSuccess"));
       refetch();
     },
   });
 
   return (
     <>
-      {/* <BaseHeader
-          title="Medicines"
-          subtitle="From this page you can see all the Medicines related to your Pharmacy"
-        >
-          
-        </BaseHeader> */}
-
       <div className="flex items-center gap-4 my-4">
         <Input
           value={search}
           onChange={(val) => setSearch(String(val))}
-          prefix={<Search></Search>}
+          prefix={<Search />}
           className="grow"
-          placeholder="Search for Medicine"
+          placeholder={t("Medicines.searchPlaceholder")}
         />
 
         <SysViewSwitch mode={mode} onModeChange={setMode} />
 
         <Button onClick={() => router.push("/medicines/create")}>
           <Plus />
-          Add Medicine
+          {t("Medicines.addButton")}
         </Button>
       </div>
 
@@ -114,8 +109,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <MedicineInlineCard
                   key={el.id}
                   medicine={el}
-                  // onDelete={() => remove(el)}
-                  // onEdit={() => router.replace(`medicines/${el.id}`)}
                 />
               ))}
             </div>

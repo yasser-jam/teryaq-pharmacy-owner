@@ -10,7 +10,8 @@
     "logout": "Logout"
   },
   "Placeholder": {
-    "searchProject": "Search in All Pages"
+    "searchProject": "Search in All Pages",
+    "searchMedicine": "Search for Medicine"
   },
   "Sidebar": {
     "home": "Home",
@@ -20,5 +21,32 @@
     "purchaseOrders": "Purchase Orders",
     "stock": "Stock",
     "customers": "Customers"
+  },
+  "Medicines": {
+    "addButton": "Add Medicine",
+    "deleteSuccess": "Medicine deleted successfully",
+    "searchPlaceholder": "Search for Medicine",
+    "table": {
+      "name": "Name",
+      "type": "Type",
+      "size": "Size",
+      "prescription": {
+        "required": "Require Prescription",
+        "notRequired": "Do not Require"
+      },
+      "actions": "Actions"
+    },
+    "types": {
+      "tablet": "Tablet",
+      "liquid": "Liquid",
+      "injection": "Injection",
+      "capsule": "Capsule",
+      "other": "Other"
+    }
+  },
+  "ViewModes": {
+    "table": "Table View",
+    "cards": "Cards View",
+    "inlineCards": "List View"
   }
 }

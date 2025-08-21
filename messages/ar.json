@@ -10,7 +10,8 @@
       "logout": "تسجيل الخروج"
     },
     "Placeholder": {
-      "searchProject": "بحث في جميع الصفحات"
+      "searchProject": "بحث في جميع الصفحات",
+      "searchMedicine": "ابحث عن دواء"
     },
     "Sidebar": {
       "home": "الرئيسية",
@@ -20,6 +21,32 @@
       "purchaseOrders": "طلبات الشراء",
       "stock": "المخزون",
       "customers": "العملاء"
+    },
+    "Medicines": {
+      "addButton": "إضافة دواء",
+      "deleteSuccess": "تم حذف الدواء بنجاح",
+      "searchPlaceholder": "ابحث عن دواء",
+      "table": {
+        "name": "الاسم",
+        "type": "النوع",
+        "size": "الحجم",
+        "prescription": {
+          "required": "يتطلب وصفة طبية",
+          "notRequired": "لا يتطلب وصفة"
+        },
+        "actions": "الإجراءات"
+      },
+      "types": {
+        "tablet": "أقراص",
+        "liquid": "سائل",
+        "injection": "حقن",
+        "capsule": "كبسولات",
+        "other": "أخرى"
+      }
+    },
+    "ViewModes": {
+      "table": "عرض الجدول",
+      "cards": "عرض البطاقات",
+      "inlineCards": "عرض القائمة"
     }
   }
-  

@@ -76,7 +76,7 @@ export function BarcodeInput({ barcodes, onBarcodesChange, className }: BarcodeI
             <div className="space-y-2 max-h-48 overflow-y-auto">
               {barcodes?.map((barcode, index) => (
                 <div key={barcode} className="flex items-center justify-between gap-2 p-2 rounded-md bg-muted/50 border">
-                  <Badge variant="secondary" className="font-mono text-xs">
+                  <Badge variant="blue-dark" className="font-mono text-xs">
                     {barcode}
                   </Badge>
                   <Button

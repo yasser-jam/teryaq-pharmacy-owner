@@ -122,7 +122,7 @@ export const MEDICINE_SCHEMA = z.object({
   concentration: z.string().optional(),
   size: requiredString(),
   notes: z.string().optional(),
-  tax: z.string().optional(),
+  tax: z.number().optional(),
   barcodes: z.array(z.string()).min(1, 'You should at least add one barcode'),
   typeId: z.string().optional(),
   formId: z.string().optional(),

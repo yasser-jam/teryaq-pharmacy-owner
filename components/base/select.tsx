@@ -35,7 +35,6 @@ export function BaseSelect({
 
   useEffect(() => {
     setValueName(items?.find(item => item[itemValue] == value)?.[itemText] || '')
-    console.log(valueName, value);
   }, [value])
 
   return (
@@ -47,7 +46,7 @@ export function BaseSelect({
             props.className + ' ' + (props.fullWidth ? 'w-full' : 'w-48')
           }
         >
-          <SelectValue placeholder={props.placeholder} ></SelectValue>
+          <SelectValue placeholder={props.placeholder} className='!data-[placeholder]:text-red-500' ></SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

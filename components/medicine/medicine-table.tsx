@@ -87,7 +87,8 @@ export function MedicineTable({ medicines, onDelete }: Props) {
             variant='outline'
             className='text-primary'
             size='icon'
-            disabled={isMasterProduct(row.original)}
+            // disabled={isMasterProduct(row.original)}
+            disabled={true} // Todo: activate the button after fix the api
           >
             <Eye />
           </Button>

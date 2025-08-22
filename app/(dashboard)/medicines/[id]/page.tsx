@@ -38,6 +38,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     resolver: zodResolver(MEDICINE_SCHEMA),
     defaultValues: {
       barcodes: [],
+      requiresPrescription: false
     },
   });
 
@@ -124,7 +125,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <BasePageDialog
         title="Medicine Details"
         subtitle="Fill Medicine Data"
-        className="w-full h-full"
         onOpenChange={goBack}
       >
         <SysInfo
@@ -145,7 +145,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormControl>
                       <Input {...field} placeholder="Trade Name" />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -159,7 +159,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormControl>
                       <Input {...field} placeholder="الاسم التجاري" />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -173,7 +173,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormControl>
                       <Input {...field} placeholder="Scientific Name" />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -187,7 +187,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormControl>
                       <Input {...field} placeholder="الاسم العلمي" />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -201,7 +201,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormControl>
                       <Input {...field} placeholder="Concentration" />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -215,7 +215,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormControl>
                       <Input {...field} placeholder="Size" />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -227,9 +227,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <FormItem>
                     <FormLabel>Tax</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Tax" />
+                      <Input type="number" {...field} placeholder="Tax" />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -247,7 +247,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -265,7 +265,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -283,7 +283,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -301,7 +301,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -316,9 +316,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         {...field}
                         className="w-full"
                         barcodes={field.value}
-                        onBarcodesChange={(val) =>
+                        onBarcodesChange={(val) => {
                           form.setValue("barcodes", val)
-                        }
+                          form.trigger("barcodes")
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -335,7 +336,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormControl>
                       <Textarea {...field} placeholder="Notes" rows={3} />
                     </FormControl>
-                    <FormMessage />
+                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />

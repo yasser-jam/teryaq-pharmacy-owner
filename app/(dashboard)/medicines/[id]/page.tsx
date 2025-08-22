@@ -27,10 +27,13 @@ import { BarcodeInput } from "@/components/sys/barcode-input";
 import { BaseSwitch } from "@/components/base/base-switch";
 import SysInfo from "@/components/sys/sys-info";
 import { successToast } from "@/lib/toast";
+import { useTranslations } from "next-intl";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const t = useTranslations('Medicines.details');
+  const tGeneral = useTranslations('General');
 
   type FormData = z.infer<typeof MEDICINE_SCHEMA>;
 
@@ -73,7 +76,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["medicines-list"] });
-      successToast('Medicine created successfully');
+      successToast(t('createSuccess'));
       goBack();
     },
   });
@@ -101,7 +104,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["medicines-list"] });
-      successToast('Medicine updated successfully');
+      successToast(t('updateSuccess'));
       goBack();
     },
   });
@@ -123,13 +126,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <>
       <BasePageDialog
-        title="Medicine Details"
-        subtitle="Fill Medicine Data"
+        title={t('title')}
+        subtitle={t('subtitle')}
         onOpenChange={goBack}
       >
         <SysInfo
           color="blue"
-          text="Please consider that the medicine you add from this list will be available only for your pharmacy and you can NOT add medicine that already exists in the system medicines"
+          text={t('prescriptionHint')}
           className="mb-4 bg-muted/50"
         />
 
@@ -141,11 +144,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="tradeName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Trade Name</FormLabel>
+                    <FormLabel>{t('tradeName')} (en)</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Trade Name" />
+                      <Input {...field} placeholder={t('tradeName')} />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -155,11 +157,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="tradeNameAr"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>الاسم التجاري</FormLabel>
+                    <FormLabel>{t('tradeName')} (ar)</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="الاسم التجاري" />
+                      <Input {...field} placeholder={t('tradeName')}/>
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -169,11 +170,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="scientificName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Scientific Name</FormLabel>
+                    <FormLabel>{t('scientificName')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Scientific Name" />
+                      <Input {...field} placeholder={t('scientificName')} />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -183,11 +183,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="scientificNameAr"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>الاسم العلمي</FormLabel>
+                    <FormLabel>{t('scientificName')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="الاسم العلمي" />
+                      <Input {...field} placeholder={t('scientificName')} />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -197,11 +196,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="concentration"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Concentration</FormLabel>
+                    <FormLabel>{t('concentration')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Concentration" />
+                      <Input {...field} placeholder={t('concentration')} />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -211,11 +209,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="size"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Size</FormLabel>
+                    <FormLabel>{t('size')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Size" />
+                      <Input {...field} placeholder={t('size')} />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -225,11 +222,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="tax"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tax</FormLabel>
+                    <FormLabel>{t('tax')}</FormLabel>
                     <FormControl>
-                      <Input type="number" {...field} placeholder="Tax" />
+                      <Input type="number" {...field} placeholder={t('tax')} />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -239,7 +235,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="manufacturerId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Manufacturer</FormLabel>
+                    <FormLabel>{t('manufacturer')}</FormLabel>
                     <FormControl>
                       <ManufacturerSelect
                         value={field.value}
@@ -247,7 +243,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -257,7 +252,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="typeId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>{t('type')}</FormLabel>
                     <FormControl>
                       <TypeSelect
                         value={field.value}
@@ -265,7 +260,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -275,7 +269,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="formId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Form</FormLabel>
+                    <FormLabel>{t('form')}</FormLabel>
                     <FormControl>
                       <FormSelect
                         value={field.value}
@@ -283,7 +277,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -293,7 +286,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="categoryIds"
                 render={({ field }) => (
                   <FormItem className="col-span-2">
-                    <FormLabel>Categories</FormLabel>
+                    <FormLabel>{t('categories')}</FormLabel>
                     <FormControl>
                       <CategoriesMultiSelect
                         value={field.value || []}
@@ -301,7 +294,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         className="w-full"
                       />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -311,6 +303,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="barcodes"
                 render={({ field }) => (
                   <FormItem className="col-span-2">
+                    <FormLabel>{t('barcodes')}</FormLabel>
                     <FormControl>
                       <BarcodeInput
                         {...field}
@@ -332,11 +325,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="notes"
                 render={({ field }) => (
                   <FormItem className="col-span-2">
-                    <FormLabel>Notes</FormLabel>
+                    <FormLabel>{t('notes')}</FormLabel>
                     <FormControl>
-                      <Textarea {...field} placeholder="Notes" rows={3} />
+                      <Textarea {...field} placeholder={t('notes')} rows={3} />
                     </FormControl>
-                    {/* <FormMessage /> */}
                   </FormItem>
                 )}
               />
@@ -350,8 +342,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       <BaseSwitch
                         checked={field.value}
                         onCheckedChange={field.onChange}
-                        title="Requires Prescription"
-                        subtitle="You should see verified prescription before selling this item"
+                        title={t('requiresPrescription')}
+                        subtitle={t('prescriptionHint')}
                       />
                     </FormControl>
                     <FormMessage />
@@ -362,9 +354,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
             <div className="col-span-2 flex items-center justify-end gap-2 mt-4">
               <Button variant="ghost" onClick={goBack} type="button">
-                Cancel
+                {t('cancel')}
               </Button>
-              <Button loading={createPending || updatePending}>Save</Button>
+              <Button loading={createPending || updatePending}>
+                {t('save')}
+              </Button>
             </div>
           </form>
         </Form>

@@ -36,7 +36,7 @@ export default function ActionMenu({
   deleteAction?: boolean
   viewAction?: boolean
   onEdit?: () => void
-  onDelete?: () => Promise<void>
+  onDelete?: () => any
   onView?: () => void
 }) {
   const [deleteOpen, setDeleteOpen] = useState(false)

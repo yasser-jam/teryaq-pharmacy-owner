@@ -50,7 +50,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className='space-y-8'>
+    <div className='space-y-8 bg-white p-8 rounded-sm'>
       {/* Logo and Title Section */}
       <div className='text-center space-y-4'>
         <div className='flex items-center justify-center'>

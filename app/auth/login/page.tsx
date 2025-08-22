@@ -13,14 +13,14 @@ export default function LoginPage() {
   return (
     <div className='min-h-screen lg:grid lg:grid-cols-2'>
       {/* Left Section - Hero Image */}
-      <div className='hidden lg:block relative'>
+      <div className='hidden lg:block ms-auto relative w-[500px]'>
         <Image
-          src='/images/auth/login.webp'
+          src='/images/auth/login.svg'
           alt='Login background'
           fill
           priority
         />
-        <div className='absolute inset-0 bg-black/20' />
+        <div className='absolute inset-0' />
       </div>
 
       {/* Right Section - Login Form */}

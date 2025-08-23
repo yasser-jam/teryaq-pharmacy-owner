@@ -13,8 +13,10 @@ import BasePageDialog from "@/components/base/page-dialog";
 import PurchaseOrderHeader from "@/components/purchase-order/purchase-order-header";
 import { Input } from "@/components/ui/input";
 import { getProductType } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
+  const t = useTranslations('PurchaseOrders');
   const router = useRouter();
   const { id } = use(params);
 
@@ -158,6 +160,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary"></div>
+        <span className="mr-2">{t('loading')}</span>
       </div>
     );
   }
@@ -165,28 +168,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   if (isEditMode && !order) {
     return (
       <div className="flex items-center justify-center h-64">
-        <p>Order not found</p>
+        <p>{t('notFound')}</p>
       </div>
     );
   }
 
   return (
     <BasePageDialog
-      title={
-        isEditMode && order
-          ? `Edit Purchase Order #${order.id}`
-          : "Create New Purchase Order"
-      }
-      subtitle={
-        isEditMode
-          ? "Update the purchase order details"
-          : "Fill in the details for the new purchase order"
-      }
+      title={isEditMode && order ? t('editTitle', { id: order.id }) : t('createTitle')}
+      subtitle={isEditMode ? t('editSubtitle') : t('createSubtitle')}
       className="w-full h-full"
       onOpenChange={goBack}
       headerChildren={
         <Button loading={isPending} onClick={handleSubmit}>
-          {isEditMode ? "Update" : "Create"} Order
+          {isEditMode ? t('updateButton') : t('createButton')}
         </Button>
       }
     >
@@ -194,9 +189,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         {/* Medicines List */}
         <Card className="col-span-2">
           <CardContent>
-            <CardTitle className="mb-4">Medicines</CardTitle>
+            <CardTitle className="mb-4">{t('medicines')}</CardTitle>
             <Input
-              placeholder="Search for Medicine"
+              placeholder={t('searchPlaceholder')}
               className="my-2"
               value={search}
               onChange={(e) => setSearch(String(e))}
@@ -230,7 +225,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         {/* Suppliers List */}
         <Card className="col-span-1 bg-muted/10">
           <CardContent>
-            <CardTitle className="mb-4">Supplier</CardTitle>
+            <CardTitle className="mb-4">{t('supplier')}</CardTitle>
             <div className="max-h-[200px] grid gap-4 overflow-auto">
               {suppliers?.map((supplier) => (
                 <SupplierInlineCard
@@ -247,7 +242,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         {/* Current Order Items */}
         <Card className="col-span-2">
           <CardContent>
-            <CardTitle className="mb-4">Order Items</CardTitle>
+            <CardTitle className="mb-4">{t('orderItems')}</CardTitle>
             {items.length > 0 ? (
               <div className="space-y-3">
                 {items.map((item, index) => (
@@ -270,7 +265,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </div>
             ) : (
               <div className="py-8 text-center text-gray-500">
-                No items added to this order
+                {t('noItems')}
               </div>
             )}
           </CardContent>

@@ -65,6 +65,56 @@
         "other": "أخرى"
       }
     },
+    "PurchaseOrders": {
+      "loading": "جاري التحميل...",
+      "notFound": "لم يتم العثور على الطلب",
+      "editTitle": "تعديل طلب الشراء #{id}",
+      "createTitle": "إنشاء طلب شراء جديد",
+      "editSubtitle": "تحديث تفاصيل طلب الشراء",
+      "createSubtitle": "املأ تفاصيل طلب الشراء الجديد",
+      "updateButton": "تحديث الطلب",
+      "createButton": "إنشاء طلب",
+      "medicines": "الأدوية",
+      "searchPlaceholder": "ابحث عن دواء",
+      "supplier": "المورد",
+      "orderItems": "عناصر الطلب",
+      "noItems": "لا توجد عناصر مضافة لهذا الطلب",
+      "selectSupplier": "الرجاء اختيار مورد",
+      "addItems": "الرجاء إضافة عنصر واحد على الأقل",
+      "createSuccess": "تم إنشاء طلب الشراء بنجاح",
+      "updateSuccess": "تم تحديث طلب الشراء بنجاح",
+      "createError": "فشل إنشاء طلب الشراء",
+      "updateError": "فشل تحديث طلب الشراء"
+    },
+    "PurchaseOrderList": {
+      "title": "طلبات الشراء",
+      "subtitle": "إدارة وتتبع طلبات الشراء الخاصة بك",
+      "createButton": "طلب شراء جديد",
+      "tabs": {
+        "pending": "الطلبات المعلقة",
+        "done": "الطلبات المستلمة"
+      },
+      "loading": "جاري التحميل...",
+      "noOrders": "لا توجد طلبات شراء",
+      "receiveSuccess": "تم استلام الطلب بنجاح",
+      "receiveError": "فشل تأكيد استلام الطلب",
+      "deleteSuccess": "تم حذف الطلب بنجاح",
+      "deleteError": "فشل حذف الطلب"
+    },
+    "PurchaseOrderCard": {
+      "orderNumber": "طلب #{id}",
+      "createdDate": "تاريخ الإنشاء",
+      "items": "العناصر",
+      "quantity": "الكمية",
+      "perUnit": "للوحدة",
+      "totalAmount": "إجمالي المبلغ",
+      "receiveOrder": "استلام الطلب",
+      "status": {
+        "pending": "قيد الانتظار",
+        "done": "مكتمل",
+        "cancelled": "ملغي"
+      }
+    },
     "ViewModes": {
       "table": "عرض الجدول",
       "cards": "عرض البطاقات",

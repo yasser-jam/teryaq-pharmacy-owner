@@ -65,6 +65,56 @@
       "other": "Other"
     }
   },
+  "PurchaseOrders": {
+    "loading": "Loading...",
+    "notFound": "Order not found",
+    "editTitle": "Edit Purchase Order #{id}",
+    "createTitle": "Create New Purchase Order",
+    "editSubtitle": "Update the purchase order details",
+    "createSubtitle": "Fill in the details for the new purchase order",
+    "updateButton": "Update Order",
+    "createButton": "Create Order",
+    "medicines": "Medicines",
+    "searchPlaceholder": "Search for Medicine",
+    "supplier": "Supplier",
+    "orderItems": "Order Items",
+    "noItems": "No items added to this order",
+    "selectSupplier": "Please select a supplier",
+    "addItems": "Please add at least one item",
+    "createSuccess": "Purchase Order Created Successfully",
+    "updateSuccess": "Purchase Order Updated Successfully",
+    "createError": "Failed to create purchase order",
+    "updateError": "Failed to update purchase order"
+  },
+  "PurchaseOrderList": {
+      "title": "Purchase Orders",
+      "subtitle": "Manage and track your purchase orders",
+      "createButton": "Create New Purchase Order",
+      "tabs": {
+        "pending": "Pending Orders",
+        "done": "Completed Orders"
+      },
+      "loading": "Loading...",
+      "noOrders": "No purchase orders found",
+      "receiveSuccess": "Purchase Order Received Successfully",
+      "receiveError": "Failed to receive purchase order",
+      "deleteSuccess": "Purchase Order Deleted Successfully",
+      "deleteError": "Failed to delete purchase order"
+    },
+  "PurchaseOrderCard": {
+    "orderNumber": "Order #{id}",
+    "createdDate": "Created Date",
+    "items": "Items",
+    "quantity": "Qty",
+    "perUnit": "per unit",
+    "totalAmount": "Total Amount",
+    "receiveOrder": "Receive Order",
+    "status": {
+      "pending": "Pending",
+      "done": "Completed",
+      "cancelled": "Cancelled"
+    }
+  },
   "ViewModes": {
     "table": "Table View",
     "cards": "Cards View",

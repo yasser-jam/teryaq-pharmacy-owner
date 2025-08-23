@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 import {
   Dialog,
@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 export default function BasePageDialog({
   open = true,
@@ -18,7 +18,7 @@ export default function BasePageDialog({
   footer,
   children,
   classTitle,
-  headerChildren
+  headerChildren,
 }: {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -29,35 +29,39 @@ export default function BasePageDialog({
   children?: React.ReactNode;
   footer?: React.ReactNode;
   classTitle?: string;
-  headerChildren?: React.ReactNode
+  headerChildren?: React.ReactNode;
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className={cn('bg-white !min-w-none !max-w-none !px-0', className)}>
-        <div className='relative'>
+      <DialogContent
+        className={cn("bg-white !min-w-none !max-w-none !px-0", className)}
+      >
+        <div className="relative">
           {
             loading &&
               // Todo: add loader
-              ''
+              ""
             // <div className="animate-pulse absolute z-20 w-full h-full inset-0 bg-black/25 rounded-lg" />
           }
 
           {title && (
             <div className="flex items-center justify-between mb-6">
-              <DialogHeader className={cn(classTitle, 'text-slate-800 px-6')}>
-                <DialogTitle className={cn(classTitle, 'text-xl font-semibold')}>
+              <DialogHeader className={cn(classTitle, "text-slate-800 px-6")}>
+                <DialogTitle
+                  className={cn(classTitle, "text-xl font-semibold")}
+                >
                   {title}
                 </DialogTitle>
                 {subtitle && (
-                  <div className='text-slate-500 text-sm -mt-1'>{subtitle}</div>
+                  <div className="text-slate-500 text-sm -mt-1">{subtitle}</div>
                 )}
               </DialogHeader>
 
-              {headerChildren}
+              <div className="px-6">{headerChildren}</div>
             </div>
           )}
 
-          <div className='max-h-[450px] overflow-auto px-6'>{children}</div>
+          <div className="max-h-[450px] overflow-auto px-6">{children}</div>
 
           {footer && <DialogFooter>{footer}</DialogFooter>}
         </div>

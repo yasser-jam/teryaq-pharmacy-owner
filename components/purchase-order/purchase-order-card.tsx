@@ -4,12 +4,9 @@ import { PurchaseOrder } from "@/types";
 import { CalendarDays, Package, User, DollarSign } from "lucide-react";
 import ActionMenu from "../base/action-menu";
 import { Button } from "../ui/button";
+import { useTranslations } from "next-intl";
+import { getCookie } from "@/lib/utils";
 
-interface PurchaseItem {
-  name: string;
-  quantity: number;
-  unitPrice: number;
-}
 interface PurchaseOrderCardProps {
   order: PurchaseOrder;
   onReceive?: (orderId: number) => void;
@@ -27,6 +24,9 @@ export default function PurchaseOrderCard({
   isDeleting,
   hideActionMenu,
 }: PurchaseOrderCardProps) {
+  const t = useTranslations('PurchaseOrderCard');
+  const tStatus = useTranslations('PurchaseOrderCard.status');
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "PENDING":
@@ -45,7 +45,7 @@ export default function PurchaseOrderCard({
   ) => {
     const [year, month, day, hour, minute] = dateArray;
     return new Date(year, month - 1, day, hour, minute).toLocaleDateString(
-      "en-US",
+      "ar-EG",
       {
         year: "numeric",
         month: "short",
@@ -56,15 +56,26 @@ export default function PurchaseOrderCard({
     );
   };
 
+  const getStatusTranslation = (status: string) => {
+    const statusMap: Record<string, string> = {
+      'PENDING': tStatus('pending'),
+      'DONE': tStatus('done'),
+      'CANCELLED': tStatus('cancelled')
+    };
+    return statusMap[status] || status.toLowerCase();
+  };
+
+  const locale = getCookie('tp.locale') || 'en';
+
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-xs transition-shadow duration-200">
+    <Card dir={locale === 'ar' ? 'rtl' : 'ltr'} className="w-full max-w-2xl shadow-xs transition-shadow duration-200">
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <Package className="h-5 w-5 text-blue-600" />
               <h3 className="text-lg font-semibold text-gray-900">
-                Order #{order.id}
+                {t('orderNumber', { id: order.id })}
               </h3>
             </div>
             <div className="flex items-center gap-2 text-gray-600">
@@ -79,13 +90,15 @@ export default function PurchaseOrderCard({
                 order.status
               )} font-medium capitalize px-3 py-1`}
             >
-              {order.status.toLowerCase()}
+              {getStatusTranslation(order.status)}
             </Badge>
 
-            <ActionMenu
-              deleteAction
-              onDelete={() => onDelete(order.id)}
-            />
+            {!hideActionMenu && (
+              <ActionMenu
+                deleteAction
+                onDelete={() => onDelete(order.id)}
+              />
+            )}
           </div>
         </div>
       </CardHeader>
@@ -94,7 +107,7 @@ export default function PurchaseOrderCard({
         <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
           <CalendarDays className="h-4 w-4 text-gray-500" />
           <div>
-            <p className="text-sm font-medium text-gray-900">Created Date</p>
+            <p className="text-sm font-medium text-gray-900">{t('createdDate')}</p>
             <p className="text-sm text-gray-600">
               {formatDate(order.createdAt)}
             </p>
@@ -105,7 +118,7 @@ export default function PurchaseOrderCard({
         <div>
           <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
             <Package className="h-4 w-4" />
-            Items ({order.items.length})
+            {t('items', { count: order.items.length })}
           </h4>
           <div className="space-y-2">
             {order.items.map((item, index) => (
@@ -113,17 +126,17 @@ export default function PurchaseOrderCard({
                 key={index}
                 className="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
               >
-                <div className="flex-1">
+                <div className="flex-1 rtl:text-right">
                   <p className="font-medium text-gray-900">
                     {item.productName}
                   </p>
-                  <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                  <p className="text-sm text-gray-600">{t('quantity')}: {item.quantity}</p>
                 </div>
-                <div className="text-right">
+                <div className="text-left rtl:text-right">
                   <p className="font-semibold text-gray-900">
                     {order.currency} {item.price}
                   </p>
-                  <p className="text-sm text-gray-600">per unit</p>
+                  <p className="text-sm text-gray-600">{t('perUnit')}</p>
                 </div>
               </div>
             ))}
@@ -135,7 +148,7 @@ export default function PurchaseOrderCard({
           <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-200">
             <div className="flex items-center gap-2">
               <DollarSign className="h-5 w-5 text-green-600" />
-              <span className="font-semibold text-gray-900">Total Amount</span>
+              <span className="font-semibold text-gray-900">{t('totalAmount')}</span>
             </div>
             <span className="text-xl font-bold text-green-600">
               {order.currency} {order.total.toFixed(2)}
@@ -143,12 +156,15 @@ export default function PurchaseOrderCard({
           </div>
         </div>
 
-        <Button
-          className="bg-transparent border border-primary text-primary hover:bg-primary hover:text-white w-full"
-          onClick={() => onReceive?.(order.id)}
-        >
-          Receive Order
-        </Button>
+        {onReceive && (
+          <Button
+            className="bg-transparent border border-primary text-primary hover:bg-primary hover:text-white w-full"
+            onClick={() => onReceive(order.id)}
+            loading={isReceiving}
+          >
+            {t('receiveOrder')}
+          </Button>
+        )}
       </CardContent>
     </Card>
   );

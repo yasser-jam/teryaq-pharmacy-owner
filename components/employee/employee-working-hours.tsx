@@ -19,7 +19,7 @@ import { Employee } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
-import { validateTimeOverlaps } from "@/lib/working-hours-utile";
+import { validateTimeOverlaps } from "@/lib/working-hours-utils";
 
 type DayOfWeek =
   | "MONDAY"

@@ -14,7 +14,7 @@ import React from "react";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { data: stockItems, isFetching } = useQuery<StockItem[]>({
     queryKey: ["stock-items"],
-    queryFn: () => api("/stock/all-with-product-info"),
+    queryFn: () => api("/stock/products/Overall"),
   });
 
   return (
@@ -34,7 +34,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       ) : stockItems?.length ? (
         <div className="grid grid-cols-3 gap-8 mt-12">
           {stockItems?.map((el) => (
-            <Link key={el.id} href={`/stock/${el.id}`}>
+            <Link key={el.id} href={`/stock/${el.productId}-${el.productType}`}>
               <StockMiniCard stockItem={el} />
             </Link>
             // <StockCard key={el.id} stockItem={el} />

@@ -17,39 +17,46 @@ import {
   AlertTriangle,
   Clock,
 } from "lucide-react";
-import { StockItem } from "@/types";
+import { StockItem, StockItemDetails } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { id } from "date-fns/locale";
 import { use } from "react";
 import { api } from "@/lib/api";
 import BasePageDialog from "@/components/base/page-dialog";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function StockPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string, productType: string }>;
 }) {
   const { id } = use(params);
+  const router = useRouter()
+  const t = useTranslations();
 
-  const { data: stockItem } = useQuery<StockItem>({
+  const idNumber = id.split('-')[0];
+  const productType = id.split("-")[1];
+
+  const { data: stockItem } = useQuery<StockItemDetails>({
     queryKey: ["stock-item", id],
-    queryFn: () => api(`/stock/${id}/detail`),
+    queryFn: () => api(`/stock/product/${idNumber}/details?productType=${productType}`),
   });
 
   if (!stockItem) return null;
 
-  const getStatusBadge = () => {
-    if (stockItem.isExpired) {
-      return <Badge variant="destructive">Expired</Badge>;
-    }
-    if (stockItem.isExpiringSoon) {
-      return <Badge variant="blue-light">Expiring Soon</Badge>;
-    }
-    if (stockItem.quantity <= stockItem.minQuantity) {
-      return <Badge variant="blue-outline">Low Stock</Badge>;
-    }
-    return <Badge variant="green">In Stock</Badge>;
-  };
+  // const getStatusBadge = () => {
+  //   if (stockItem.stockItems[0].isExpired) {
+  //     return <Badge variant="destructive">Expired</Badge>;
+  //   }
+  //   if (stockItem.stockItems[0].isExpiringSoon) {
+  //     return <Badge variant="blue-light">Expiring Soon</Badge>;
+  //   }
+  //   if (stockItem.stockItems[0].quantity <= stockItem.minQuantity) {
+  //     return <Badge variant="blue-outline">Low Stock</Badge>;
+  //   }
+  //   return <Badge variant="green">In Stock</Badge>;
+  // };
 
   const getProductTypeBadge = () => {
     const variant =
@@ -59,13 +66,14 @@ export default function StockPage({
     return <Badge variant={variant}>{stockItem.productType}</Badge>;
   };
 
+
   return (
     <BasePageDialog
       open={true}
-      onOpenChange={() => {}}
+      onOpenChange={() => router.replace("/stock")}
       loading={false}
-      title="Stock Item"
-      subtitle="Stock Item"
+      title={t("StockItem.title")}
+      subtitle={t("StockItem.subtitle")}
       footer={null}
       className=""
       classTitle=""
@@ -76,25 +84,17 @@ export default function StockPage({
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Package className="h-5 w-5 text-blue-600" />
-            Product Information
+            {t("StockItem.productInfo")}
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-gray-600">Product ID:</span>
+              <span className="text-gray-600">{t("StockItem.productId")}</span>
               <span className="font-medium">#{stockItem.productId}</span>
             </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Batch Number:</span>
-              <span className="font-medium">{stockItem.batchNo}</span>
-            </div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               <span className="text-gray-600">Supplier:</span>
               <span className="font-medium">{stockItem.supplier}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Pharmacy ID:</span>
-              <span className="font-medium">#{stockItem.pharmacyId}</span>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -102,32 +102,39 @@ export default function StockPage({
         <div className="bg-green-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Building className="h-5 w-5 text-green-600" />
-            Inventory Details
+            {t("StockItem.inventoryDetails")}
           </h3>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-gray-600">Current Stock:</span>
-              <span className="font-bold text-lg">{stockItem.quantity}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Bonus Quantity:</span>
-              <span className="font-medium text-green-600">
-                +{stockItem.bonusQty}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Total Available:</span>
-              <span className="font-bold">{stockItem.total}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-600">Minimum Stock:</span>
-              <span className="font-medium">{stockItem.minQuantity}</span>
+              <span className="text-gray-600">{t("StockItem.currentStock")}</span>
+              <span className="font-bold text-lg">{stockItem.totalQuantity}</span>
             </div>
           </div>
         </div>
 
-        {/* Pricing Information */}
-        <div className="bg-blue-50 rounded-lg p-6">
+        {stockItem.stockItems.map((item) => (
+          <div key={item.id} className="bg-blue-50 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <Building className="h-5 w-5 text-blue-600" />
+              {t("StockItem.batchDetails")}
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between">
+                <span className="text-gray-600">{t("StockItem.batchId")}</span>
+                <span className="font-medium">#{item.id}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">{t("StockItem.expiryDate")}</span>
+                <span className="font-medium">{item.expiryDate}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-600">{t("StockItem.currentStock")}</span>
+                <span className="font-bold text-lg">{item.quantity}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+        {/* <div className="bg-blue-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <DollarSign className="h-5 w-5 text-blue-600" />
             Pricing Information
@@ -161,10 +168,10 @@ export default function StockPage({
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Expiry & Status */}
-        <div className="bg-amber-50 rounded-lg p-6">
+        {/* <div className="bg-amber-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-amber-600" />
             Expiry & Status
@@ -193,10 +200,10 @@ export default function StockPage({
               <div>{getStatusBadge()}</div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Purchase Information */}
-        <div className="bg-purple-50 rounded-lg p-6">
+        {/* <div className="bg-purple-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <FileText className="h-5 w-5 text-purple-600" />
             Purchase Information
@@ -215,10 +222,10 @@ export default function StockPage({
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Activity Information */}
-        <div className="bg-gray-50 rounded-lg p-6">
+        {/* <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Clock className="h-5 w-5 text-gray-600" />
             Activity Information
@@ -238,7 +245,7 @@ export default function StockPage({
               </span>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </BasePageDialog>
   );

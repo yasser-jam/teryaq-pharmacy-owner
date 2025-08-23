@@ -10,7 +10,7 @@ interface StockCardProps {
 
 export function StockMiniCard({ stockItem }: StockCardProps) {
   const getStockStatusColor = () => {
-    if (stockItem.minQuantity && stockItem.quantity <= stockItem.minQuantity) {
+    if (stockItem.minStockLevel && stockItem.totalQuantity <= stockItem.minStockLevel) {
       return "destructive";
     }
     return "blue";
@@ -59,7 +59,7 @@ export function StockMiniCard({ stockItem }: StockCardProps) {
                 variant={getStockStatusColor()}
                 className="text-xs px-2 py-1"
               >
-                Qty: {stockItem.quantity}
+                Qty: {stockItem.totalQuantity}
               </Badge>
             </div>
             <div className="text-right">
@@ -72,7 +72,7 @@ export function StockMiniCard({ stockItem }: StockCardProps) {
           {/* Added Date */}
           <div className="flex items-center gap-1 text-xs text-gray-500">
             <Calendar className="h-3 w-3" />
-            <span>{new Date(stockItem.dateAdded).toLocaleDateString()}</span>
+            <span>{new Date(stockItem.earliestExpiryDate).toLocaleDateString()}</span>
           </div>
         </div>
       </CardContent>

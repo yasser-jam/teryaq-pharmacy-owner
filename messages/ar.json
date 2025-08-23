@@ -119,5 +119,16 @@
       "table": "عرض الجدول",
       "cards": "عرض البطاقات",
       "inlineCards": "عرض القائمة"
+    },
+    "StockItem": {
+      "title": "عنصر مخزون",
+      "subtitle": "عنصر مخزون",
+      "productInfo": "معلومات المنتج",
+      "productId": "معرف المنتج:",
+      "inventoryDetails": "تفاصيل المخزون",
+      "currentStock": "المخزون الحالي:",
+      "batchDetails": "تفاصيل الدفعة",
+      "batchId": "معرف الدفعة:",
+      "expiryDate": "تاريخ الانتهاء:"
     }
   }

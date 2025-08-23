@@ -119,5 +119,16 @@
     "table": "Table View",
     "cards": "Cards View",
     "inlineCards": "List View"
+  },
+  "StockItem": {
+    "title": "Stock Item",
+    "subtitle": "Stock Item",
+    "productInfo": "Product Information",
+    "productId": "Product ID:",
+    "inventoryDetails": "Inventory Details",
+    "currentStock": "Current Stock:",
+    "batchDetails": "Batch Details",
+    "batchId": "Batch ID:",
+    "expiryDate": "Expiry Date:"
   }
 }

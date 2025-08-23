@@ -1,7 +1,7 @@
 export interface Pagination {
-  page: number
-  limit: number
-  totalCount: number
+  page: number;
+  limit: number;
+  totalCount: number;
 }
 
 export interface Medicine {
@@ -19,12 +19,12 @@ export interface Medicine {
   manufacturerId?: number;
   categories: string[];
   categoryIds?: number[];
-  type?: 'PHARMACY' | 'MASTER'
-  manufacturer?: string
-  form?: string
+  type?: "PHARMACY" | "MASTER";
+  manufacturer?: string;
+  form?: string;
   translations?: MedicineTranslation[];
-  productTypeName: 'MASTER' | 'PHARMACY' | 'مركزي' | 'صيدلية';
-  refSellingPrice?: number
+  productTypeName: "MASTER" | "PHARMACY" | "مركزي" | "صيدلية";
+  refSellingPrice?: number;
 }
 
 export interface MedicineTranslation {
@@ -34,8 +34,8 @@ export interface MedicineTranslation {
 }
 
 export interface Manufacturer {
-  id: number
-  name: string
+  id: number;
+  name: string;
 }
 
 export interface Type {
@@ -59,8 +59,7 @@ export interface MedicineRecord {
   translations: MedicineTranslation[];
 }
 
-
-export type Currency = "SYP" | "USD"
+export type Currency = "SYP" | "USD";
 
 export interface SaleInvoice {
   id?: number;
@@ -68,7 +67,7 @@ export interface SaleInvoice {
   customerName?: string;
   invoiceDate?: string;
   totalAmount: number;
-  paymentType: 'CASH' | 'CREDIT';
+  paymentType: "CASH" | "CREDIT";
   paymentMethod: string;
   currency: Currency;
   discount?: number;
@@ -79,24 +78,31 @@ export interface SaleInvoice {
   items: SaleInvoiceItem[];
 }
 
-type DaysOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+type DaysOfWeek =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
 export interface WorkingHour {
   daysOfWeek: DaysOfWeek[];
   shifts: {
     startTime: {
-      hour: string
-      minute: string
-      second: string
-      nano: string
-    },
+      hour: string;
+      minute: string;
+      second: string;
+      nano: string;
+    };
     endTime: {
-      hour: string
-      minute: string
-      second: string
-      nano: string
-    },
-    description: string
-  }[]
+      hour: string;
+      minute: string;
+      second: string;
+      nano: string;
+    };
+    description: string;
+  }[];
 }
 
 export interface Employee {
@@ -104,7 +110,7 @@ export interface Employee {
   firstName: string;
   lastName: string;
   roleId: number;
-  status: 'ACTIVE' | 'INACTIVE';
+  status: "ACTIVE" | "INACTIVE";
   phoneNumber: string;
   email: string;
   role?: string;
@@ -113,93 +119,123 @@ export interface Employee {
 }
 
 export interface Supplier {
-  id: number
-  name: string
-  phone: string
-  preferredCurrency: string
-  address: string
+  id: number;
+  name: string;
+  phone: string;
+  preferredCurrency: string;
+  address: string;
 }
 
 export interface Customer {
-  id: number
-  name: string
-  phoneNumber?: string
-  address?: string
-  notes?: string
+  id: number;
+  name: string;
+  phoneNumber?: string;
+  address?: string;
+  notes?: string;
 }
 
-export type ProductType = 'MASTER' | 'PHARMACY' | 'مركزي' | 'صيدلية'
+export type ProductType = "MASTER" | "PHARMACY" | "مركزي" | "صيدلية";
 export interface PurchaseItem {
-  id?: number
-  productId: number
-  productName: string
-  quantity: number
-  price: number
-  barcode: string
-  productType: ProductType
+  id?: number;
+  productId: number;
+  productName: string;
+  quantity: number;
+  price: number;
+  barcode: string;
+  productType: ProductType;
 }
 
 export interface PurchaseOrder {
-  id: number
-  supplierId: number
-  supplierName: string
-  currency: Currency
-  total: number
-  status: 'PENDING' | 'RECEIVED' | 'CANCELLED' | 'DONE'
-  createdAt: [number, number, number, number, number, number, number]
-  createdBy: number
-  items: PurchaseItem[]
+  id: number;
+  supplierId: number;
+  supplierName: string;
+  currency: Currency;
+  total: number;
+  status: "PENDING" | "RECEIVED" | "CANCELLED" | "DONE";
+  createdAt: [number, number, number, number, number, number, number];
+  createdBy: number;
+  items: PurchaseItem[];
 }
 
 export interface InvoiceItem {
-  id?: number
-  productId: number
-  productName: string
-  receivedQty: number
-  bonusQty: number
-  invoicePrice: number
-  batchNo: string
-  expiryDate: string
-  productType: ProductType
-  sellingPrice: number
-  minStockLevel: number
+  id?: number;
+  productId: number;
+  productName: string;
+  receivedQty: number;
+  bonusQty: number;
+  invoicePrice: number;
+  batchNo: string;
+  expiryDate: string;
+  productType: ProductType;
+  sellingPrice: number;
+  minStockLevel: number;
 }
 
 export interface PurchaseInvoice {
-  id: number
-  purchaseOrderId: number
-  invoiceNumber: string
-  invoiceDate: string
-  total: number
-  status: 'PENDING' | 'RECEIVED' | 'CANCELLED'
-  createdAt: [number, number, number, number, number, number, number]
-  createdBy: number
-  items: InvoiceItem[]
+  id: number;
+  purchaseOrderId: number;
+  invoiceNumber: string;
+  invoiceDate: string;
+  total: number;
+  status: "PENDING" | "RECEIVED" | "CANCELLED";
+  createdAt: [number, number, number, number, number, number, number];
+  createdBy: number;
+  items: InvoiceItem[];
 }
 
 export interface StockItem {
-  id: number
-  productId: number
-  productName: string
-  productType: ProductType
-  quantity: number
-  bonusQty: number
-  total: number
-  supplier: string
-  categories: string[]
-  minQuantity: number
-  expiryDate: string
-  batchNo: string
-  actualPurchasePrice: number
-  sellingPrice: number
-  dateAdded: string
-  addedBy: number
-  purchaseInvoiceId: number
-  isExpired: boolean
-  isExpiringSoon: boolean
-  daysUntilExpiry: number
-  pharmacyId: number
-  purchaseInvoiceNumber: string
+  id: number;
+  productId: number;
+  productName: string;
+  productType: ProductType;
+  barcodes: string[];
+  totalQuantity: number;
+  totalBonusQuantity: number;
+  averagePurchasePrice: number;
+  totalValue: number;
+  categories: string[];
+  sellingPrice: number;
+  minStockLevel: number;
+  hasExpiredItems: boolean;
+  hasExpiringSoonItems: boolean;
+  earliestExpiryDate: string;
+  latestExpiryDate: string;
+  numberOfBatches: number;
+  pharmacyId: number;
+}
+
+export interface StockItemDetails {
+  totalQuantity: number;
+  productId: number;
+  stockItems: [
+    {
+      id: number;
+      productId: number;
+      productName: string;
+      productType: ProductType;
+      barcodes: string[];
+      quantity: number;
+      bonusQty: number;
+      total: number;
+      supplier: string;
+      categories: string[];
+      minStockLevel: number;
+      expiryDate: string;
+      batchNo: string;
+      actualPurchasePrice: number;
+      sellingPrice: number;
+      dateAdded: string;
+      addedBy: number;
+      purchaseInvoiceId: number;
+      isExpired: boolean;
+      isExpiringSoon: boolean;
+      daysUntilExpiry: number;
+      pharmacyId: number;
+      purchaseInvoiceNumber: string;
+    }
+  ];
+  minStockLevel: number;
+  productType: ProductType;
 }
 
 export interface SaleInvoiceItem {

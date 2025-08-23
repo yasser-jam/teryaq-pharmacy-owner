@@ -25,6 +25,7 @@ import { Phone, PhoneCall } from "lucide-react";
 import { BaseSwitch } from "@/components/base/base-switch";
 import SysRoleSelect from "@/components/sys/role-select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import EmployeeWorkingHours from "@/components/employee/employee-working-hours";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -95,7 +96,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     id == "create" ? create(data) : update(data);
   };
 
-  function GeneralTab({ form, isPending }: { form: any; isPending: boolean }) {
+  function GeneralTab({ form }: { form: any }) {
     return (
       <div className="grid grid-cols-2 gap-4">
         <FormField
@@ -205,25 +206,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </FormItem>
           )}
         />
-
-        <div className="col-span-2 flex items-center justify-end gap-2 mt-4">
-          <Button variant="ghost" onClick={goBack} type="button">
-            Cancel
-          </Button>
-          <Button loading={isPending} type="submit">
-            Save
-          </Button>
-        </div>
       </div>
     );
   }
 
   function WorkingHoursTab() {
     return (
-      <div className="p-4 border rounded-md bg-muted/20">
-        <p className="text-muted-foreground">
-          Working hours management will be available soon.
-        </p>
+      <div className="">
+        <EmployeeWorkingHours employee={employee} />
       </div>
     );
   }
@@ -232,7 +222,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     <BasePageDialog
       title="Employee Details"
       subtitle="Fill Employee Data"
-      className="w-[800px]"
+      className="w-[1200px]"
       onOpenChange={goBack}
     >
       <Form {...form}>
@@ -248,16 +238,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </TabsList>
 
             <TabsContent value="general">
-              <GeneralTab
-                form={form}
-                isPending={createPending || updatePending}
-              />
+              <GeneralTab form={form} />
             </TabsContent>
 
             <TabsContent value="working-hours">
               <WorkingHoursTab />
             </TabsContent>
           </Tabs>
+          <div className="flex items-center justify-end gap-2 mt-6 pt-4 border-t">
+            <Button variant="ghost" onClick={goBack} type="button">
+              Cancel
+            </Button>
+            <Button loading={createPending || updatePending} type="submit">
+              Save
+            </Button>
+          </div>
         </form>
       </Form>
     </BasePageDialog>

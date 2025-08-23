@@ -210,10 +210,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     );
   }
 
+  const [workingHours, setWorkingHours] = useState(employee?.workingHours);
+
   function WorkingHoursTab() {
     return (
       <div className="">
-        <EmployeeWorkingHours employee={employee} />
+        <EmployeeWorkingHours employee={employee} workingHours={workingHours} onChange={(data) => setWorkingHours(data)} />
       </div>
     );
   }

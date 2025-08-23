@@ -19,6 +19,7 @@ import { Employee } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
+import { validateTimeOverlaps } from "@/lib/working-hours-utile";
 
 type DayOfWeek =
   | "MONDAY"
@@ -59,98 +60,75 @@ const DAYS_OF_WEEK: DayOfWeek[] = [
   "FRIDAY",
 ];
 
-const DAY_LABELS: Record<DayOfWeek, string> = {
-  SATURDAY: "Sat",
-  SUNDAY: "Sun",
-  MONDAY: "Mon",
-  TUESDAY: "Tue",
-  WEDNESDAY: "Wed",
-  THURSDAY: "Thu",
-  FRIDAY: "Fri",
-};
-
 interface EmployeeWorkingHoursProps {
   employee: Employee;
   onClose?: () => void;
-  onChange?: (workingHoursRequests: WorkingHoursRequest[]) => void;
+  workingHours?: WorkingHoursRequest[];
+  onChange: (workingHoursRequests: WorkingHoursRequest[]) => void;
 }
 
 export default function EmployeeWorkingHours({
   employee,
   onClose,
-  onChange,
-}: EmployeeWorkingHoursProps) {
-  const [workingHoursRequests, setWorkingHoursRequests] = useState<
-    WorkingHoursRequest[]
-  >([
+  workingHours: externalWorkingHours = [
     {
       daysOfWeek: [],
-      shifts: [{ startTime: "09:00", endTime: "17:00", description: "" }],
+      shifts: [
+        {
+          startTime: "09:00",
+          endTime: "17:00",
+          description: "Regular Shift",
+        },
+      ],
     },
-  ]);
-
-  const [validationErrors, setValidationErrors] = useState<ValidationError[]>(
-    []
+  ],
+  onChange,
+}: EmployeeWorkingHoursProps) {
+  const [workingHoursRequests, setWorkingHoursRequests] = useState<WorkingHoursRequest[]>(
+    externalWorkingHours
   );
-
+  const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  const validateTimeOverlaps = (
-    requests: WorkingHoursRequest[]
-  ): ValidationError[] => {
-    const errors: ValidationError[] = [];
+  // Sync with external workingHours prop
+  // useEffect(() => {
+  //   if (externalWorkingHours) {
+  //     setWorkingHoursRequests(externalWorkingHours);
+  //   }
+  // }, [externalWorkingHours]);
 
-    requests.forEach((request, requestIndex) => {
-      // Check for overlaps within each day
-      request.daysOfWeek.forEach((day) => {
-        const dayShifts = request.shifts.map((shift, shiftIndex) => ({
-          ...shift,
-          shiftIndex,
-        }));
+  // Update parent when workingHoursRequests changes
+  const updateWorkingHoursRequests = (newRequests: WorkingHoursRequest[]) => {
+    const hasEmptyDays = workingHoursRequests.some(
+      (request) => request.daysOfWeek.length === 0
+    );
 
-        // Sort shifts by start time for easier comparison
-        dayShifts.sort((a, b) => a.startTime.localeCompare(b.startTime));
+    if (hasEmptyDays) {
+      setValidationErrors([
+        ...validationErrors,
+        {
+          requestIndex: -1,
+          shiftIndex: -1,
+          message: "Please select at least one day for each schedule type",
+        },
+      ]);
+      return;
+    }
 
-        for (let i = 0; i < dayShifts.length - 1; i++) {
-          const currentShift = dayShifts[i];
-          const nextShift = dayShifts[i + 1];
+    const errors = validateTimeOverlaps(workingHoursRequests);
+    setValidationErrors(errors);
 
-          // Convert times to minutes for easier comparison
-          const currentEnd = timeToMinutes(currentShift.endTime);
-          const nextStart = timeToMinutes(nextShift.startTime);
-
-          if (currentEnd > nextStart) {
-            errors.push({
-              requestIndex,
-              shiftIndex: nextShift.shiftIndex,
-              message: `Overlaps with another shift on ${DAY_LABELS[day]}`,
-            });
-          }
-        }
-      });
-
-      // Check for invalid time ranges (end before start)
-      request.shifts.forEach((shift, shiftIndex) => {
-        const startMinutes = timeToMinutes(shift.startTime);
-        const endMinutes = timeToMinutes(shift.endTime);
-
-        if (endMinutes <= startMinutes) {
-          errors.push({
-            requestIndex,
-            shiftIndex,
-            message: "End time must be after start time",
-          });
-        }
-      });
-    });
-
-    return errors;
+    if (errors.length > 0) {
+      return;
+    }
+    setWorkingHoursRequests(newRequests);
+    onChange(newRequests);
   };
 
-  const timeToMinutes = (time: string): number => {
-    const [hours, minutes] = time.split(":").map(Number);
-    return hours * 60 + minutes;
-  };
+  useEffect(() => {
+    updateWorkingHoursRequests(workingHoursRequests)
+    // handleSubmit()
+  }, [workingHoursRequests])
 
   const getShiftErrors = (
     requestIndex: number,
@@ -164,10 +142,6 @@ export default function EmployeeWorkingHours({
           error.requestIndex === requestIndex && error.shiftIndex === shiftIndex
       )
       .map((error) => error.message);
-  };
-
-  const updateWorkingHoursRequests = (newRequests: WorkingHoursRequest[]) => {
-    setWorkingHoursRequests(newRequests);
   };
 
   const addWorkingHoursRequest = () => {
@@ -258,48 +232,23 @@ export default function EmployeeWorkingHours({
     }
   };
 
-  useEffect(() => {
-    onChange?.(workingHoursRequests);
-  }, [workingHoursRequests, onChange]);
-
-  const { mutate: updateWorkingHours, isPending } = useMutation({
-    mutationFn: (payload: WorkingHoursPayload) =>
-      api(`employee/${employee.id}/working-hours`, {
-        method: "PUT",
-        body: payload,
-      }),
-    onSuccess: () => {
-      successToast("Working hours updated successfully");
-      onClose?.();
-    },
-  });
+  // const { mutate: updateWorkingHours, isPending } = useMutation({
+  //   mutationFn: (payload: WorkingHoursPayload) =>
+  //     api(`employee/${employee.id}/working-hours`, {
+  //       method: "PUT",
+  //       body: payload,
+  //     }),
+  //   onSuccess: () => {
+  //     successToast("Working hours updated successfully");
+  //     onClose?.();
+  //   },
+  // });
 
   const handleSubmit = () => {
     setHasSubmitted(true);
 
     // Check if any schedule has no days selected
-    const hasEmptyDays = workingHoursRequests.some(
-      (request) => request.daysOfWeek.length === 0
-    );
-
-    if (hasEmptyDays) {
-      setValidationErrors([
-        ...validationErrors,
-        {
-          requestIndex: -1,
-          shiftIndex: -1,
-          message: "Please select at least one day for each schedule type",
-        },
-      ]);
-      return;
-    }
-
-    const errors = validateTimeOverlaps(workingHoursRequests);
-    setValidationErrors(errors);
-
-    if (errors.length > 0) {
-      return;
-    }
+    
 
     const payload: WorkingHoursPayload = {
       workingHoursRequests: workingHoursRequests.filter(
@@ -307,7 +256,7 @@ export default function EmployeeWorkingHours({
       ),
     };
 
-    updateWorkingHours(payload);
+    updateWorkingHoursRequests(payload.workingHoursRequests);
   };
 
   return (
@@ -368,7 +317,7 @@ export default function EmployeeWorkingHours({
                             !isDisabled && updateDaysOfWeek(requestIndex, day)
                           }
                         >
-                          {DAY_LABELS[day]}
+                          {day}
                         </Badge>
                       );
                     })}

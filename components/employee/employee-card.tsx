@@ -49,14 +49,14 @@ export default function EmployeeCard({
           </div>
         </CardContent>
       </Card>
-      {
+      {/* {
         workingOpen && (
           <EmployeeWorkingHours
             employee={employee}
             onClose={() => setWorkingOpen(false)}
           />
         )
-      }
+      } */}
     </>
   );
 }

@@ -29,7 +29,7 @@ export const EMPLOYEE_SCHEMA = z.object({
   phoneNumber: z.string().min(1, 'Phone number is required'),
   status: z.enum(['ACTIVE', 'INACTIVE']),
   dateOfHire: z.string().min(1, 'Date of hire is required'),
-  roleName: z.string().min(1, 'Role name is required'),
+  roleId: requiredString(),
   pharmacyId: z.number().optional(),
   workingHours: z.array(
     z.object({

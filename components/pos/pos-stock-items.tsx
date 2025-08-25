@@ -17,7 +17,7 @@ export default function POSStockItems({ selectStockItem, invoice }: POSStockItem
 
     const { data, isFetching } = useQuery<StockItem[]>({
         queryKey: ['pos-stock-items'],
-        queryFn: () => api('stock/all-with-product-info')
+        queryFn: () => api('stock/products/Overall')
     }) 
 
     const [searchTerm, setSearchTerm] = useState('')

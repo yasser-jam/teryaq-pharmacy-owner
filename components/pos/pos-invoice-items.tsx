@@ -6,12 +6,10 @@ export default function POSInvoiceItems({
   invoice,
   removeItem,
   updateItemQuantity,
-  getStockItemName,
 }: {
   invoice: SaleInvoice;
   removeItem: (index: number) => void;
   updateItemQuantity: (index: number, quantity: number) => void;
-  getStockItemName: (stockItemId: number) => string;
 }) {
   return (
     <div className="space-y-2">
@@ -28,7 +26,7 @@ export default function POSInvoiceItems({
             <div className="flex items-center gap-4">
               <div className="min-w-0 flex-1">
                 <p className="font-medium truncate">
-                  {getStockItemName(item.stockItemId)}
+                  #Item Id: {item.stockItemId}
                 </p>
                 <p className="text-sm text-gray-600">ID: {item.stockItemId}</p>
               </div>

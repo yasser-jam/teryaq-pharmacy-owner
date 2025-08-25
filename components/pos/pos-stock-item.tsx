@@ -25,13 +25,19 @@ export default function POSStockItem({
           <div>
             <h4 className="font-medium">{item.productName}</h4>
             <p className="text-sm text-gray-600">
-              ID: {item.id} • Stock: {item.quantity}
+              ID: {item.id} • Stock: {item.totalQuantity}
+            </p>
+            <p className="text-xs text-gray-500">
+              Latest expiry: {item.latestExpiryDate || "—"}
             </p>
           </div>
         </div>
         <div className="text-right">
           <p className="font-semibold">
-            {item.sellingPrice?.toFixed(2) || "Unknown"} {currency}
+            {typeof item.sellingPrice === "number"
+              ? item.sellingPrice.toFixed(2)
+              : "Unknown"}{" "}
+            {currency}
           </p>
           <Badge
             variant={item.productType === "MASTER" ? "default" : "secondary"}

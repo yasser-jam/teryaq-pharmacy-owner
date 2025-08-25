@@ -66,12 +66,13 @@ export interface SaleInvoice {
   customerId?: number;
   customerName?: string;
   invoiceDate?: string;
-  totalAmount: number;
+  totalAmount?: number;
   paymentType: "CASH" | "CREDIT";
   paymentMethod: string;
   currency: Currency;
   discount?: number;
-  discountType?: string;
+  invoiceDiscountType?: string;
+  invoiceDiscountValue?: number;
   paidAmount: number;
   remainingAmount?: number;
   status?: string;

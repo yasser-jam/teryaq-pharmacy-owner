@@ -42,7 +42,8 @@ export const api = async function (
       url: optimizeUrl(url),
       method: options.method || 'GET',
       headers: {
-        Authorization: token ? `Bearer ${token}` : undefined
+        Authorization: token ? `Bearer ${token}` : undefined,
+        'ngrok-skip-browser-warning': 'true'
       },
       params: {
         ...options.params,

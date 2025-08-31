@@ -74,3 +74,11 @@ export const timeToMinutes = (time: string): number => {
   const [hours, minutes] = time.split(":").map(Number);
   return hours * 60 + minutes;
 };
+
+export const getTime = (time: number[]) => {
+    return {
+      default: `${time[0]}-${time[1]}-${time[2]} ${time[3]}:${time[4]}`,
+      date: `${time[0]}-${time[1]}-${time[2]}`,
+      time: `${time[3]}:${time[4]}`
+    }
+}

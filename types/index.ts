@@ -244,3 +244,44 @@ export interface SaleInvoiceItem {
   quantity: number;
   unitPrice: number;
 }
+
+export interface Transaction {
+  id?: number;
+  moneyBoxId: number;
+  transactionType: string;
+  amount: number;
+  balanceBefore: number;
+  balanceAfter: number;
+  description: string;
+  referenceId: string;
+  referenceType: "SALE";
+  originalCurrency: Currency;
+  originalAmount: number;
+  convertedCurrency: Currency;
+  convertedAmount: number;
+  exchangeRate: number;
+  conversionTimestamp: number[];
+  conversionSource: string;
+  createdAt: number[];
+  createdBy: number;
+  createdByUserEmail: string;
+}
+
+export interface MoneyBox {
+  id: number;
+  pharmacyId: number;
+  currentBalance: number;
+  initialBalance: number;
+  lastReconciled: number[] | null;
+  reconciledBalance: number[] | null;
+  status: "OPEN" | "CLOSED";
+  currency: Currency;
+  baseCurrency: Currency;
+  totalBalanceInSYP: number | null;
+  totalBalanceInUSD: number | null;
+  totalBalanceInEUR: number | null;
+  recentTransactions: number | null;
+  totalTransactionCount: number | null;
+  createdAt: [number, number, number, number, number];
+  updatedAt: [number, number, number, number, number];
+}

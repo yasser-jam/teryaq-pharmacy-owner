@@ -13,8 +13,10 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import TransactionCard from "@/components/transaction/transaction-card";
-import { MoneyBox, Transaction } from "@/types";
+import { MoneyBox, Transaction, TransactionType } from "@/types";
 import MoneyBoxCard from "@/components/money-box/money-box-card";
+import TransactionFilter from "@/components/transaction/transaction-filter";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -28,14 +30,42 @@ export default function Dashboard() {
           currency: "SYP",
         },
       }),
+    onSuccess: () => {
+      refetchBox();
+      refetchTransactions();
+    },
   });
 
-  const { data: transactions, isFetching } = useQuery<Transaction[]>({
+  const [filters, setFilters] = useState({
+    startDate: null,
+    endDate: null,
+    transactionType: null,
+  });
+
+
+  useEffect(() => {
+    refetchTransactions();
+  }, [filters]);
+
+  const {
+    data: transactions,
+    isFetching,
+    refetch: refetchTransactions,
+  } = useQuery<Transaction[]>({
     queryKey: ["transactions"],
-    queryFn: () => api("moneybox/transactions"),
+    queryFn: () =>
+      api("moneybox/transactions", {
+        params: {
+          ...filters,
+        },
+      }),
   });
 
-  const { data: box, isFetching: totalFetching } = useQuery<MoneyBox>({
+  const {
+    data: box,
+    isFetching: totalFetching,
+    refetch: refetchBox,
+  } = useQuery<MoneyBox>({
     queryKey: ["money-box"],
     queryFn: () => api("moneybox"),
   });
@@ -53,7 +83,12 @@ export default function Dashboard() {
             <CardTitle className="text-base">Today's Box</CardTitle>
             <CardDescription>Open the cash box for today</CardDescription>
             <CardAction>
-              <Button size="sm" loading={openLoading} disabled={box?.status != 'CLOSED'} onClick={() => openBox()}>
+              <Button
+                size="sm"
+                loading={openLoading}
+                disabled={box?.status == "OPEN"}
+                onClick={() => openBox()}
+              >
                 Open Today's Box
               </Button>
             </CardAction>
@@ -84,9 +119,13 @@ export default function Dashboard() {
 
       {/* Transactions Section */}
       <Card>
-        <CardHeader className="border-b">
-          <CardTitle>Recent Transactions</CardTitle>
-          <CardDescription>Demo data for now</CardDescription>
+        <CardHeader className="flex justify-between items-center border-b">
+          <CardTitle>Last Transactions</CardTitle>
+          {/* <TransactionFilter
+            onApply={(data: any) => {
+              setFilters(data);
+            }}
+          /> */}
         </CardHeader>
         <CardContent className="p-0">
           {transactions?.length && (
@@ -97,11 +136,6 @@ export default function Dashboard() {
             </div>
           )}
         </CardContent>
-        <CardFooter className="border-t justify-end">
-          <Button variant="outline" size="sm">
-            View All
-          </Button>
-        </CardFooter>
       </Card>
     </div>
   );

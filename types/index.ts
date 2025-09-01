@@ -248,24 +248,47 @@ export interface SaleInvoiceItem {
 export interface Transaction {
   id?: number;
   moneyBoxId: number;
-  transactionType: string;
+  transactionType: TransactionType;
   amount: number;
   balanceBefore: number;
   balanceAfter: number;
   description: string;
   referenceId: string;
-  referenceType: "SALE";
+  referenceType: ReferenceType;
   originalCurrency: Currency;
   originalAmount: number;
   convertedCurrency: Currency;
   convertedAmount: number;
   exchangeRate: number;
   conversionTimestamp: number[];
-  conversionSource: string;
+  conversionSource: ConversionSource;
   createdAt: number[];
   createdBy: number;
   createdByUserEmail: string;
 }
+
+export type TransactionType =
+  | "OPENING_BALANCE"
+  | "CASH_DEPOSIT"
+  | "CASH_WITHDRAWAL"
+  | "SALE_PAYMENT"
+  | "PURCHASE_PAYMENT"
+  | "EXPENSE"
+  | "INCOME"
+  | "TRANSFER_IN"
+  | "TRANSFER_OUT"
+  | "ADJUSTMENT"
+  | "CLOSING_BALANCE";
+
+export type ReferenceType =
+  | "PURCHASE"
+  | "PURCHASE_REFUND"
+  | "SALE"
+  | "SALE_REFUND"
+  | "EXPENSE"
+  | "INCOME";
+
+export type ConversionSource = "EXCHANGE_RATE_SERVICE" | "MANUAL";
 
 export interface MoneyBox {
   id: number;

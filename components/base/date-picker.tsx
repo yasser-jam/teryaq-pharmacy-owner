@@ -33,6 +33,10 @@ export function BaseDatePicker({
       onChange(value ? new Date(value).toISOString() : new Date().toISOString())
   })
 
+  const handleSelect = (e: any) => {
+    onChange(e?.toISOString().split('T')[0])
+  }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -51,7 +55,7 @@ export function BaseDatePicker({
         <Calendar
           mode="single"
           selected={new Date(String(value))}
-          onSelect={(e) => onChange(e?.toISOString().split('T')[0])}
+          onSelect={(e) => handleSelect(e)}
           initialFocus
           defaultMonth={value ? new Date(value) : undefined}
         />

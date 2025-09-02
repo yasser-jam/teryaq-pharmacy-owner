@@ -51,7 +51,7 @@ export default function Dashboard() {
     data: transactions,
     isFetching,
     refetch: refetchTransactions,
-  } = useQuery<Transaction[]>({
+  } = useQuery<{ content: Transaction[] }>({
     queryKey: ["transactions"],
     queryFn: () =>
       api("moneybox/transactions", {
@@ -128,9 +128,9 @@ export default function Dashboard() {
           /> */}
         </CardHeader>
         <CardContent className="p-0">
-          {transactions?.length && (
+          {transactions?.content?.length && (
             <div className="divide-y">
-              {transactions.map((el) => (
+              {transactions?.content?.map((el) => (
                 <TransactionCard item={el} key={el.id} />
               ))}
             </div>

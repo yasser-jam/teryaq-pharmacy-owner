@@ -133,6 +133,7 @@ export interface Customer {
   phoneNumber?: string;
   address?: string;
   notes?: string;
+  debts?: Debt[];
 }
 
 export type ProductType = "MASTER" | "PHARMACY" | "مركزي" | "صيدلية";
@@ -307,4 +308,20 @@ export interface MoneyBox {
   totalTransactionCount: number | null;
   createdAt: [number, number, number, number, number];
   updatedAt: [number, number, number, number, number];
+}
+
+export interface Debt {
+  id?: number;
+  customerId?: number;
+  customerName?: string;
+  pharmacyId?: string;
+  amount: number;
+  paidAmount?: number | null;
+  remainingAmount?: number | null;
+  dueDate: string | null;
+  notes?: string;
+  status: string;
+  createdAt: [number, number, number, number, number];
+  paidAt?: any;
+  paymentMethod: "CASH" | "BANK_ACCOUNT";
 }

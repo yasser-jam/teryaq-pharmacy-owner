@@ -5,8 +5,11 @@ import BaseSkeleton from "@/components/base/base-skeleton";
 import CustomerCard from "@/components/customer/customer-card";
 import DebtFilters from "@/components/debt/debt-filters";
 import { Button } from "@/components/ui/button";
+import { Toggle } from "@/components/ui/toggle";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
+import { cn } from "@/lib/utils";
 import { Customer } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
@@ -16,10 +19,10 @@ import React, { useEffect, useState } from "react";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
-  const account = queryClient.getQueryData(["me"])
-  
+  const account = queryClient.getQueryData(["me"]);
+
   const {
     data: customers,
     isFetching,
@@ -29,40 +32,54 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     queryFn: () => api("/customers"),
   });
 
-  const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([])
-
-  useEffect(() => {
-
-    setFilteredCustomers(customers || [])
-
-  }, [customers])
+  const { mutate: filterWithDebts } = useMutation({
+    mutationFn: () => api("/customers/with-debts"),
+    onSuccess: (data: Customer[]) => {
+      setFilteredCustomers(data);
+    },
+  });
 
   
-  const { mutate: getActiveDebts, isPending: activeLoading } = useMutation({
-    mutationFn: () => api(`/customers/pharmacy/1/debt-range/with-active-debts`, {
-      params: {
-        pharmacyId: 1,
-        minDebt: 1,
-        maxDebt: 1
-      }
-    }),
+  const { mutate: filterWithOverDebts } = useMutation({
+    mutationFn: () => api("/customers/with-overdue-debts"),
     onSuccess: (data: Customer[]) => {
-      setFilteredCustomers(data)
-    }
-  })
+      setFilteredCustomers(data);
+    },
+  });
 
-  const { mutate: getDebts, isPending: debtsLoading } = useMutation({
-    mutationFn: () => api(`/customers/pharmacy/1/debt-range`, {
-      params: {
-        pharmacyId: 1,
-        minDebt: 1,
-        maxDebt: 1
-      }
-    }),
-    onSuccess: (data: Customer[]) => {
-      setFilteredCustomers(data)
-    }
-  })
+  const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
+
+  useEffect(() => {
+    setFilteredCustomers(customers || []);
+  }, [customers]);
+
+  // const { mutate: getActiveDebts, isPending: activeLoading } = useMutation({
+  //   mutationFn: () =>
+  //     api(`/customers/pharmacy/1/debt-range/with-active-debts`, {
+  //       params: {
+  //         pharmacyId: 1,
+  //         minDebt: 1,
+  //         maxDebt: 1,
+  //       },
+  //     }),
+  //   onSuccess: (data: Customer[]) => {
+  //     setFilteredCustomers(data);
+  //   },
+  // });
+
+  // const { mutate: getDebts, isPending: debtsLoading } = useMutation({
+  //   mutationFn: () =>
+  //     api(`/customers/pharmacy/1/debt-range`, {
+  //       params: {
+  //         pharmacyId: 1,
+  //         minDebt: 1,
+  //         maxDebt: 1,
+  //       },
+  //     }),
+  //   onSuccess: (data: Customer[]) => {
+  //     setFilteredCustomers(data);
+  //   },
+  // });
 
   const { mutate: removeCustomer } = useMutation({
     mutationFn: (id: number) =>
@@ -76,7 +93,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     },
   });
 
-  const isLoading = activeLoading || debtsLoading
+  const filterCustomers = async (value: string) => {
+    if (value == 'all') {
+      setFilteredCustomers(customers || [])
+    }
+
+    else if (value == 'debts') {
+      filterWithDebts()
+    }
+
+    else  {
+      filterWithOverDebts()
+    }
+  }
+
+  // const isLoading = activeLoading || debtsLoading;
 
   return (
     <>
@@ -91,12 +122,23 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </BaseHeader>
 
       <div className="my-4">
-        {/* <DebtFilters onFilterChange={(minDebt, maxDebt, active) => {
-          console.log(minDebt, maxDebt, active);
-          if (active) getActiveDebts()
-            
+        <ToggleGroup type="single" defaultValue="all" variant={'outline'} onValueChange={filterCustomers}>
+          <ToggleGroupItem value="debts" className="min-w-md" aria-label="With Debts">
+            With Debts
+          </ToggleGroupItem>
+          
+          <ToggleGroupItem value="over" className="min-w-md" aria-label="Overdo">
+            With Overdue
+          </ToggleGroupItem>
 
-        }} /> */}
+          <ToggleGroupItem
+            value="all"
+            className="min-w-md"
+            aria-label="All"
+          >
+            All
+          </ToggleGroupItem>
+        </ToggleGroup>
       </div>
 
       {isFetching ? (

@@ -132,6 +132,7 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
             variant="outline"
             className="w-full mt-4 bg-red-100 text-red-700 border-red-300 hover:bg-red-200"
             onClick={() => setIsRefundDialogOpen(true)}
+            disabled={invoice.refundStatus === "FULLY_REFUNDED"}
           >
             Refund
           </Button>

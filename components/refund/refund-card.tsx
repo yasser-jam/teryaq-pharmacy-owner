@@ -55,7 +55,7 @@ export function RefundCard({ refund }: RefundCardProps) {
         </h3>
         {refund.refundedItems && refund.refundedItems.length > 0 ? (
           <Accordion type="single" collapsible className="w-full">
-            {refund.refundedItems.map((item, index) => (
+            {refund.refundedItems?.map((item, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border rounded-md mb-1 bg-white shadow-sm last:mb-0">
                 <AccordionTrigger className="flex justify-between items-center py-1.5 px-3 hover:bg-gray-50 rounded-t-md text-gray-700 font-medium">
                   <span className="text-sm">{item.productName}</span>

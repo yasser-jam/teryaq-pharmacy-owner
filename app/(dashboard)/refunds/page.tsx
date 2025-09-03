@@ -34,7 +34,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
       ) : data?.length ? (
         <div className="mt-4 grid gap-4 max-h-[500px] overflow-auto">
           {data?.map((el) => (
-            <RefundCard refund={el} />
+            <RefundCard key={el.refundId} refund={el} />
           ))}
         </div>
       ) : (

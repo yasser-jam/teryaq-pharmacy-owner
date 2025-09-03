@@ -53,34 +53,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setFilteredCustomers(customers || []);
   }, [customers]);
 
-  // const { mutate: getActiveDebts, isPending: activeLoading } = useMutation({
-  //   mutationFn: () =>
-  //     api(`/customers/pharmacy/1/debt-range/with-active-debts`, {
-  //       params: {
-  //         pharmacyId: 1,
-  //         minDebt: 1,
-  //         maxDebt: 1,
-  //       },
-  //     }),
-  //   onSuccess: (data: Customer[]) => {
-  //     setFilteredCustomers(data);
-  //   },
-  // });
-
-  // const { mutate: getDebts, isPending: debtsLoading } = useMutation({
-  //   mutationFn: () =>
-  //     api(`/customers/pharmacy/1/debt-range`, {
-  //       params: {
-  //         pharmacyId: 1,
-  //         minDebt: 1,
-  //         maxDebt: 1,
-  //       },
-  //     }),
-  //   onSuccess: (data: Customer[]) => {
-  //     setFilteredCustomers(data);
-  //   },
-  // });
-
   const { mutate: removeCustomer } = useMutation({
     mutationFn: (id: number) =>
       api(`/customers/${id}`, {
@@ -122,18 +94,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </BaseHeader>
 
       <div className="my-4">
-        <ToggleGroup type="single" defaultValue="all" variant={'outline'} onValueChange={filterCustomers}>
-          <ToggleGroupItem value="debts" className="min-w-md" aria-label="With Debts">
+        <ToggleGroup type="single" defaultValue="all" className="mx-auto" variant={'outline'} onValueChange={filterCustomers}>
+          <ToggleGroupItem value="debts" className={cn("w-[100px] checked:bg-primary")} aria-label="With Debts">
             With Debts
           </ToggleGroupItem>
-          
-          <ToggleGroupItem value="over" className="min-w-md" aria-label="Overdo">
+{/*           
+          <ToggleGroupItem value="over" className="w-[100px] checked:bg-primary" aria-label="Overdo">
             With Overdue
-          </ToggleGroupItem>
+          </ToggleGroupItem> */}
 
           <ToggleGroupItem
             value="all"
-            className="min-w-md"
+            className="w-[100px]"
             aria-label="All"
           >
             All

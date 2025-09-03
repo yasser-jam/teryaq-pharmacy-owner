@@ -6,6 +6,7 @@ import { Calendar, CreditCard, DollarSign, ReceiptText, User2 } from "lucide-rea
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { RefundItemsDialog } from "../refund/refund-items-dialog";
+import { RefundStatusBadge } from "../refund/refund-status-badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
@@ -59,6 +60,9 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
             <Badge variant={invoice.status === "DONE" ? "default" : "secondary"} size={'lg'} className="ml-auto">
               {invoice.status}
             </Badge>
+          ) : null}
+          {invoice.refundStatus ? (
+            <RefundStatusBadge status={invoice.refundStatus} className="ml-2" />
           ) : null}
         </CardTitle>
       </CardHeader>

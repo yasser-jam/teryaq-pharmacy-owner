@@ -76,8 +76,11 @@ export interface SaleInvoice {
   paidAmount: number;
   remainingAmount?: number;
   status?: string;
+  refundStatus?: RefundStatus;
   items: SaleInvoiceItem[];
 }
+
+export type RefundStatus = "NO_REFUND" | "PARTIALLY_REFUNDED" | "FULLY_REFUNDED";
 
 type DaysOfWeek =
   | "monday"

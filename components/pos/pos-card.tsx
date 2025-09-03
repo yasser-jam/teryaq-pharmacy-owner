@@ -4,6 +4,11 @@ import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { Calendar, CreditCard, DollarSign, ReceiptText, User2 } from "lucide-react";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import { RefundItemsDialog } from "../refund/refund-items-dialog";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "@/lib/api";
+import { successToast } from "@/lib/toast";
 
 export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
   const subtotal = invoice.items?.reduce(
@@ -16,6 +21,34 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
   const paid = invoice.paidAmount ?? 0;
   const remaining = invoice.remainingAmount ?? Math.max(total - paid, 0);
 
+  const [isRefundDialogOpen, setIsRefundDialogOpen] = useState(false);
+
+  const queryClient = useQueryClient()
+
+  const { mutate: refund, isPending } = useMutation({
+    mutationFn: (data: any) => api(`sales/${invoice.id}/refund`, {
+      body: data,
+      method: 'POST'
+    }),
+    onSuccess: () => {
+      successToast('Refund Completed Successfully!')
+      setIsRefundDialogOpen(false);
+
+      queryClient.invalidateQueries({ queryKey: ['list-pos'] })
+    }
+  })
+
+  const refundItems = invoice.items.map((item) => ({
+    id: item.id,
+    productName: item.productName,
+    quantity: item.quantity,
+    refundedQuantity: item.refundedQuantity || 0,
+    stockItemId: item.stockItemId,
+    subTotal: item.subTotal,
+    unitPrice: item.unitPrice,
+    availableForRefund: item.availableForRefund || item.quantity - (item.refundedQuantity || 0),
+  }));
+  
   return (
     <Card className="border-2 border-dashed rounded-sm">
       <CardHeader>
@@ -91,11 +124,24 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
             <span className="text-green-700">Remaining</span>
             <span className="font-medium text-green-900">{remaining.toFixed(2)} {invoice.currency}</span>
           </div>
-          <Button variant="outline" className="w-full mt-4 bg-red-100 text-red-700 border-red-300 hover:bg-red-200">
+          <Button
+            variant="outline"
+            className="w-full mt-4 bg-red-100 text-red-700 border-red-300 hover:bg-red-200"
+            onClick={() => setIsRefundDialogOpen(true)}
+          >
             Refund
           </Button>
         </div>
       </CardContent>
+
+
+      <RefundItemsDialog
+        items={refundItems}
+        isOpen={isRefundDialogOpen}
+        loading={isPending}
+        onClose={() => setIsRefundDialogOpen(false)}
+        onSubmit={(data) => refund(data)}
+      />
     </Card>
   );
 }

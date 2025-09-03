@@ -241,9 +241,14 @@ export interface StockItemDetails {
 }
 
 export interface SaleInvoiceItem {
+  id: number;
+  productName: string;
   stockItemId: number;
   quantity: number;
   unitPrice: number;
+  subTotal: number;
+  refundedQuantity?: number;
+  availableForRefund?: number;
 }
 
 export interface Transaction {

@@ -14,6 +14,7 @@ import {
   LogOut,
   Package,
   Pill,
+  ReceiptText,
   ShoppingCart,
   User,
   Users,
@@ -69,6 +70,11 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
       title: t('sales'),
       url: "/pos",
       icon: ShoppingCart,
+    },
+    {
+      title: t('refunds'),
+      url: "/refunds",
+      icon: ReceiptText,
     },
     {
       title: t('medicines'),

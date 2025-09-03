@@ -333,3 +333,20 @@ export interface Debt {
   paidAt?: any;
   paymentMethod: "CASH" | "BANK_ACCOUNT";
 }
+
+export interface RefundItem {
+  productName: string
+  quantity: number
+  unitPrice: number
+  subtotal: number
+  itemRefundReason: string
+}
+export interface Refund {
+  refundId?: number
+  saleInvoiceId?:	number
+  totalRefundAmount?: number
+  refundReason?: string
+  refundDate?: string
+  refundedItems: RefundItem[]
+  stockRestored: boolean
+}

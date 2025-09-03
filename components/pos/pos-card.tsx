@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { Calendar, CreditCard, DollarSign, ReceiptText, User2 } from "lucide-react";
+import { Button } from "../ui/button";
 
 export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
   const subtotal = invoice.items?.reduce(
@@ -16,7 +17,7 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
   const remaining = invoice.remainingAmount ?? Math.max(total - paid, 0);
 
   return (
-    <Card>
+    <Card className="border-2 border-dashed rounded-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <ReceiptText className="h-5 w-5" />
@@ -28,63 +29,71 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
           ) : null}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3 text-sm">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="flex items-center gap-2 text-gray-700">
-            <User2 className="h-4 w-4" />
-            <span className="font-medium">Customer:</span>
-            <span className="truncate">{invoice.customerName || "—"}</span>
+      <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <div className="space-y-3">
+          <div className="flex flex-col gap-2 p-3 bg-blue-50 rounded-lg">
+            <div className="flex items-center gap-2 text-blue-800">
+              <User2 className="h-4 w-4" />
+              <span className="font-medium">Customer:</span>
+              <span className="truncate">{invoice.customerName || "—"}</span>
+            </div>
+            <div className="flex items-center gap-2 text-blue-800">
+              <Calendar className="h-4 w-4" />
+              <span className="font-medium">Date:</span>
+              <span>{invoice.invoiceDate ? new Date(invoice.invoiceDate).toLocaleString() : "—"}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2 text-gray-700 justify-end">
-            <Calendar className="h-4 w-4" />
-            <span className="font-medium">Date:</span>
-            <span>{invoice.invoiceDate ? new Date(invoice.invoiceDate).toLocaleString() : "—"}</span>
+
+          <div className="flex flex-col gap-2 p-3 bg-purple-50 rounded-lg">
+            <div className="flex items-center gap-2 text-purple-800">
+              <CreditCard className="h-4 w-4" />
+              <span className="font-medium">Payment:</span>
+              <span>{invoice.paymentType}</span>
+            </div>
+            <div className="flex items-center gap-2 text-purple-800">
+              <span className="font-medium">Method:</span>
+              <span className="ml-2">{invoice.paymentMethod || "—"}</span>
+            </div>
+            <div className="flex items-center gap-2 text-purple-800">
+              <DollarSign className="h-4 w-4" />
+              <Badge variant="outline" className="bg-purple-100 text-purple-800 border-purple-300">{invoice.currency}</Badge>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          <div className="flex items-center gap-2">
-            <CreditCard className="h-4 w-4" />
-            <span className="font-medium">Payment:</span>
-            <span>{invoice.paymentType}</span>
+        <div className="bg-green-50 rounded-lg p-4 space-y-2 relative overflow-hidden">
+          <div className="absolute -top-5 -right-5 h-20 w-20 bg-green-200 rounded-full flex items-end justify-start p-3 opacity-70">
+            <ReceiptText className="h-8 w-8 text-green-700" />
           </div>
-          <div className="truncate">
-            <span className="font-medium">Method:</span>
-            <span className="ml-2">{invoice.paymentMethod || "—"}</span>
-          </div>
-          <div className="flex items-center gap-2 justify-end">
-            <DollarSign className="h-4 w-4" />
-            <Badge variant="outline">{invoice.currency}</Badge>
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className="grid grid-cols-2 gap-3">
+          <h4 className="font-semibold text-green-800 mb-3">Bill Details</h4>
           <div className="flex justify-between">
-            <span className="text-gray-600">Items</span>
-            <span className="font-medium">{invoice.items?.length ?? 0}</span>
+            <span className="text-green-700">Items</span>
+            <span className="font-medium text-green-900">{invoice.items?.length ?? 0}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Subtotal</span>
-            <span className="font-medium">{subtotal.toFixed(2)} {invoice.currency}</span>
+            <span className="text-green-700">Subtotal</span>
+            <span className="font-medium text-green-900">{subtotal.toFixed(2)} {invoice.currency}</span>
           </div>
           <div className="flex justify-between text-red-600">
-            <span>Discount</span>
-            <span>-{discount.toFixed(2)} {invoice.currency}</span>
+            <span className="text-green-700">Discount</span>
+            <span className="font-medium text-red-700">-{discount.toFixed(2)} {invoice.currency}</span>
           </div>
-          <div className="flex justify-between font-semibold">
-            <span>Total</span>
-            <span>{total.toFixed(2)} {invoice.currency}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-gray-600">Paid</span>
-            <span className="font-medium">{paid.toFixed(2)} {invoice.currency}</span>
+          <Separator className="my-2 bg-green-200" />
+          <div className="flex justify-between font-semibold text-lg">
+            <span className="text-green-800">Total</span>
+            <span className="text-green-900">{total.toFixed(2)} {invoice.currency}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Remaining</span>
-            <span className="font-medium">{remaining.toFixed(2)} {invoice.currency}</span>
+            <span className="text-green-700">Paid</span>
+            <span className="font-medium text-green-900">{paid.toFixed(2)} {invoice.currency}</span>
           </div>
+          <div className="flex justify-between">
+            <span className="text-green-700">Remaining</span>
+            <span className="font-medium text-green-900">{remaining.toFixed(2)} {invoice.currency}</span>
+          </div>
+          <Button variant="outline" className="w-full mt-4 bg-red-100 text-red-700 border-red-300 hover:bg-red-200">
+            Refund
+          </Button>
         </div>
       </CardContent>
     </Card>

@@ -66,7 +66,7 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
       icon: Home,
     },
     {
-      title: t('pos'),
+      title: t('sales'),
       url: "/pos",
       icon: ShoppingCart,
     },

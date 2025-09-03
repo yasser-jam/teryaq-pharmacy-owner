@@ -23,12 +23,12 @@ export default function Page({ children }: { children: React.ReactNode }) {
   return (
     <>
       <BaseHeader
-        title="POS"
-        subtitle="POS page for adding the POS to handle sales operations"
+        title="Sales"
+        subtitle="Sales pageto handle sales operations"
       >
         <Button onClick={() => router.push("/pos/create")}>
           <Plus />
-          Add Sale
+          Make new Sale
         </Button>
       </BaseHeader>
 

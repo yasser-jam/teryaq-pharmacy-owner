@@ -17,6 +17,7 @@ import { MoneyBox, Transaction, TransactionType } from "@/types";
 import MoneyBoxCard from "@/components/money-box/money-box-card";
 import TransactionFilter from "@/components/transaction/transaction-filter";
 import { useEffect, useState } from "react";
+import MoneyBoxActionsCard from "@/components/money-box/money-box-actions-card";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -78,30 +79,10 @@ export default function Dashboard() {
         <MoneyBoxCard box={box} loading={totalFetching} />
 
         {/* Open Box for Today */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Today's Box</CardTitle>
-            <CardDescription>Open the cash box for today</CardDescription>
-            <CardAction>
-              <Button
-                size="sm"
-                loading={openLoading}
-                disabled={box?.status == "OPEN"}
-                onClick={() => openBox()}
-              >
-                Open Today's Box
-              </Button>
-            </CardAction>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground text-sm">
-              You can open and start tracking today&apos;s transactions.
-            </p>
-          </CardContent>
-        </Card>
+        <MoneyBoxActionsCard box={box} />
 
         {/* Quick Make a Sale */}
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle className="text-base">Make a Sale</CardTitle>
             <CardDescription>Start a new POS order</CardDescription>
@@ -114,7 +95,7 @@ export default function Dashboard() {
               Make a Sale
             </Button>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Transactions Section */}

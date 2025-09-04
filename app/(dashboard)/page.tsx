@@ -18,6 +18,7 @@ import MoneyBoxCard from "@/components/money-box/money-box-card";
 import TransactionFilter from "@/components/transaction/transaction-filter";
 import { useEffect, useState } from "react";
 import MoneyBoxActionsCard from "@/components/money-box/money-box-actions-card";
+import MoneyBoxCurrency from "@/components/money-box/money-box-curreny";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -81,7 +82,8 @@ export default function Dashboard() {
         {/* Open Box for Today */}
         <MoneyBoxActionsCard box={box} />
 
-        {/* Quick Make a Sale */}
+        {/* <MoneyBoxCurrency currentCurrency="syp" exchangeRate={10000} value={100} /> */}
+        
         {/* <Card>
           <CardHeader>
             <CardTitle className="text-base">Make a Sale</CardTitle>

@@ -1,6 +1,6 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+'use client';
+import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 import {
   Card,
   CardAction,
@@ -9,27 +9,29 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { api } from "@/lib/api";
-import TransactionCard from "@/components/transaction/transaction-card";
-import { MoneyBox, Transaction, TransactionType } from "@/types";
-import MoneyBoxCard from "@/components/money-box/money-box-card";
-import TransactionFilter from "@/components/transaction/transaction-filter";
-import { useEffect, useState } from "react";
-import MoneyBoxActionsCard from "@/components/money-box/money-box-actions-card";
-import MoneyBoxCurrency from "@/components/money-box/money-box-curreny";
+} from '@/components/ui/card';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { api } from '@/lib/api';
+import TransactionCard from '@/components/transaction/transaction-card';
+import { MoneyBox, Pagination, Transaction, TransactionType } from '@/types';
+import MoneyBoxCard from '@/components/money-box/money-box-card';
+import TransactionFilter from '@/components/transaction/transaction-filter';
+import { useEffect, useState } from 'react';
+import MoneyBoxActionsCard from '@/components/money-box/money-box-actions-card';
+import MoneyBoxCurrency from '@/components/money-box/money-box-curreny';
+import { initPagination } from '@/lib/init';
+import BasePagination from '@/components/base/pagination';
 
 export default function Dashboard() {
   const router = useRouter();
 
   const { mutate: openBox, isPending: openLoading } = useMutation({
     mutationFn: () =>
-      api("/moneybox", {
-        method: "POST",
+      api('/moneybox', {
+        method: 'POST',
         body: {
           initialBalance: 0,
-          currency: "SYP",
+          currency: 'SYP',
         },
       }),
     onSuccess: () => {
@@ -44,38 +46,56 @@ export default function Dashboard() {
     transactionType: null,
   });
 
-
   useEffect(() => {
     refetchTransactions();
   }, [filters]);
+
+  const [pagination, setPagination] = useState<Pagination>(initPagination());
 
   const {
     data: transactions,
     isFetching,
     refetch: refetchTransactions,
-  } = useQuery<{ content: Transaction[] }>({
-    queryKey: ["transactions"],
+  } = useQuery<{
+    content: Transaction[];
+    page: number;
+    size: number;
+    totalElements: number;
+  }>({
+    queryKey: ['transactions'],
     queryFn: () =>
-      api("moneybox/transactions", {
+      api('moneybox/transactions', {
         params: {
+          ...pagination,
           ...filters,
         },
-      }),
+      })
   });
+
+  useEffect(() => {
+    setPagination((prev) => ({
+      ...prev,
+      totalElements: transactions?.totalElements || 10
+    }))
+  }, [transactions])
+
+  useEffect(() => {
+    refetchTransactions();
+  }, [pagination]);
 
   const {
     data: box,
     isFetching: totalFetching,
     refetch: refetchBox,
   } = useQuery<MoneyBox>({
-    queryKey: ["money-box"],
-    queryFn: () => api("moneybox"),
+    queryKey: ['money-box'],
+    queryFn: () => api('moneybox'),
   });
 
   return (
-    <div className="flex-1 space-y-6 p-6">
+    <div className='flex-1 space-y-6 p-6'>
       {/* Money Box Summary Row */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-3'>
         {/* Current Balance */}
         <MoneyBoxCard box={box} loading={totalFetching} />
 
@@ -83,7 +103,7 @@ export default function Dashboard() {
         <MoneyBoxActionsCard box={box} />
 
         {/* <MoneyBoxCurrency currentCurrency="syp" exchangeRate={10000} value={100} /> */}
-        
+
         {/* <Card>
           <CardHeader>
             <CardTitle className="text-base">Make a Sale</CardTitle>
@@ -102,7 +122,7 @@ export default function Dashboard() {
 
       {/* Transactions Section */}
       <Card>
-        <CardHeader className="flex justify-between items-center border-b">
+        <CardHeader className='flex justify-between items-center border-b'>
           <CardTitle>Last Transactions</CardTitle>
           {/* <TransactionFilter
             onApply={(data: any) => {
@@ -110,9 +130,9 @@ export default function Dashboard() {
             }}
           /> */}
         </CardHeader>
-        <CardContent className="p-0">
+        <CardContent className='p-0'>
           {transactions?.content?.length && (
-            <div className="divide-y">
+            <div className='divide-y'>
               {transactions?.content?.map((el) => (
                 <TransactionCard item={el} key={el.id} />
               ))}
@@ -120,6 +140,11 @@ export default function Dashboard() {
           )}
         </CardContent>
       </Card>
+      <BasePagination
+        pagination={pagination}
+        onPaginationChange={setPagination}
+      ></BasePagination>
+
     </div>
   );
 }

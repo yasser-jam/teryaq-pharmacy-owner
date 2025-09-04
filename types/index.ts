@@ -1,7 +1,7 @@
 export interface Pagination {
   page: number;
-  limit: number;
-  totalCount: number;
+  size: number;
+  totalElements: number;
 }
 
 export interface Medicine {

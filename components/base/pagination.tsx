@@ -31,33 +31,21 @@ interface PropsInterface {
 
 export default function BasePagination({
   pagination = {
-    limit: 10,
-    page: 1,
-    totalCount: 0
+    size: 10,
+    page: 0,
+    totalElements: 10
   },
   onPaginationChange,
   limitOptions = [10, 20, 50, 100],
   className = ''
 }: PropsInterface) {
-  const { page, limit, totalCount } = pagination
+  const { page, size, totalElements } = pagination
 
-  const totalPages = Math.ceil(totalCount / limit)
+  const totalPages = Math.ceil(totalElements / size)
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= totalPages) {
+    if (newPage >= 0 && newPage < totalPages) {
       onPaginationChange?.({ ...pagination, page: newPage })
     }
-  }
-
-  const handleLimitChange = (newLimit: string) => {
-    const limitNum = Number.parseInt(newLimit)
-
-    // reset to page 0
-
-    onPaginationChange?.({
-      ...pagination,
-      limit: limitNum,
-      page: 1
-    })
   }
 
   const getVisiblePages = () => {
@@ -65,30 +53,30 @@ export default function BasePagination({
 
     if (totalPages <= 4) {
       // Show all pages if 4 or fewer
-      for (let i = 1; i <= totalPages; i++) {
+      for (let i = 0; i < totalPages; i++) {
         pages.push(i)
       }
     } else {
-      // Always show first page
-      pages.push(1)
+      // Always show first page (0-indexed)
+      pages.push(0)
 
-      if (page <= 3) {
-        // Show pages 1, 2, 3, ..., last
-        pages.push(2, 3)
-        if (totalPages > 4) {
+      if (page <= 2) {
+        // Show pages 0, 1, 2, ..., last
+        pages.push(1, 2)
+        if (totalPages > 3) {
           pages.push('ellipsis')
         }
-        pages.push(totalPages)
-      } else if (page >= totalPages - 2) {
-        // Show 1, ..., last-2, last-1, last
+        pages.push(totalPages - 1)
+      } else if (page >= totalPages - 3) {
+        // Show 0, ..., last-2, last-1, last
         pages.push('ellipsis')
-        pages.push(totalPages - 2, totalPages - 1, totalPages)
+        pages.push(totalPages - 3, totalPages - 2, totalPages - 1)
       } else {
-        // Show 1, ..., current, ..., last
+        // Show 0, ..., current, ..., last
         pages.push('ellipsis')
         pages.push(page)
         pages.push('ellipsis')
-        pages.push(totalPages)
+        pages.push(totalPages - 1)
       }
     }
 
@@ -123,12 +111,11 @@ export default function BasePagination({
         {/* <span className="text-nowrap text-text-secondary">
           {' '}
           records from <span className="text-foreground">
-            {totalCount}
-          </span>{' '}
+            {totalElements}
+ sizespan>{' '}
           records
         </span> */}
       </div>
-
       <div className="flex gap-4 items-center">
         <Pagination>
           <PaginationContent>
@@ -137,7 +124,7 @@ export default function BasePagination({
                 <PaginationPrevious
                   onClick={() => handlePageChange(page - 1)}
                   className={
-                    page === 1
+                    page === 0
                       ? 'pointer-events-none opacity-50'
                       : 'cursor-pointer'
                   }
@@ -157,7 +144,7 @@ export default function BasePagination({
                     isActive={pageNum === page}
                     className="cursor-pointer"
                   >
-                    {pageNum}
+                    {pageNum + 1}
                   </PaginationLink>
                 )}
               </PaginationItem>
@@ -167,7 +154,7 @@ export default function BasePagination({
                 <PaginationNext
                   onClick={() => handlePageChange(page + 1)}
                   className={
-                    page === totalPages
+                    page === totalPages - 1
                       ? 'pointer-events-none opacity-50'
                       : 'cursor-pointer'
                   }

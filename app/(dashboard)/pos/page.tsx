@@ -92,7 +92,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
 
       {children}
 
-      <BasePagination pagination={pagination} onPaginationChange={setPagination} />
+      {/* <BasePagination pagination={pagination} onPaginationChange={setPagination} /> */}
     </>
   );
 }

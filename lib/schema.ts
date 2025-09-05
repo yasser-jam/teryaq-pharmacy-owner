@@ -25,7 +25,6 @@ export const EMPLOYEE_SCHEMA = z.object({
   id: z.number().optional(),
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Valid email is required'),
   phoneNumber: z.string().min(1, 'Phone number is required'),
   status: z.enum(['ACTIVE', 'INACTIVE']),
   dateOfHire: z.string().min(1, 'Date of hire is required'),
@@ -33,15 +32,17 @@ export const EMPLOYEE_SCHEMA = z.object({
   pharmacyId: z.number().optional(),
   workingHours: z.array(
     z.object({
-      dayOfWeek: z.enum([
-        'MONDAY',
-        'TUESDAY',
-        'WEDNESDAY',
-        'THURSDAY',
-        'FRIDAY',
-        'SATURDAY',
-        'SUNDAY',
-      ]),
+      daysOfWeek: z.array(
+        z.enum([
+          'MONDAY',
+          'TUESDAY',
+          'WEDNESDAY',
+          'THURSDAY',
+          'FRIDAY',
+          'SATURDAY',
+          'SUNDAY',
+        ])
+      ),
       shifts: z.array(
         z.object({
           startTime: z
@@ -60,7 +61,7 @@ export const EMPLOYEE_SCHEMA = z.object({
         })
       ),
     })
-  ),
+  ).optional(),
 });
 
 export type Employee = z.infer<typeof EMPLOYEE_SCHEMA>;

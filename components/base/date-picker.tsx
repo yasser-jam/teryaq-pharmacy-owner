@@ -1,6 +1,7 @@
 'use client'
 
 import { Calendar as CalendarIcon } from 'iconoir-react'
+import dayjs from 'dayjs'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -30,11 +31,13 @@ export function BaseDatePicker({
   // set the default value to current date (if useDefault prop is true)
   useEffect(() => {
     if (useDefault)
-      onChange(value ? new Date(value).toISOString() : new Date().toISOString())
+      onChange(value ? dayjs(value).format("YYYY-MM-DD") : dayjs().format("YYYY-MM-DD"))
   })
 
   const handleSelect = (e: any) => {
-    onChange(e?.toISOString().split('T')[0])
+    console.log('test', e?.toISOString().split('T')[0]);
+    
+    onChange(dayjs(e).format("YYYY-MM-DD"))
   }
 
   return (
@@ -48,7 +51,7 @@ export function BaseDatePicker({
           )}
         >
           <CalendarIcon className="size-4" />
-          {value ? format(value!, "MM/dd/yyyy") : <span>{placeholder}</span>}
+          {value ? dayjs(value).format("MM/DD/YYYY") : <span>{placeholder}</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">

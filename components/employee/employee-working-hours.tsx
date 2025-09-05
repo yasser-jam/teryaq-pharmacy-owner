@@ -32,7 +32,7 @@ type DayOfWeek =
 interface Shift {
   startTime: string;
   endTime: string;
-  description: string;
+  description?: string;
 }
 
 interface WorkingHoursRequest {
@@ -99,13 +99,14 @@ export default function EmployeeWorkingHours({
 
   // Update parent when workingHoursRequests changes
   const updateWorkingHoursRequests = (newRequests: WorkingHoursRequest[]) => {
-    const hasEmptyDays = workingHoursRequests.some(
+    setWorkingHoursRequests(newRequests);
+
+    const hasEmptyDays = newRequests.some(
       (request) => request.daysOfWeek.length === 0
     );
 
     if (hasEmptyDays) {
       setValidationErrors([
-        ...validationErrors,
         {
           requestIndex: -1,
           shiftIndex: -1,
@@ -115,26 +116,39 @@ export default function EmployeeWorkingHours({
       return;
     }
 
-    const errors = validateTimeOverlaps(workingHoursRequests);
+    const errors = validateTimeOverlaps(newRequests);
     setValidationErrors(errors);
 
     if (errors.length > 0) {
       return;
     }
-    setWorkingHoursRequests(newRequests);
     onChange(newRequests);
   };
 
   useEffect(() => {
-    updateWorkingHoursRequests(workingHoursRequests)
-    // handleSubmit()
-  }, [workingHoursRequests])
+    // Initial validation when component mounts or externalWorkingHours changes
+    if (externalWorkingHours) {
+      const errors = validateTimeOverlaps(workingHoursRequests);
+      setValidationErrors(errors);
+    }
+  }, [externalWorkingHours]);
+
+  // Update parent when workingHoursRequests changes - this useEffect will now trigger after setWorkingHoursRequests in updateWorkingHoursRequests
+  // and also on initial load if externalWorkingHours is present
+  useEffect(() => {
+    // No need to call updateWorkingHoursRequests here directly, it's handled internally now.
+    // The validation and onChange call are now part of updateWorkingHoursRequests.
+    // This useEffect is mainly for initial setup or external changes if needed, but not for internal updates.
+  }, [workingHoursRequests]); // Keep this to re-run effects if the actual state changes
 
   const getShiftErrors = (
     requestIndex: number,
     shiftIndex: number
   ): string[] => {
     if (!hasSubmitted) return [];
+
+    const globalErrors = validationErrors.filter(error => error.requestIndex === -1);
+    if (globalErrors.length > 0) return globalErrors.map(error => error.message);
 
     return validationErrors
       .filter(
@@ -145,19 +159,19 @@ export default function EmployeeWorkingHours({
   };
 
   const addWorkingHoursRequest = () => {
-    updateWorkingHoursRequests([
+    const newRequests = [
       ...workingHoursRequests,
       {
         daysOfWeek: [],
         shifts: [{ startTime: "09:00", endTime: "17:00", description: "" }],
       },
-    ]);
+    ];
+    updateWorkingHoursRequests(newRequests);
   };
 
   const removeWorkingHoursRequest = (index: number) => {
-    updateWorkingHoursRequests(
-      workingHoursRequests.filter((_, i) => i !== index)
-    );
+    const newRequests = workingHoursRequests.filter((_, i) => i !== index);
+    updateWorkingHoursRequests(newRequests);
   };
 
   const isDayUsedInOtherSchedules = (requestIndex: number, day: DayOfWeek) => {
@@ -171,12 +185,12 @@ export default function EmployeeWorkingHours({
       workingHoursRequests[requestIndex].daysOfWeek.includes(day);
 
     if (isDayUsedInOtherSchedules(requestIndex, day)) {
+      // Optionally, you could show a message here or prevent the action.
       return;
     }
 
-    // @ts-ignore - TypeScript doesn't like the dynamic field access
-    updateWorkingHoursRequests((prev) =>
-      prev.map((req: WorkingHoursRequest, idx: number) =>
+    const newRequests = workingHoursRequests.map(
+      (req: WorkingHoursRequest, idx: number) =>
         idx === requestIndex
           ? {
               ...req,
@@ -185,9 +199,8 @@ export default function EmployeeWorkingHours({
                 : [...req.daysOfWeek, day],
             }
           : req
-      )
     );
-    setValidationErrors(validateTimeOverlaps(workingHoursRequests));
+    updateWorkingHoursRequests(newRequests);
   };
 
   const addShift = (requestIndex: number) => {
@@ -198,7 +211,6 @@ export default function EmployeeWorkingHours({
       description: "",
     });
     updateWorkingHoursRequests(updatedRequests);
-    setValidationErrors(validateTimeOverlaps(updatedRequests));
   };
 
   const removeShift = (requestIndex: number, shiftIndex: number) => {
@@ -207,7 +219,6 @@ export default function EmployeeWorkingHours({
       requestIndex
     ].shifts.filter((_, i) => i !== shiftIndex);
     updateWorkingHoursRequests(updatedRequests);
-    setValidationErrors(validateTimeOverlaps(updatedRequests));
   };
 
   const updateShift = (
@@ -224,12 +235,6 @@ export default function EmployeeWorkingHours({
 
     updatedRequests[requestIndex].shifts[shiftIndex] = shift;
     updateWorkingHoursRequests(updatedRequests);
-
-    // Only validate time overlaps if the form has been submitted
-    if (hasSubmitted) {
-      const errors = validateTimeOverlaps(updatedRequests);
-      setValidationErrors(errors);
-    }
   };
 
   // const { mutate: updateWorkingHours, isPending } = useMutation({
@@ -246,17 +251,8 @@ export default function EmployeeWorkingHours({
 
   const handleSubmit = () => {
     setHasSubmitted(true);
-
-    // Check if any schedule has no days selected
-    
-
-    const payload: WorkingHoursPayload = {
-      workingHoursRequests: workingHoursRequests.filter(
-        (request) => request.daysOfWeek.length > 0 && request.shifts.length > 0
-      ),
-    };
-
-    updateWorkingHoursRequests(payload.workingHoursRequests);
+    // Trigger validation by calling updateWorkingHoursRequests with the current state
+    updateWorkingHoursRequests(workingHoursRequests);
   };
 
   return (

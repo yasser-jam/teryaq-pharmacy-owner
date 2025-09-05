@@ -17,7 +17,7 @@ type DayOfWeek =
 interface Shift {
   startTime: string;
   endTime: string;
-  description: string;
+  description?: string;
 }
 
 interface WorkingHoursRequest {

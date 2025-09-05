@@ -38,6 +38,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     resolver: zodResolver(EMPLOYEE_SCHEMA),
     defaultValues: {
       status: "INACTIVE",
+      workingHours: [
+        {
+          daysOfWeek: [],
+          shifts: [
+            {
+              startTime: "09:00",
+              endTime: "17:00",
+              description: "Regular Shift",
+            },
+          ],
+        },
+      ],
     },
   });
 
@@ -51,14 +63,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { mutate: create, isPending: createPending } = useMutation({
     mutationKey: ["supplier-create"],
-    mutationFn: (data: FormData) =>
-      api("/suppliers", {
+    mutationFn: (data: FormData) => {
+      return api("/employees", {
         body: {
           ...data,
+          workingHours: undefined,
+          workingHoursRequests: data.workingHours,
           roleId: Number(data.roleId),
         },
         method: "POST",
-      }),
+      })
+    },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["suppliers"] });
       successToast("Supplier created successfully");
@@ -84,7 +99,21 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     if (employee) {
-      form.reset(employee);
+      form.reset({
+        ...employee,
+        workingHours: employee.workingHours && employee.workingHours.length > 0 ? employee.workingHours : [
+          {
+            daysOfWeek: [],
+            shifts: [
+              {
+                startTime: "09:00",
+                endTime: "17:00",
+                description: "Regular Shift",
+              },
+            ],
+          },
+        ],
+      });
     }
   }, [employee, form]);
 
@@ -127,19 +156,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" {...field} placeholder="Email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <FormField
           control={form.control}
@@ -150,7 +166,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <FormControl>
                 <Input
                   {...field}
-                  prefix={<Phone />}
+                  prefix={<Phone />} 
                   placeholder="Employee Phone Number"
                 />
               </FormControl>
@@ -166,7 +182,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <FormItem>
               <FormLabel>Date of Hire</FormLabel>
               <FormControl>
-                <BaseDatePicker useDefault {...field} />
+                <BaseDatePicker useDefault {...field} onChange={field.onChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -177,7 +193,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           control={form.control}
           name="roleId"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="col-span-2">
               <FormLabel>Role</FormLabel>
               <FormControl>
                 <SysRoleSelect {...field} />
@@ -210,12 +226,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     );
   }
 
-  const [workingHours, setWorkingHours] = useState(employee?.workingHours);
-
   function WorkingHoursTab() {
+    const workingHours = form.watch("workingHours");
     return (
       <div className="">
-        <EmployeeWorkingHours employee={employee} workingHours={workingHours} onChange={(data) => setWorkingHours(data)} />
+        <EmployeeWorkingHours
+          employee={employee}
+          workingHours={workingHours}
+          onChange={(data) => form.setValue("workingHours", data)}
+        />
       </div>
     );
   }

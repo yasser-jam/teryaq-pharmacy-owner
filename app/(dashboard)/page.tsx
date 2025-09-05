@@ -285,16 +285,11 @@ export default function Dashboard() {
         </div>
 
         {/* Transactions Section */}
-        <Card>
-          <CardHeader className='flex justify-between items-center border-b'>
-            <CardTitle>Last Transactions</CardTitle>
-            {/* <TransactionFilter
-              onApply={(data: any) => {
-                setFilters(data);
-              }}
-            /> */}
-          </CardHeader>
+        <Card className='border-0'>
           <CardContent className='p-0'>
+            
+            <div className='text-2xl font-semibold mb-4'>Transactions</div>
+            
             {transactions?.content?.length && (
               <div className='divide-y'>
                 {transactions?.content?.map((el) => (

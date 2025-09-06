@@ -130,11 +130,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         subtitle={t('subtitle')}
         onOpenChange={goBack}
       >
-        <SysInfo
+        {/* <SysInfo
           color="blue"
           text={t('prescriptionHint')}
           className="mb-4 bg-muted/50"
-        />
+        /> */}
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>

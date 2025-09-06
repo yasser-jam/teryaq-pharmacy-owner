@@ -20,9 +20,9 @@ import { useTranslations } from "next-intl";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const t = useTranslations();
   const [pagination, setPagination] = useState<Pagination>({
-    limit: 10,
+    size: 10,
     page: 0,
-    totalCount: 100,
+    totalElements: 10,
   });
 
   const {
@@ -30,21 +30,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: ["medicines-list"],
+    queryKey: ["medicines-list", pagination.page, pagination.size],
     queryFn: () =>
       api("search/all-products", {
         params: {
           page: pagination.page,
-          size: pagination.limit,
+          size: pagination.size,
         },
-      }).then((data) => {
-        setPagination((val) => ({
-          ...val,
-          totalCount: data.totalElements,
-        }));
-
-        return data;
-      }),
+      })
   });
 
   const [search, setSearch] = useState("");
@@ -54,8 +47,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     refetch();
-    setPagination((prev) => ({ ...prev, page: 0, limit: 10 }));
+    setPagination((prev) => ({ ...prev, page: 0, size: 10 }));
   }, [search]);
+
+  // Update totalElements when new data arrives
+  useEffect(() => {
+      setPagination(prev => ({ ...prev, totalElements: medicines?.totalElements || 10 }));
+  }, [medicines]);
 
   const { mutate: remove } = useMutation({
     mutationFn: (med: Medicine) =>
@@ -79,7 +77,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           placeholder={t("Medicines.searchPlaceholder")}
         />
 
-        <SysViewSwitch mode={mode} onModeChange={setMode} />
+        {/* <SysViewSwitch mode={mode} onModeChange={setMode} /> */}
 
         <Button onClick={() => router.push("/medicines/create")}>
           <Plus />

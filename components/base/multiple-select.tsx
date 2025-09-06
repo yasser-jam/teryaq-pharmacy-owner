@@ -208,7 +208,7 @@ export const BaseMultipleSelect = forwardRef<
             {...props}
             onClick={handleTogglePopover}
             className={cn(
-              'flex w-full px-3 rounded-md border min-h-11 h-auto items-center justify-between bg-inherit hover:bg-inherit [&_svg]:pointer-events-auto!',
+              'flex w-full px-3 rounded-md border min-h-11 h-auto items-center justify-between bg-background hover:bg-background [&_svg]:pointer-events-auto!',
               className
             )}
           >
@@ -283,7 +283,7 @@ export const BaseMultipleSelect = forwardRef<
               </div>
             ) : (
               <div className="flex items-center justify-between w-full mx-auto">
-                <span className="text-sm text-text-secondary font-normal">
+                <span className="text-sm !text-[#6b7280] font-normal">
                   {placeholder}
                 </span>
                 {loading ? (

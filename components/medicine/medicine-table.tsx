@@ -19,7 +19,7 @@ import { Badge } from '@/components/ui/badge';
 
 import BaseTable from '@/components/base/table';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { Pill } from 'lucide-react';
+import { Pencil, Pill } from 'lucide-react';
 import { cn, isMasterProduct } from '@/lib/utils';
 import DeleteButton from '../base/delete-button';
 import MedicineTypeBadge from './medicine-type-badge';
@@ -87,10 +87,10 @@ export function MedicineTable({ medicines, onDelete }: Props) {
             variant='outline'
             className='text-primary'
             size='icon'
-            // disabled={isMasterProduct(row.original)}
-            disabled={true} // Todo: activate the button after fix the api
+            disabled={isMasterProduct(row.original)}
+            // disabled={true} // Todo: activate the button after fix the api
           >
-            <Eye />
+            <Pencil />
           </Button>
           <DeleteButton disabled={isMasterProduct(row.original)} onDelete={() => onDelete?.(row.original)} />
         </div>

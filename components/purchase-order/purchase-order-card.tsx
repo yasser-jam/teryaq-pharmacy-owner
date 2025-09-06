@@ -5,7 +5,7 @@ import { CalendarDays, Package, User, DollarSign } from "lucide-react";
 import ActionMenu from "../base/action-menu";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
-import { getCookie } from "@/lib/utils";
+import { getCookie, getTime } from "@/lib/utils";
 
 interface PurchaseOrderCardProps {
   order: PurchaseOrder;
@@ -40,21 +40,21 @@ export default function PurchaseOrderCard({
     }
   };
 
-  const formatDate = (
-    dateArray: [number, number, number, number, number, number, number]
-  ) => {
-    const [year, month, day, hour, minute] = dateArray;
-    return new Date(year, month - 1, day, hour, minute).toLocaleDateString(
-      "ar-EG",
-      {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }
-    );
-  };
+  // const formatDate = (
+  //   dateArray: [number, number, number, number, number, number, number]
+  // ) => {
+  //   const [year, month, day, hour, minute] = dateArray;
+  //   return new Date(year, month - 1, day, hour, minute).toLocaleDateString(
+  //     "ar-EG",
+  //     {
+  //       year: "numeric",
+  //       month: "short",
+  //       day: "numeric",
+  //       hour: "2-digit",
+  //       minute: "2-digit",
+  //     }
+  //   );
+  // };
 
   const getStatusTranslation = (status: string) => {
     const statusMap: Record<string, string> = {
@@ -109,7 +109,7 @@ export default function PurchaseOrderCard({
           <div>
             <p className="text-sm font-medium text-gray-900">{t('createdDate')}</p>
             <p className="text-sm text-gray-600">
-              {formatDate(order.createdAt)}
+              {getTime(order.createdAt).default}
             </p>
           </div>
         </div>

@@ -14,6 +14,7 @@ import { PurchaseInvoiceDialog } from '@/components/purchase-invoice/purchase-in
 import { useTranslations } from 'next-intl';
 import BaseDateRangeFilter from '@/components/base/base-date-range-filter';
 import dayjs from 'dayjs';
+import BaseNotFound from '@/components/base/base-not-found';
 
 export default function Page() {
   const router = useRouter();
@@ -143,12 +144,10 @@ export default function Page() {
           {isLoading ? (
             <div className='flex justify-center'>
               <div className='h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-primary' />
-              <span className='mr-2'>{t('loading')}</span>
+              <span className='ms-2'>{t('loading')}</span>
             </div>
           ) : filteredOrders.length === 0 ? (
-            <div className='rounded-lg border border-dashed p-6 text-center text-sm'>
-              <p className='text-muted-foreground'>{t('noOrders')}</p>
-            </div>
+            <BaseNotFound item='Purchase Order' />
           ) : (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
               {filteredOrders.map((order) => (
@@ -172,9 +171,7 @@ export default function Page() {
               <span className='mr-2'>{t('loading')}</span>
             </div>
           ) : filteredOrders.length === 0 ? (
-            <div className='rounded-lg border border-dashed p-6 text-center text-sm'>
-              <p className='text-muted-foreground'>{t('noOrders')}</p>
-            </div>
+            <BaseNotFound item='Purchase Order' />
           ) : (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
               {filteredOrders.map((order) => (

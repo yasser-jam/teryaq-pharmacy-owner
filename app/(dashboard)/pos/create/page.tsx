@@ -66,7 +66,10 @@ export default function POSPage() {
     onSuccess: () => {
       successToast("Sale operation Successfully!");
       queryClient.invalidateQueries({ queryKey: ["list-pos"] });
-      router.replace('/pos');
+
+      // reset the data
+      setInvoice(initSaleInvoice());
+      setTypeMethod("CASH");
     },
   });
 

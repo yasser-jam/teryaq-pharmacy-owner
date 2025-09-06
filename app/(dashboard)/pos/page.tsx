@@ -15,6 +15,7 @@ import BaseDateRangeFilter from '@/components/base/base-date-range-filter';
 import dayjs from 'dayjs';
 import { initPagination } from '@/lib/init';
 import BasePagination from '@/components/base/pagination';
+import Link from 'next/link';
 
 export default function Page({ children }: { children: React.ReactNode }) {
   let { data, isFetching, refetch, isError } = useQuery<SaleInvoice[]>({
@@ -44,8 +45,8 @@ export default function Page({ children }: { children: React.ReactNode }) {
     dayjs().format('YYYY-MM-DD')
   );
 
-  const [ pagination, setPagination ] = useState<Pagination>(initPagination())
-  
+  const [pagination, setPagination] = useState<Pagination>(initPagination())
+
   // useEffect(() => {
   //   refetch()
   // }, [pagination])
@@ -62,10 +63,13 @@ export default function Page({ children }: { children: React.ReactNode }) {
     <>
       <BaseHeader title='Sales' subtitle='Sales pageto handle sales operations'>
         <div className='flex items-center gap-2'>
-          <Button onClick={() => router.push('/pos/create')}>
-            <Plus />
-            Make new Sale
-          </Button>
+          <Link href='/pos/create' target='_blank'>
+            <Button>
+              <Plus />
+              Make new Sale
+            </Button>
+
+          </Link>
         </div>
       </BaseHeader>
 

@@ -47,9 +47,23 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const { data: product } = useQuery({
     queryKey: ["medicine", id],
-    queryFn: () => api(`pharmacy_products/multi-lang/${id}`),
+    queryFn: () => api(`pharmacy_products/multi-lang-with-ids/${id}`),
     enabled: id !== "create",
   });
+
+  useEffect(() => {
+    if (product?.id) {
+      
+      form.reset({
+        ...product,
+        formId: product.formId?.toString() || undefined,
+        manufacturerId: product.manufacturerId?.toString() || undefined,
+        typeId: product.typeId?.toString() || undefined,
+        scientificName: product.scientificNameEn || '',
+        tradeName: product.tradeNameEn || '',
+      })
+    }
+  }, [product]);
 
   const queryClient = useQueryClient();
 
@@ -109,11 +123,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     },
   });
 
-  useEffect(() => {
-    if (product) {
-      form.reset(product);
-    }
-  }, [product, form]);
+  // useEffect(() => {
+  //   if (product) {
+  //     form.reset(product);
+  //   }
+  // }, [product, form]);
 
   const goBack = () => {
     router.replace("/medicines");
@@ -129,6 +143,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         title={t('title')}
         subtitle={t('subtitle')}
         onOpenChange={goBack}
+        fullHeight
       >
         {/* <SysInfo
           color="blue"
@@ -138,7 +153,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid grid-cols-2 gap-4 max-h-[325px] overflow-auto">
+            <div className="grid grid-cols-2 gap-4 overflow-auto">
               <FormField
                 control={form.control}
                 name="tradeName"
@@ -272,8 +287,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormLabel>{t('form')}</FormLabel>
                     <FormControl>
                       <FormSelect
+                        {...field}
                         value={field.value}
-                        onChange={field.onChange}
                         className="w-full"
                       />
                     </FormControl>

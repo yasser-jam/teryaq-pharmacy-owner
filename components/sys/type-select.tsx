@@ -1,6 +1,7 @@
 import { api } from '@/lib/api'
 import { useQuery } from '@tanstack/react-query'
 import { BaseSelect } from '../base/select'
+import { useEffect } from 'react'
 
 interface TypeSelectProps {
   value: any
@@ -13,6 +14,10 @@ export default function TypeSelect({ onChange, className, ...props }: TypeSelect
     queryKey: ['types-list'],
     queryFn: () => api('/types')
   })
+
+  useEffect(() => {
+    if (props.value) onChange(props.value);
+  }, [items, props.value]);
 
   return (
     <BaseSelect

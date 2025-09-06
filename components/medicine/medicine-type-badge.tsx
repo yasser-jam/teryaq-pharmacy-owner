@@ -12,7 +12,7 @@ export default function MedicineTypeBadge({ med }: { med: Medicine }) {
           : "text-primary bg-primary/5"
       )}
     >
-      {isMasterProduct(med) ? "مركزي" : "خاص للصيدلية"}
+      {isMasterProduct(med) ? "Master" : "Pharmacy Product"}
     </Badge>
   );
 }

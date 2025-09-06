@@ -1,6 +1,8 @@
+'use client'
 import { api } from '@/lib/api';
 import { BaseMultipleSelect } from '../base/multiple-select';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 
 interface CategoriesMultiSelectProps {
   onChange?: (items: any) => void;
@@ -10,7 +12,6 @@ interface CategoriesMultiSelectProps {
 
 export default function CategoriesMultiSelect({
   onChange,
-  value,
   className,
   ...props
 }: CategoriesMultiSelectProps) {
@@ -19,15 +20,18 @@ export default function CategoriesMultiSelect({
     queryFn: () => api('/categories'),
   });
 
+  useEffect(() => {
+    if (props.value) onChange?.(props.value);
+  }, [categories, props.value]);
+
   return (
     <BaseMultipleSelect
-      {...props}
       className={className}
       options={categories?.map((category: any) => ({
         value: category.id,
         label: category.name,
       }))}
-      value={value}
+      value={props.value || []}
       onValueChange={onChange}
       loading={isFetching}
       placeholder='Select categories'

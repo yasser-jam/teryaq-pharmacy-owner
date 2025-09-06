@@ -19,6 +19,7 @@ export default function BasePageDialog({
   children,
   classTitle,
   headerChildren,
+  fullHeight = false
 }: {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -30,6 +31,7 @@ export default function BasePageDialog({
   footer?: React.ReactNode;
   classTitle?: string;
   headerChildren?: React.ReactNode;
+  fullHeight?: boolean;
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -61,7 +63,7 @@ export default function BasePageDialog({
             </div>
           )}
 
-          <div className="max-h-[450px] overflow-auto px-6">{children}</div>
+          <div className={cn('overflow-auto px-6', !fullHeight ? 'max-h-[450px]' : 'max-h-[80vh]')}>{children}</div>
 
           {footer && <DialogFooter>{footer}</DialogFooter>}
         </div>

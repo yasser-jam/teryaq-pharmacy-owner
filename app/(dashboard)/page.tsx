@@ -122,15 +122,13 @@ export default function Dashboard() {
     },
   });
 
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<any>({
     startDate: null,
     endDate: null,
-    transactionType: null,
+    transactionType: '',
   });
 
-  useEffect(() => {
-    refetchTransactions();
-  }, [filters]);
+  
 
   const [pagination, setPagination] = useState<Pagination>(initPagination());
 
@@ -144,12 +142,14 @@ export default function Dashboard() {
     size: number;
     totalElements: number;
   }>({
-    queryKey: ['transactions'],
+    queryKey: ['transactions', pagination.page],
     queryFn: () =>
       api('moneybox/transactions', {
         params: {
           ...pagination,
-          ...filters,
+          startDate: filters.startDate || undefined,
+          endDate: filters.endDate || undefined,
+          transactionType: filters.transactionType || undefined,
         },
       })
   });
@@ -160,10 +160,6 @@ export default function Dashboard() {
       totalElements: transactions?.totalElements || 10
     }))
   }, [transactions])
-
-  useEffect(() => {
-    refetchTransactions();
-  }, [pagination]);
 
   const {
     data: box,
@@ -180,6 +176,13 @@ export default function Dashboard() {
       : currentAction === 'withdraw'
         ? withdraw()
         : reconcile();
+
+
+  useEffect(() => {
+    console.log(filters);
+    
+    refetchTransactions();
+  }, [filters]);
 
   const loading = isFetching || withdrawPending || depositePending || reconcilePending;
 
@@ -288,7 +291,17 @@ export default function Dashboard() {
           <Card className='border-0'>
             <CardContent className='p-0'>
 
-              <div className='text-2xl font-semibold mb-4'>Transactions</div>
+              <div className='flex items-center justify-between mb-4'>
+                <div className='text-2xl font-semibold mb-4'>Transactions</div>
+
+
+                <TransactionFilter
+                  startDate={filters.startDate}
+                  endDate={filters.endDate}
+                  transactionType={filters.transactionType}
+                  onApply={(data) => setFilters(data)}
+                />
+              </div>
 
               {
                 isFetching ? <BaseSkeleton /> :

@@ -51,10 +51,7 @@ export default function TransactionFilter({
         'CASH_WITHDRAWAL',
         'SALE_PAYMENT',
         'PURCHASE_PAYMENT',
-        'EXPENSE',
         'INCOME',
-        'TRANSFER_IN',
-        'TRANSFER_OUT',
         'ADJUSTMENT',
         'CLOSING_BALANCE'
       ] as TransactionType[]).map(v => ({
@@ -67,13 +64,13 @@ export default function TransactionFilter({
   )
 
   const handleStartChange = (val: Date | null) => {
-    const next = val ? dayjs(val).startOf('day').toISOString() : null
+    const next = val ? dayjs(val).format('YYYY-MM-DD') : null
     setLocalStart(next)
     onChange?.({ startDate: next, endDate: localEnd, transactionType: localType })
   }
 
   const handleEndChange = (val: Date | null) => {
-    const next = val ? dayjs(val).endOf('day').toISOString() : null
+    const next = val ? dayjs(val).format('YYYY-MM-DD') : null
     setLocalEnd(next)
     onChange?.({ startDate: localStart, endDate: next, transactionType: localType })
   }

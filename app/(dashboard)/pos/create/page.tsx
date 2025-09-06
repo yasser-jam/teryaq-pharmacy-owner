@@ -36,6 +36,7 @@ import {
 import type { SaleInvoice, StockItem } from "@/types";
 import { useRouter } from "next/navigation";
 import POSPaymentTypeSelect from "@/components/pos/pos-payment-type-select";
+import POSTypeMethodSelect from "@/components/pos/pos-type-method-select";
 import CustomerSelect from "@/components/customer/customer-select";
 import SysInfo from "@/components/sys/sys-info";
 import POSCurrencyToggle from "@/components/pos/pos-currency-toggle";
@@ -47,16 +48,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
 
-export interface SaleInvoiceItemRequest {
-  stockItemId: number;
-  quantity: number;
-  unitPrice: number;
-}
+
 
 export default function POSPage() {
   const [invoice, setInvoice] = useState<SaleInvoice>(initSaleInvoice());
-
-  const queryClient = useQueryClient()
+  const [typeMethod, setTypeMethod] = useState<'CASH' | 'BANK_ACCOUNT'>('CASH');
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const { mutate: makeSale, isPending } = useMutation({
     mutationKey: ["sale"],
@@ -91,10 +89,14 @@ export default function POSPage() {
         ),
       }));
     } else {
-      const newInvoiceItem: SaleInvoiceItemRequest = {
+      // SaleInvoiceItem requires: id, productName, stockItemId, quantity, unitPrice, subTotal
+      const newInvoiceItem = {
+        id: Date.now(),
+        productName: stockItem.productName,
         stockItemId: stockItem.id,
         quantity: 1,
         unitPrice: stockItem.sellingPrice,
+        subTotal: stockItem.sellingPrice,
       };
       setInvoice((prev) => ({
         ...prev,
@@ -115,7 +117,7 @@ export default function POSPage() {
       setInvoice((prev) => ({
         ...prev,
         items: prev.items.map((item, i) =>
-          i === index ? { ...item, quantity } : item
+          i === index ? { ...item, quantity, subTotal: item.unitPrice * quantity } : item
         ),
       }));
     }
@@ -127,7 +129,6 @@ export default function POSPage() {
   //       : invoice.invoiceDiscountValue;
   //   const total = subtotal - discountAmount;
 
-  const router = useRouter();
   return (
     <Dialog open={true} onOpenChange={() => router.replace("/pos")}>
       <DialogContent className="!max-w-[100vw] !max-h-[100vh] w-full h-full overflow-auto p-0">
@@ -176,6 +177,10 @@ export default function POSPage() {
                         }))
                       }
                     />
+                    <POSTypeMethodSelect
+                      typeMethod={typeMethod}
+                      setTypeMethod={setTypeMethod}
+                    />
                   </CardContent>
                 </Card>
 
@@ -191,7 +196,8 @@ export default function POSPage() {
                       text="You can leave Customer empty for walk-in customers"
                       color="blue"
                     ></SysInfo>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* CustomerSelect in separate row, only if paymentType is CREDIT */}
+                    {invoice.paymentType === 'CREDIT' && (
                       <div>
                         <Label>Select Customer</Label>
                         <CustomerSelect
@@ -204,18 +210,18 @@ export default function POSPage() {
                           }
                         />
                       </div>
-                      <div>
-                        <Label>Currency</Label>
-                        <POSCurrencyToggle
-                          currency={invoice.currency}
-                          setCurrency={(currency: "SYP" | "USD") =>
-                            setInvoice((prev) => ({
-                              ...prev,
-                              currency,
-                            }))
-                          }
-                        />
-                      </div>
+                    )}
+                    <div>
+                      <Label>Currency</Label>
+                      <POSCurrencyToggle
+                        currency={invoice.currency}
+                        setCurrency={(currency: "SYP" | "USD") =>
+                          setInvoice((prev) => ({
+                            ...prev,
+                            currency,
+                          }))
+                        }
+                      />
                     </div>
                   </CardContent>
                 </Card>

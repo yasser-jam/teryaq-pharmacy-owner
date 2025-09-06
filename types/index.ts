@@ -68,6 +68,7 @@ export interface SaleInvoice {
   invoiceDate?: string;
   totalAmount?: number;
   paymentType: "CASH" | "CREDIT";
+  // paymentMethod: "CASH" | "BANK_ACCOUNT";
   paymentMethod: string;
   currency: Currency;
   discount?: number;

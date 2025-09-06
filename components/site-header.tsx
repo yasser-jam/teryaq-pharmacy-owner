@@ -18,7 +18,7 @@ export function SiteHeader() {
       <div className="flex justify-between w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
         <h1 className="text-2xl font-medium text-primary">{user?.pharmacyName}</h1>
 
-        <Input placeholder={t("Placeholder.searchProject")} prefix={<Search />} className="w-128" />
+        {/* <Input placeholder={t("Placeholder.searchProject")} prefix={<Search />} className="w-128" /> */}
 
         <LayoutUserMenu />
       </div>

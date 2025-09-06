@@ -182,5 +182,33 @@
     "total": "Total",
     "createInvoice": "Create Invoice",
     "cancel": "Cancel"
+  },
+  "Suppliers": {
+    "title": "Suppliers",
+    "subtitle": "Suppliers page for adding the suppliers to handle sales operations",
+    "add": "Add Supplier",
+    "deleted": "Supplier Deleted Successfully",
+    "supplier": "Supplier",
+    "search": "Search...",
+    "info": "This page is responsible for adding suppliers and update their data in order to make orders"
+  },
+  "SupplierDetails": {
+    "title": "Supplier Details",
+    "subtitle": "Fill Supplier Data",
+    "createSuccess": "Supplier created successfully",
+    "name": {
+      "label": "Name",
+      "placeholder": "Supplier Name"
+    },
+    "phone": {
+      "label": "Phone Number",
+      "placeholder": "Supplier Phone Number"
+    },
+    "address": {
+      "label": "Address",
+      "placeholder": "Supplier Address"
+    },
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }

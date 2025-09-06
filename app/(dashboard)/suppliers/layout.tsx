@@ -1,4 +1,6 @@
 'use client';
+
+import { useTranslations } from 'next-intl';
 import BaseHeader from '@/components/base/base-header';
 import BaseNotFound from '@/components/base/base-not-found';
 import BaseSearch from '@/components/base/base-search';
@@ -15,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 export default function Page({ children }: { children: React.ReactNode }) {
+  const t = useTranslations('Suppliers');
   const router = useRouter();
 
 
@@ -35,8 +38,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
     }),
     onSuccess: () => {
       refetch()
-
-      successToast('Supplier Deleted Successfully')
+      successToast(t('deleted'))
     }
   })
 
@@ -46,12 +48,12 @@ export default function Page({ children }: { children: React.ReactNode }) {
   return (
     <>
       <BaseHeader
-        title='Suppliers'
-        subtitle='Suppliers page for adding the suppliers to handle sales operations'
+        title={t('title')}
+        subtitle={t('subtitle')}
       >
         <Button onClick={() => router.push('/suppliers/create')}>
           <Plus />
-          Add Supplier
+          {t('add')}
         </Button>
       </BaseHeader>
 
@@ -61,17 +63,27 @@ export default function Page({ children }: { children: React.ReactNode }) {
 This page is responsible for adding suppliers and update their data in order to make orders'
       /> */}
 
-        <BaseSearch value={searchValue} onChange={setSearchValue} className='w-full mt-4' />
+        <BaseSearch 
+          value={searchValue} 
+          onChange={setSearchValue} 
+          className='w-full mt-4'
+          placeholder={t('search')}
+        />
 
       {isFetching ? (
         <BaseSkeleton />
-      ) : suppliers?.length ?  (
+      ) : suppliers?.length ? (
         <div className='grid grid-cols-3 gap-8 mt-12'>
           {suppliers?.map((el) => (
-            <SupplierCard key={el.id} supplier={el} onEdit={() => router.replace(`/suppliers/${el.id}`)} onDelete={() => removeSupplier(el.id)}></SupplierCard>
+            <SupplierCard 
+              key={el.id} 
+              supplier={el} 
+              onEdit={() => router.replace(`/suppliers/${el.id}`)} 
+              onDelete={() => removeSupplier(el.id)}
+            />
           ))}
         </div>
-      ) : <BaseNotFound item='Supplier' />}
+      ) : <BaseNotFound item={t('supplier')} />}
 
       {children}
     </>

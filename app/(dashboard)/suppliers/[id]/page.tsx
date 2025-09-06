@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from 'next-intl';
 import BasePageDialog from '@/components/base/page-dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,8 +21,10 @@ import { z } from 'zod';
 import { SUPPLIER_SCHEMA } from '@/lib/schema';
 import { BasePhoneInput } from '@/components/base/phone-input';
 import { successToast } from '@/lib/toast';
+import { Phone } from 'lucide-react';
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
+  const t = useTranslations('SupplierDetails');
   const { id } = use(params);
   const router = useRouter();
 
@@ -51,7 +54,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['suppliers'] });
-      successToast('Supplier created successfully');
+      successToast(t('createSuccess'));
       goBack();
     },
   });
@@ -91,8 +94,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <>
       <BasePageDialog
-        title='Supplier Details'
-        subtitle='Fill Supplier Data'
+        title={t('title')}
+        subtitle={t('subtitle')}
         className='w-[800px]'
         onOpenChange={goBack}
       >
@@ -104,26 +107,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>{t('name.label')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Supplier Name' />
+                      <Input {...field} placeholder={t('name.placeholder')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name='phone'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>{t('phone.label')}</FormLabel>
                     <FormControl>
-                      <BasePhoneInput
-                        {...field}
-                        placeholder='Supplier Phone Number'
-                      />
+                      <Input {...field} placeholder={t('phone.placeholder')} prefix={<Phone />} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -135,9 +134,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name='address'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>{t('address.label')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Supplier Address' />
+                      <Input {...field} placeholder={t('address.placeholder')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -146,9 +145,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </div>
             <div className='col-span-2 flex items-center justify-end gap-2 mt-4'>
               <Button variant='ghost' onClick={goBack}>
-                Cancel
+                {t('cancel')}
               </Button>
-              <Button loading={createPending || updatePending}>Save</Button>
+              <Button loading={createPending || updatePending}>{t('save')}</Button>
             </div>
           </form>
         </Form>

@@ -24,7 +24,7 @@ export default function SupplierCard({
     <>
       <Card className='rounded-sm relative bg-gray-50 border-teal-600 border-dashed shadow-none w-full'>
         <CardContent className='!decoration-0'>
-          <Avatar className='bg-teal-800 absolute -top-4 left-4 rounded-sm  flex justify-center items-center w-8 h-8'>
+          <Avatar className='bg-teal-800 absolute -top-4 start-4 rounded-sm  flex justify-center items-center w-8 h-8'>
             <AvatarFallback className='text-white'>
               {supplier?.name.split(' ')[0][0].toUpperCase()}
             </AvatarFallback>
@@ -32,7 +32,7 @@ export default function SupplierCard({
           <div className='font-semibold text-lg'>{supplier?.name}</div>
           <div className='text-sm text-gray-500'>{supplier?.phone}</div>
 
-          <div className='absolute top-4 right-4'>
+          <div className='absolute top-4 end-4'>
             <ActionMenu
               editAction
               deleteAction

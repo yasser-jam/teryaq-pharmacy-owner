@@ -71,7 +71,7 @@ This page is responsible for adding suppliers and update their data in order to 
         />
 
       {isFetching ? (
-        <BaseSkeleton />
+        <BaseSkeleton type='grid' />
       ) : suppliers?.length ? (
         <div className='grid grid-cols-3 gap-8 mt-12'>
           {suppliers?.map((el) => (

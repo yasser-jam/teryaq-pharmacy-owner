@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 export default function Page({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
-  useQuery({
+  const { isFetching } = useQuery({
     queryKey: ["me"],
     queryFn: () => api("/users/me").catch(() => router.replace("/auth/login")),
   });
@@ -29,7 +29,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
       </div>
 
       <SidebarInset className="flex flex-col gap-4 min-h-screen">
-        <SiteHeader />
+        <SiteHeader loading={isFetching} />
         <div className="px-4">
           <div
             className="container px-4 py-2 bg-white rounded-sm"

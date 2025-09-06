@@ -52,7 +52,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       />
 
       {isFetching ? (
-        <BaseSkeleton />
+        <BaseSkeleton type="grid" />
       ) : stockItems?.length ? (
         <div className="grid grid-cols-3 gap-8 mt-12">
           {stockItems?.map((el) => (

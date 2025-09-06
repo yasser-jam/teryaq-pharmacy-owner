@@ -85,6 +85,11 @@ export default function BasePagination({
 
   const visiblePages = getVisiblePages()
 
+  // Hide pagination if only one page
+  if (totalPages <= 1) {
+    return null;
+  }
+
   return (
     <div
       className={cn(className, 'flex justify-between items-center px-4 py-2')}
@@ -119,18 +124,16 @@ export default function BasePagination({
       <div className="flex gap-4 items-center">
         <Pagination>
           <PaginationContent>
-            {totalPages > 1 && (
-              <PaginationItem>
-                <PaginationPrevious
-                  onClick={() => handlePageChange(page - 1)}
-                  className={
-                    page === 0
-                      ? 'pointer-events-none opacity-50'
-                      : 'cursor-pointer'
-                  }
-                />
-              </PaginationItem>
-            )}
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePageChange(page - 1)}
+                className={
+                  page === 0
+                    ? 'pointer-events-none opacity-50'
+                    : 'cursor-pointer'
+                }
+              />
+            </PaginationItem>
 
             {visiblePages.map((pageNum, index) => (
               <PaginationItem key={index}>
@@ -149,18 +152,16 @@ export default function BasePagination({
                 )}
               </PaginationItem>
             ))}
-            {totalPages > 1 && (
-              <PaginationItem>
-                <PaginationNext
-                  onClick={() => handlePageChange(page + 1)}
-                  className={
-                    page === totalPages - 1
-                      ? 'pointer-events-none opacity-50'
-                      : 'cursor-pointer'
-                  }
-                />
-              </PaginationItem>
-            )}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => handlePageChange(page + 1)}
+                className={
+                  page === totalPages - 1
+                    ? 'pointer-events-none opacity-50'
+                    : 'cursor-pointer'
+                }
+              />
+            </PaginationItem>
           </PaginationContent>
         </Pagination>
       </div>

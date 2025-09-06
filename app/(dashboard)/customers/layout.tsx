@@ -114,7 +114,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       {isFetching ? (
-        <BaseSkeleton />
+        <BaseSkeleton type="grid" />
       ) : filteredCustomers?.length ? (
         <div className="grid grid-cols-3 gap-8 mt-12">
           {filteredCustomers?.map((el) => (

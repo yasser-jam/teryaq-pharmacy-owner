@@ -313,6 +313,8 @@ export interface MoneyBox {
   totalBalanceInUSD: number | null;
   totalBalanceInEUR: number | null;
   recentTransactions: number | null;
+  currentEURToSYPRate: number | null
+  currentUSDToSYPRate: number | null
   totalTransactionCount: number | null;
   createdAt: [number, number, number, number, number];
   updatedAt: [number, number, number, number, number];

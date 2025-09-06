@@ -33,6 +33,8 @@ import { successToast } from '@/lib/toast';
 import { initPagination } from '@/lib/init';
 import BasePagination from '@/components/base/pagination';
 import ExchangeRateCard from '@/components/money-box/exchange-rate-card';
+import BaseSkeleton from '@/components/base/base-skeleton';
+import BaseNotFound from '@/components/base/base-not-found';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -179,7 +181,7 @@ export default function Dashboard() {
         ? withdraw()
         : reconcile();
 
-  const loading = withdrawPending || depositePending || reconcilePending;
+  const loading = isFetching || withdrawPending || depositePending || reconcilePending;
 
   return (
     <>
@@ -188,8 +190,8 @@ export default function Dashboard() {
           {/* Money Box Summary Row */}
           <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-12'>
             {/* Current Balance */}
-            <MoneyBoxCard box={box} loading={totalFetching} />
-            <ExchangeRateCard exchangeRate={10000} />
+            <MoneyBoxCard box={box} loading={loading} />
+            <ExchangeRateCard exchangeRate={Number(box?.currentUSDToSYPRate)} loading={loading} />
           </div>
 
           {/* <MoneyBoxCurrency currentCurrency="syp" exchangeRate={10000} value={100} /> */}
@@ -288,13 +290,18 @@ export default function Dashboard() {
 
               <div className='text-2xl font-semibold mb-4'>Transactions</div>
 
-              {transactions?.content?.length && (
-                <div className='divide-y'>
-                  {transactions?.content?.map((el) => (
-                    <TransactionCard item={el} key={el.id} />
-                  ))}
-                </div>
-              )}
+              {
+                isFetching ? <BaseSkeleton /> :
+                  transactions?.content?.length ? (
+                    <div className='divide-y'>
+                      {transactions?.content?.map((el) => (
+                        <TransactionCard item={el} key={el.id} />
+                      ))}
+                    </div>
+                  ) : <BaseNotFound item="Transaction" />
+
+              }
+
             </CardContent>
           </Card>
           <BasePagination

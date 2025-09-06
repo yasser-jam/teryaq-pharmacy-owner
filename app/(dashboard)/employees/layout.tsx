@@ -45,7 +45,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
       </BaseHeader>
 
       {isFetching ? (
-        <BaseSkeleton />
+        <BaseSkeleton type="grid" />
       ) : employees?.length ?  (
         <div className='grid grid-cols-3 gap-8 mt-12'>
           {employees?.map((el) => (

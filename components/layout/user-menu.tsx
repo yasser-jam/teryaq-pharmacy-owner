@@ -17,10 +17,21 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { getCookie, getRoleName } from "@/lib/utils";
+import { getCookie, setCookie, getRoleName } from "@/lib/utils";
+import { DollarSign } from "lucide-react";
 
 export function LayoutUserMenu() {
-  const router = useRouter();
+  // Currency logic
+  const defaultCurrency = "SYP";
+  const currency = getCookie("mao.currency") || defaultCurrency;
+  
+  const router = useRouter()
+  
+  const switchCurrency = () => {
+    const newCurrency = currency === "SYP" ? "USD" : "SYP";
+    setCookie("mao.currency", newCurrency);
+    location.reload();
+  };
   const handleLogout = () => {
     // Implement logout logic here
     // delete tp.access-token cookie
@@ -87,6 +98,14 @@ export function LayoutUserMenu() {
               </p>
             </div>
           </div>
+
+          {/* Language Switcher */}
+
+          {/* Currency Switcher */}
+          <DropdownMenuItem className="cursor-pointer" onClick={switchCurrency}>
+            <DollarSign className="mr-3 h-4 w-4" />
+            <span>{currency === "SYP" ? "USD" : "SYP"}</span>
+          </DropdownMenuItem>
 
           {/* Language Switcher */}
           <DropdownMenuItem className="cursor-pointer" onClick={switchLang}>

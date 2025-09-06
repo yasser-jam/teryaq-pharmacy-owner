@@ -15,6 +15,7 @@ import { useTranslations } from 'next-intl';
 import BaseDateRangeFilter from '@/components/base/base-date-range-filter';
 import dayjs from 'dayjs';
 import BaseNotFound from '@/components/base/base-not-found';
+import BaseSkeleton from '@/components/base/base-skeleton';
 
 export default function Page() {
   const router = useRouter();
@@ -166,10 +167,7 @@ export default function Page() {
 
         <TabsContent value='done' className='mt-4 space-y-4'>
           {isLoading ? (
-            <div className='flex justify-center'>
-              <div className='h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-primary' />
-              <span className='mr-2'>{t('loading')}</span>
-            </div>
+            <BaseSkeleton type="grid" />
           ) : filteredOrders.length === 0 ? (
             <BaseNotFound item='Purchase Order' />
           ) : (

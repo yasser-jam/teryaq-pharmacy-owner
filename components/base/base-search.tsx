@@ -28,7 +28,7 @@ export default function BaseSearch({
   }
 
   const onInputChange = (e: any) => {
-    onChange(e.target.value.trimStart())
+    onChange(e.trimStart())
   }
 
   return (

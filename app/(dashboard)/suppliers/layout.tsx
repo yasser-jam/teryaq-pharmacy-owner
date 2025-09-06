@@ -1,6 +1,7 @@
 'use client';
 import BaseHeader from '@/components/base/base-header';
 import BaseNotFound from '@/components/base/base-not-found';
+import BaseSearch from '@/components/base/base-search';
 import BaseSkeleton from '@/components/base/base-skeleton';
 import SupplierCard from '@/components/supplier/supplier-card';
 import SysInfo from '@/components/sys/sys-info';
@@ -11,14 +12,21 @@ import { Supplier } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Page({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
+
+  const [searchValue, setSearchValue] = useState<string>('')
+
   const { data: suppliers, isFetching, refetch } = useQuery<Supplier[]>({
     queryKey: ['suppliers'],
-    queryFn: () => api('/suppliers'),
+    queryFn: () => api('/suppliers/search', {
+      params: {
+        name: searchValue
+      }
+    }),
   });
 
   const { mutate: removeSupplier } = useMutation({
@@ -32,6 +40,9 @@ export default function Page({ children }: { children: React.ReactNode }) {
     }
   })
 
+  useEffect(() => {
+    refetch()
+  }, [searchValue])
   return (
     <>
       <BaseHeader
@@ -44,11 +55,13 @@ export default function Page({ children }: { children: React.ReactNode }) {
         </Button>
       </BaseHeader>
 
-      <SysInfo
+      {/* <SysInfo
       className='mt-4'
         text='
 This page is responsible for adding suppliers and update their data in order to make orders'
-      />
+      /> */}
+
+        <BaseSearch value={searchValue} onChange={setSearchValue} className='w-full mt-4' />
 
       {isFetching ? (
         <BaseSkeleton />

@@ -7,11 +7,13 @@ import { PurchaseOrder } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PurchaseOrderCard from '@/components/purchase-order/purchase-order-card';
 import { toast } from 'sonner';
 import { PurchaseInvoiceDialog } from '@/components/purchase-invoice/purchase-invoice-dialog';
 import { useTranslations } from 'next-intl';
+import BaseDateRangeFilter from '@/components/base/base-date-range-filter';
+import dayjs from 'dayjs';
 
 export default function Page() {
   const router = useRouter();
@@ -22,12 +24,41 @@ export default function Page() {
   const [deletingOrderId, setDeletingOrderId] = useState<number | null>(null);
   const [createInvoiceDialogOpen, setCreateInvoiceDialogOpen] = useState(false);
   const [selectedPurchaseOrder, setSelectedPurchaseOrder] = useState<PurchaseOrder | null>(null);
+  
+  const [startDate, setStartDate] = useState<string | undefined>(
+    dayjs().format('YYYY-MM-DD')
+  );
+  const [endDate, setEndDate] = useState<string | undefined>(
+    dayjs().format('YYYY-MM-DD')
+  );
 
   const queryClient = useQueryClient();
-  const { data: orders = { content: [] }, isLoading } = useQuery<{ content: PurchaseOrder[] }>({
-    queryKey: ['purchase-orders'],
+  // const { data: orders = { content: [] }, isLoading, refetch } = useQuery<{ content: PurchaseOrder[] }>({
+  //   queryKey: ['purchase-orders', startDate, endDate],
+  //   queryFn: () => api('/purchase-orders/time-range', {
+  //     params: {
+  //       startDate: dayjs(startDate).toISOString(),
+  //       endDate: dayjs(endDate).toISOString(),
+  //     },
+  //   }),
+  // });
+
+  const { data: orders = { content: [] }, isLoading, refetch } = useQuery<{ content: PurchaseOrder[] }>({
+    queryKey: ['purchase-orders', startDate, endDate],
     queryFn: () => api('/purchase-orders'),
   });
+
+  useEffect(() => {
+    refetch();
+  }, [startDate, endDate, refetch]);
+
+  const handleDateChange = (
+    start: string | undefined,
+    end: string | undefined
+  ) => {
+    setStartDate(start);
+    setEndDate(end);
+  };
 
   useMutation({
     mutationFn: (orderId: number) => 
@@ -88,6 +119,15 @@ export default function Page() {
           {t('createButton')}
         </Button>
       </BaseHeader>
+
+      <div className='mt-4'>
+        <BaseDateRangeFilter
+          startDate={startDate}
+          endDate={endDate}
+          onDateChange={handleDateChange}
+          onSearch={() => refetch()}
+        />
+      </div>
 
       <Tabs 
         defaultValue='pending' 

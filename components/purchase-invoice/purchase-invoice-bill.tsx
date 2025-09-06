@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { InvoiceItem, PurchaseOrder } from "@/types";
+import { useTranslations } from "next-intl";
 
 interface PurchaseInvoiceBillProps {
   invoiceItems: InvoiceItem[];
@@ -21,6 +22,7 @@ export function PurchaseInvoiceBill({
   onSubmit,
   loading
 }: PurchaseInvoiceBillProps) {
+  const t = useTranslations('PurchaseInvoiceBill');
   const calculateSubtotal = (item: InvoiceItem) => {
     return (item.receivedQty + item.bonusQty) * item.invoicePrice;
   };
@@ -37,10 +39,10 @@ export function PurchaseInvoiceBill({
       <div className="flex-1">
         <div className="sticky top-0 pb-4 z-10">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold">Order Summary</h3>
+            <h3 className="text-lg font-semibold">{t('orderSummary')}</h3>
             <div className="text-right">
               <p className="text-sm text-muted-foreground">
-                {invoiceItems.length} items
+                {invoiceItems.length} {t('items')}
               </p>
             </div>
           </div>
@@ -52,15 +54,15 @@ export function PurchaseInvoiceBill({
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-muted-foreground">
-                Invoice #
+                {t('invoice')}
               </span>
               <span className="font-mono font-medium">
-                {invoiceNumber || "Not set"}
+                {invoiceNumber || t('notSet')}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-muted-foreground">
-                Date
+                {t('date')}
               </span>
               <span className="text-sm">
                 {new Date().toLocaleDateString()}
@@ -68,7 +70,7 @@ export function PurchaseInvoiceBill({
             </div>
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-muted-foreground">
-                Supplier
+                {t('supplier')}
               </span>
               <span className="text-sm text-right">
                 {purchaseOrder.supplierName}
@@ -105,17 +107,17 @@ export function PurchaseInvoiceBill({
           {/* Totals */}
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Subtotal</span>
+              <span className="text-muted-foreground">{t('subtotal')}</span>
               <span>
                 {purchaseOrder.currency} {calculateTotal().toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Tax (0%)</span>
+              <span className="text-muted-foreground">{t('tax')}</span>
               <span>{purchaseOrder.currency} 0.00</span>
             </div>
             <div className="flex justify-between font-semibold pt-2">
-              <span>Total</span>
+              <span>{t('total')}</span>
               <span className="text-lg">
                 {purchaseOrder.currency} {calculateTotal().toFixed(2)}
               </span>
@@ -135,14 +137,14 @@ export function PurchaseInvoiceBill({
             invoiceItems.some(item => !item.batchNo || !item.expiryDate)
           }
         >
-          Create Invoice
+          {t('createInvoice')}
         </Button>
         <Button
           variant="outline"
           className="w-full mt-2"
           onClick={onCancel}
         >
-          Cancel
+          {t('cancel')}
         </Button>
       </div>
     </div>

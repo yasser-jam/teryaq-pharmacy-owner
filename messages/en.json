@@ -140,5 +140,47 @@
     "batchDetails": "Batch Details",
     "batchId": "Batch ID:",
     "expiryDate": "Expiry Date:"
+  },
+  "DateRangeFilter": {
+    "dateRange": "Date Range",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "day": "Day",
+    "month": "Month",
+    "year": "Year",
+    "search": "Search"
+  },
+  "PurchaseInvoiceDialog": {
+    "title": "Create Purchase Invoice",
+    "supplierInfo": "Supplier Information",
+    "invoiceInfo": "Invoice Information",
+    "invoiceNumber": "Invoice Number",
+    "invoiceNumberPlaceholder": "Enter invoice number",
+    "invoiceItems": "Invoice Items",
+    "invoiceItemsDescription": "Fill in the received quantities and pricing details for each item",
+    "receivedQty": "Received Qty",
+    "bonusQty": "Bonus Qty",
+    "invoicePrice": "Invoice Price",
+    "batchNo": "Batch No",
+    "batchNoPlaceholder": "Enter batch number",
+    "expiryDate": "Expiry Date",
+    "sellingPrice": "Selling Price",
+    "minStockLevel": "Min Stock Level",
+    "createInvoice": "Create Invoice",
+    "cancel": "Cancel",
+    "createSuccess": "Invoice created successfully"
+  },
+  "PurchaseInvoiceBill": {
+    "orderSummary": "Order Summary",
+    "items": "items",
+    "invoice": "Invoice #",
+    "date": "Date",
+    "supplier": "Supplier",
+    "notSet": "Not set",
+    "subtotal": "Subtotal",
+    "tax": "Tax (0%)",
+    "total": "Total",
+    "createInvoice": "Create Invoice",
+    "cancel": "Cancel"
   }
 }

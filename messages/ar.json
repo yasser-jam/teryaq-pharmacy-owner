@@ -141,5 +141,47 @@
       "batchDetails": "تفاصيل الدفعة",
       "batchId": "معرف الدفعة:",
       "expiryDate": "تاريخ الانتهاء:"
+    },
+    "DateRangeFilter": {
+      "dateRange": "نطاق التاريخ",
+      "startDate": "تاريخ البداية",
+      "endDate": "تاريخ النهاية",
+      "day": "اليوم",
+      "month": "الشهر",
+      "year": "السنة",
+      "search": "بحث"
+    },
+    "PurchaseInvoiceDialog": {
+      "title": "إنشاء فاتورة شراء",
+      "supplierInfo": "معلومات المورد",
+      "invoiceInfo": "معلومات الفاتورة",
+      "invoiceNumber": "رقم الفاتورة",
+      "invoiceNumberPlaceholder": "أدخل رقم الفاتورة",
+      "invoiceItems": "عناصر الفاتورة",
+      "invoiceItemsDescription": "املأ الكميات المستلمة وتفاصيل التسعير لكل عنصر",
+      "receivedQty": "الكمية المستلمة",
+      "bonusQty": "كمية المكافأة",
+      "invoicePrice": "سعر الفاتورة",
+      "batchNo": "رقم الدفعة",
+      "batchNoPlaceholder": "أدخل رقم الدفعة",
+      "expiryDate": "تاريخ الانتهاء",
+      "sellingPrice": "سعر البيع",
+      "minStockLevel": "الحد الأدنى للمخزون",
+      "createInvoice": "إنشاء الفاتورة",
+      "cancel": "إلغاء",
+      "createSuccess": "تم إنشاء الفاتورة بنجاح"
+    },
+    "PurchaseInvoiceBill": {
+      "orderSummary": "ملخص الطلب",
+      "items": "عناصر",
+      "invoice": "الفاتورة #",
+      "date": "التاريخ",
+      "supplier": "المورد",
+      "notSet": "غير محدد",
+      "subtotal": "المجموع الفرعي",
+      "tax": "الضريبة (0%)",
+      "total": "المجموع",
+      "createInvoice": "إنشاء الفاتورة",
+      "cancel": "إلغاء"
     }
   }

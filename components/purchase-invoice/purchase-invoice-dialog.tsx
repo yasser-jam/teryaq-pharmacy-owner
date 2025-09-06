@@ -17,6 +17,7 @@ import { BaseDatePicker } from "../base/date-picker";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
+import { useTranslations } from "next-intl";
 
 interface PurchaseInvoiceDialogProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export function PurchaseInvoiceDialog({
   onClose,
   purchaseOrder,
 }: PurchaseInvoiceDialogProps) {
+  const t = useTranslations('PurchaseInvoiceDialog');
   const [invoiceNumber, setInvoiceNumber] = useState("");
   const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([]);
 
@@ -92,7 +94,7 @@ export function PurchaseInvoiceDialog({
       }),
 
     onSuccess: () => {
-      successToast("Invoice created successfully");
+      successToast(t('createSuccess'));
       onClose();
     },
   });
@@ -116,7 +118,7 @@ export function PurchaseInvoiceDialog({
                 <Receipt className="h-8 w-8 text-primary" />
                 <div>
                   <DialogTitle className="text-3xl font-bold">
-                    Create Invoice
+                    {t('title')}
                   </DialogTitle>
                   <p className="text-muted-foreground">
                     Generate invoice from purchase order {purchaseOrder.id}
@@ -130,7 +132,7 @@ export function PurchaseInvoiceDialog({
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Package className="h-5 w-5" />
-                      Purchase Order Details
+                      {t('supplierInfo')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
@@ -160,15 +162,15 @@ export function PurchaseInvoiceDialog({
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Hash className="h-5 w-5" />
-                      Invoice Information
+                      {t('invoiceInfo')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2">
-                      <Label htmlFor="invoiceNumber">Invoice Number *</Label>
+                      <Label htmlFor="invoiceNumber">{t('invoiceNumber')} *</Label>
                       <Input
                         id="invoiceNumber"
-                        placeholder="Enter invoice number"
+                        placeholder={t('invoiceNumberPlaceholder')}
                         value={invoiceNumber}
                         onChange={(e) => setInvoiceNumber(String(e))}
                         className="font-mono"
@@ -181,10 +183,9 @@ export function PurchaseInvoiceDialog({
               {/* Invoice Items */}
               <Card>
                 <CardHeader>
-                  <CardTitle>Invoice Items</CardTitle>
+                  <CardTitle>{t('invoiceItems')}</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    Fill in the received quantities and pricing details for each
-                    item
+                    {t('invoiceItemsDescription')}
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-6">
@@ -208,7 +209,7 @@ export function PurchaseInvoiceDialog({
 
                       <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label>Received Qty *</Label>
+                          <Label>{t('receivedQty')} *</Label>
                           <Input
                             type="number"
                             placeholder="0"
@@ -223,7 +224,7 @@ export function PurchaseInvoiceDialog({
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label>Bonus Qty</Label>
+                          <Label>{t('bonusQty')}</Label>
                           <Input
                             type="number"
                             placeholder="0"
@@ -238,7 +239,7 @@ export function PurchaseInvoiceDialog({
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label>Invoice Price *</Label>
+                          <Label>{t('invoicePrice')} *</Label>
                           <Input
                             type="number"
                             step="0.01"
@@ -254,7 +255,7 @@ export function PurchaseInvoiceDialog({
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label>Selling Price *</Label>
+                          <Label>{t('sellingPrice')} *</Label>
                           <Input
                             type="number"
                             step="0.01"
@@ -270,9 +271,9 @@ export function PurchaseInvoiceDialog({
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label>Batch No *</Label>
+                          <Label>{t('batchNo')} *</Label>
                           <Input
-                            placeholder="Enter batch number"
+                            placeholder={t('batchNoPlaceholder')}
                             value={item.batchNo}
                             onChange={(e) =>
                               updateInvoiceItem(index, "batchNo", String(e))
@@ -280,7 +281,7 @@ export function PurchaseInvoiceDialog({
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label>Expiry Date *</Label>
+                          <Label>{t('expiryDate')} *</Label>
                           <BaseDatePicker
                             value={item.expiryDate}
                             onChange={(e) =>
@@ -289,7 +290,7 @@ export function PurchaseInvoiceDialog({
                           />
                         </div>
                         <div className="space-y-2 col-span-2">
-                          <Label>Min Stock Level</Label>
+                          <Label>{t('minStockLevel')}</Label>
                           <Input
                             type="number"
                             placeholder="0"

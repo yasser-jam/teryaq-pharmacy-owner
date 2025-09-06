@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import dayjs from 'dayjs';
 import { Calendar as CalendarIcon } from 'iconoir-react';
 import { Search } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface BaseDateRangeFilterProps {
   startDate: string | undefined;
@@ -25,6 +26,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
   onDateChange,
   onSearch,
 }) => {
+  const t = useTranslations('DateRangeFilter');
   const [startDate, setStartDate] = useState(propStartDate);
   const [endDate, setEndDate] = useState(propEndDate);
   const [selectedRange, setSelectedRange] = useState<
@@ -85,7 +87,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
         onClick={() => setIsVisible(!isVisible)}
       >
         <CalendarIcon className='mr-2 h-4 w-4' />
-        Date Range
+        {t('dateRange')}
       </Button>
 
       {isVisible && (
@@ -97,7 +99,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 setStartDate(dateString);
                 onDateChange?.(dateString, endDate);
               }}
-              placeholder='Start Date'
+              placeholder={t('startDate')}
             />
             <BaseDatePicker
               value={endDate}
@@ -105,7 +107,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 setEndDate(dateString);
                 onDateChange?.(startDate, dateString);
               }}
-              placeholder='End Date'
+              placeholder={t('endDate')}
             />
 
             <div className='flex items-center gap-2'>
@@ -117,7 +119,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 )}
                 onClick={() => handleRangeChange('day')}
               >
-                Day
+                {t('day')}
               </Button>
               <Button
                 variant='outline'
@@ -127,7 +129,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 )}
                 onClick={() => handleRangeChange('month')}
               >
-                Month
+                {t('month')}
               </Button>
               <Button
                 variant='outline'
@@ -137,12 +139,12 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 )}
                 onClick={() => handleRangeChange('year')}
               >
-                Year
+                {t('year')}
               </Button>
 
               <Button className='grow' onClick={() => onSearch(startDate, endDate)}>
                 <Search></Search>
-                Search
+                {t('search')}
               </Button>
             </div>
           </div>

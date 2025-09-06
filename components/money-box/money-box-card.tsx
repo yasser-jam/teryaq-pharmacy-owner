@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import BaseSkeleton from "../base/base-skeleton";
 
 interface MoneyBoxProps {
   loading?: boolean
@@ -17,7 +18,7 @@ export default function MoneyBoxCard({ loading, box } : MoneyBoxProps) {
   return (
     <>
       {loading ? (
-        "loading.."
+        <BaseSkeleton />
       ) : (
         <Card className="col-span-6 text-white bg-gradient-to-tr from-primary to-blue-500  h-full">
           <CardHeader className="flex flex-row items-center justify-between pb-2">

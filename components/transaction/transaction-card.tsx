@@ -83,7 +83,6 @@ const transactionConfig: Record<
 
 export default function TransactionCard({ item }: TransactionCardProps) {
   const config = transactionConfig[item.transactionType];
-  if (!config) return null; // Handle unknown transaction types gracefully
   const IconComponent = config.icon;
 
   return (

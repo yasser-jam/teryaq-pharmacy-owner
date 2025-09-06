@@ -23,6 +23,7 @@ import { Button } from '@/components/ui/button';
 import BasePasswordInput from '@/components/base/base-password-input';
 import { BasePhoneInput } from '@/components/base/phone-input';
 import { setCookie } from '@/lib/utils';
+import { Phone } from 'lucide-react';
 
 type RegisterFormData = z.infer<typeof REGISTER_SCHEMA>;
 
@@ -39,15 +40,25 @@ export default function RegisterForm() {
       api('/pharmacy/complete-registration', {
         method: 'POST',
         params: {
-            ...data,
-            startTime: undefined,
-            endTime: undefined,
-            openingHours: `${data.startTime}-${data.endTime}`
+          ...data,
+          startTime: undefined,
+          endTime: undefined,
+          openingHours: `${data.startTime}-${data.endTime}`
         },
       }),
-    onSuccess: () => {
+    onSuccess: async () => {
       successToast('Registration completed successfully');
       setCookie('tp.complete-account', 'true');
+
+      // open the moneybox
+      await api('/moneybox', {
+        method: 'POST',
+        body: {
+          initialBalance: 0,
+          currency: 'SYP'
+        }
+      })
+
       router.push('/');
     },
   });
@@ -121,10 +132,7 @@ export default function RegisterForm() {
                 <FormItem className='col-span-2'>
                   <FormLabel>Pharmacy Phone</FormLabel>
                   <FormControl>
-                    <BasePhoneInput
-                      {...field}
-                      placeholder='Enter phone number'
-                    />
+                    <Input {...field} placeholder={'09********'} prefix={<Phone />} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

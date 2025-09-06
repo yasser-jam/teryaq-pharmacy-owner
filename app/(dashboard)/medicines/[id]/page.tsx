@@ -41,6 +41,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     resolver: zodResolver(MEDICINE_SCHEMA),
     defaultValues: {
       barcodes: [],
+      categoryIds: [],
       requiresPrescription: false
     },
   });
@@ -61,6 +62,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         typeId: product.typeId?.toString() || undefined,
         scientificName: product.scientificNameEn || '',
         tradeName: product.tradeNameEn || '',
+        categoryIds: product.categoryIds || []
       })
     }
   }, [product]);
@@ -304,7 +306,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <FormLabel>{t('categories')}</FormLabel>
                     <FormControl>
                       <CategoriesMultiSelect
-                        value={field.value || []}
+                        value={field.value}
                         onChange={field.onChange}
                         className="w-full"
                       />

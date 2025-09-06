@@ -78,7 +78,10 @@ export interface MultiSelectProps
    */
   onValueChange?: (value: string[]) => void
 
-  /** The default selected values when the component mounts. */
+
+  /** The selected values (controlled mode). */
+  value?: string[]
+  /** The default selected values when the component mounts (uncontrolled mode). */
   defaultValue?: string[]
 
   /**
@@ -132,6 +135,7 @@ export const BaseMultipleSelect = forwardRef<
       options = [],
       onValueChange,
       variant,
+      value,
       defaultValue = [],
       placeholder = 'Select options',
       animation = 0,
@@ -145,8 +149,9 @@ export const BaseMultipleSelect = forwardRef<
     },
     ref
   ) => {
-    const [selectedValues, setSelectedValues] =
-      useState<string[]>(defaultValue)
+    const [internalSelectedValues, setInternalSelectedValues] = useState<string[]>(defaultValue)
+    // Use controlled value if provided, otherwise use internal state
+    const selectedValues = value !== undefined ? value : internalSelectedValues
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const [isAnimating, setIsAnimating] = useState(false)
 
@@ -158,7 +163,7 @@ export const BaseMultipleSelect = forwardRef<
       } else if (event.key === 'Backspace' && !event.currentTarget.value) {
         const newSelectedValues = [...selectedValues]
         newSelectedValues.pop()
-        setSelectedValues(newSelectedValues)
+        if (value === undefined) setInternalSelectedValues(newSelectedValues)
         onValueChange?.(newSelectedValues)
       }
     }
@@ -167,12 +172,12 @@ export const BaseMultipleSelect = forwardRef<
       const newSelectedValues = selectedValues.includes(option)
         ? selectedValues.filter(value => value !== option)
         : [...selectedValues, option]
-      setSelectedValues(newSelectedValues)
+      if (value === undefined) setInternalSelectedValues(newSelectedValues)
       onValueChange?.(newSelectedValues)
     }
 
     const handleClear = () => {
-      setSelectedValues([])
+      if (value === undefined) setInternalSelectedValues([])
       onValueChange?.([])
     }
 
@@ -182,7 +187,7 @@ export const BaseMultipleSelect = forwardRef<
 
     const clearExtraOptions = () => {
       const newSelectedValues = selectedValues.slice(0, maxCount)
-      setSelectedValues(newSelectedValues)
+      if (value === undefined) setInternalSelectedValues(newSelectedValues)
       onValueChange?.(newSelectedValues)
     }
 
@@ -191,7 +196,7 @@ export const BaseMultipleSelect = forwardRef<
         handleClear()
       } else {
         const allValues = options.map(option => option.value)
-        setSelectedValues(allValues)
+        if (value === undefined) setInternalSelectedValues(allValues)
         onValueChange?.(allValues)
       }
     }

@@ -11,15 +11,42 @@ import { Refund, SaleInvoice } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import BaseDateRangeFilter from "@/components/base/base-date-range-filter";
+import dayjs from "dayjs";
 
 export default function Page({ children }: { children: React.ReactNode }) {
-  const { data, isFetching } = useQuery<Refund[]>({
-    queryKey: ["list-refunds"],
-    queryFn: () => api("/sales/refunds"),
+  const [startDate, setStartDate] = useState<string | undefined>(
+    dayjs().format("YYYY-MM-DD")
+  );
+  const [endDate, setEndDate] = useState<string | undefined>(
+    dayjs().format("YYYY-MM-DD")
+  );
+
+  const { data, isFetching, refetch } = useQuery<Refund[]>({
+    queryKey: ["list-refunds", startDate, endDate],
+    queryFn: () =>
+      api("/sales/refunds/date-range", {
+        params: {
+          startDate,
+          endDate,
+        },
+      }),
   });
 
+  useEffect(() => {
+    refetch();
+  }, [startDate, endDate, refetch]);
+
   const router = useRouter();
+
+  const handleDateChange = (
+    start: string | undefined,
+    end: string | undefined
+  ) => {
+    setStartDate(start);
+    setEndDate(end);
+  };
 
   return (
     <>
@@ -28,6 +55,15 @@ export default function Page({ children }: { children: React.ReactNode }) {
         subtitle="Refund Operations"
       >
       </BaseHeader>
+
+      <div className="mt-4">
+        <BaseDateRangeFilter
+          startDate={startDate}
+          endDate={endDate}
+          onDateChange={handleDateChange}
+          onSearch={() => refetch()}
+        />
+      </div>
 
       {isFetching ? (
         <BaseSkeleton />

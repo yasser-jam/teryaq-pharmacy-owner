@@ -3,11 +3,11 @@ import BaseHeader from '@/components/base/base-header';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { api } from '@/lib/api';
-import { PurchaseOrder } from '@/types';
+import { Pagination, PurchaseOrder } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import PurchaseOrderCard from '@/components/purchase-order/purchase-order-card';
 import { toast } from 'sonner';
 import { PurchaseInvoiceDialog } from '@/components/purchase-invoice/purchase-invoice-dialog';
@@ -16,6 +16,7 @@ import BaseDateRangeFilter from '@/components/base/base-date-range-filter';
 import dayjs from 'dayjs';
 import BaseNotFound from '@/components/base/base-not-found';
 import BaseSkeleton from '@/components/base/base-skeleton';
+import { initPagination } from '@/lib/init';
 
 export default function Page() {
   const router = useRouter();
@@ -45,14 +46,20 @@ export default function Page() {
   //   }),
   // });
 
-  const { data: orders = { content: [] }, isLoading, refetch } = useQuery<{ content: PurchaseOrder[] }>({
-    queryKey: ['purchase-orders', startDate, endDate],
-    queryFn: () => api('/purchase-orders'),
-  });
+  const [pagination, setPagination] = useState<Pagination>(initPagination())
 
-  useEffect(() => {
-    refetch();
-  }, [startDate, endDate, refetch]);
+  const { data: orders = { content: [] }, isFetching, refetch } = useQuery<{ content: PurchaseOrder[] }>({
+    queryKey: ['purchase-orders'],
+    queryFn: () => api('/purchase-orders/time-range', {
+      params: {
+        page: pagination.page,
+        size: pagination.size,
+        startDate: dayjs(startDate).format('YYYY-MM-DD'),
+        endDate: dayjs(endDate).format('YYYY-MM-DD'),
+
+      }
+    }),
+  });
 
   const handleDateChange = (
     start: string | undefined,
@@ -126,6 +133,7 @@ export default function Page() {
         <BaseDateRangeFilter
           startDate={startDate}
           endDate={endDate}
+          loading={isFetching}
           onDateChange={handleDateChange}
           onSearch={() => refetch()}
         />
@@ -142,11 +150,8 @@ export default function Page() {
         </TabsList>
 
         <TabsContent value='pending' className='mt-4 space-y-4'>
-          {isLoading ? (
-            <div className='flex justify-center'>
-              <div className='h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-primary' />
-              <span className='ms-2'>{t('loading')}</span>
-            </div>
+          {isFetching ? (
+            <BaseSkeleton />
           ) : filteredOrders.length === 0 ? (
             <BaseNotFound item='Purchase Order' />
           ) : (
@@ -166,7 +171,7 @@ export default function Page() {
         </TabsContent>
 
         <TabsContent value='done' className='mt-4 space-y-4'>
-          {isLoading ? (
+          {isFetching ? (
             <BaseSkeleton type="grid" />
           ) : filteredOrders.length === 0 ? (
             <BaseNotFound item='Purchase Order' />

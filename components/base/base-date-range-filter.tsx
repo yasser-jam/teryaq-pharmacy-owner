@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl';
 interface BaseDateRangeFilterProps {
   startDate: string | undefined;
   endDate: string | undefined;
+  loading?: boolean
   onDateChange?: (
     startDate: string | undefined,
     endDate: string | undefined
@@ -23,6 +24,7 @@ interface BaseDateRangeFilterProps {
 const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
   startDate: propStartDate,
   endDate: propEndDate,
+  loading,
   onDateChange,
   onSearch,
 }) => {
@@ -142,7 +144,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 {t('year')}
               </Button>
 
-              <Button className='grow' onClick={() => onSearch(startDate, endDate)}>
+              <Button className='grow' loading={loading} onClick={() => onSearch(startDate, endDate)}>
                 <Search></Search>
                 {t('search')}
               </Button>

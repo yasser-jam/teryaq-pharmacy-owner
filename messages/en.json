@@ -111,11 +111,19 @@
     "perUnit": "per unit",
     "totalAmount": "Total Amount",
     "receiveOrder": "Receive Order",
+    "viewDetails": "View Details",
     "status": {
       "pending": "Pending",
       "done": "Completed",
+      "received": "Received",
       "cancelled": "Cancelled"
     }
+  },
+  "SupplierOrders": {
+    "title": "Supplier Orders",
+    "noOrders": "No orders found",
+    "noOrdersDescription": "This supplier has no purchase orders yet.",
+    "loading": "Loading..."
   },
   "ViewModes": {
     "table": "Table View",

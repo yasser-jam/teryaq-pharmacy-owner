@@ -112,11 +112,19 @@
       "perUnit": "للوحدة",
       "totalAmount": "إجمالي المبلغ",
       "receiveOrder": "استلام الطلب",
+      "viewDetails": "عرض التفاصيل",
       "status": {
         "pending": "قيد الانتظار",
         "done": "مكتمل",
+        "received": "مستلم",
         "cancelled": "ملغي"
       }
+    },
+    "SupplierOrders": {
+      "title": "طلبات المورد",
+      "noOrders": "لا توجد طلبات",
+      "noOrdersDescription": "هذا المورد لا يملك طلبات شراء بعد.",
+      "loading": "جاري التحميل..."
     },
     "ViewModes": {
       "table": "عرض الجدول",

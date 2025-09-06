@@ -14,7 +14,7 @@ import { PurchaseInvoiceBill } from "./purchase-invoice-bill";
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 import { DialogTitle } from "@radix-ui/react-dialog";
 import { BaseDatePicker } from "../base/date-picker";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
 import { useTranslations } from "next-intl";
@@ -64,8 +64,9 @@ export function PurchaseInvoiceDialog({
     );
   };
 
+  // Subtotal should not include bonusQty, as bonus are free
   const calculateSubtotal = (item: InvoiceItem) => {
-    return (item.receivedQty + item.bonusQty) * item.invoicePrice;
+    return item.receivedQty * item.invoicePrice;
   };
 
   const calculateTotal = () => {
@@ -74,6 +75,8 @@ export function PurchaseInvoiceDialog({
       0
     );
   };
+
+  const queryClient = useQueryClient();
 
   const { mutate: createInvoice, isPending } = useMutation({
     mutationKey: ["purchase-invoice"],
@@ -95,6 +98,7 @@ export function PurchaseInvoiceDialog({
 
     onSuccess: () => {
       successToast(t('createSuccess'));
+      queryClient.invalidateQueries({ queryKey: ["purchase-orders"] });
       onClose();
     },
   });
@@ -111,7 +115,6 @@ export function PurchaseInvoiceDialog({
         className="!max-w-none !w-screen max-h-[95vh] p-0 gap-0 flex flex-col"
       >
         <div className="flex flex-1 overflow-hidden">
-          {/* Left Side - Form */}
           <div className="flex-1 p-8 overflow-y-auto">
             <div>
               <div className="flex items-center gap-3 mb-8">

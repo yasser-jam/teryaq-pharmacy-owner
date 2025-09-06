@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, X, Package } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
+import { cn, isMasterProduct } from "@/lib/utils";
 import { log } from "console";
 
 interface PurchaseOrderInlineCardProps {
@@ -84,7 +84,8 @@ export default function PurchaseOrderInlineCard({
             <Input
               type="number"
               min="0"
-              step="0.1"
+              disabled={purchaseItem.productType === 'مركزي' || purchaseItem.productType?.toLowerCase() === 'master'}
+
               value={purchaseItem.price}
               onChange={(e) => handlePriceChange(String(e))}
               className="h-2 py-1 leading-[0] text-right pr-0 text-sm"

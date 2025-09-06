@@ -21,7 +21,7 @@ export const setCookie = (name: string, value: string) => {
 };
 
 export const isMasterProduct = (med: Medicine) => {
-  return med.productTypeName.toLowerCase() == "master" || med.productTypeName == "مركزي";
+  return med.productTypeName?.toLowerCase() == "master" || med.productTypeName == "مركزي";
 }
 
 export const getProductType = (type: ProductType) => {

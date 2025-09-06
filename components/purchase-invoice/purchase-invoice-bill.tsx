@@ -23,8 +23,9 @@ export function PurchaseInvoiceBill({
   loading
 }: PurchaseInvoiceBillProps) {
   const t = useTranslations('PurchaseInvoiceBill');
+  // Subtotal should not include bonusQty, as bonus are free
   const calculateSubtotal = (item: InvoiceItem) => {
-    return (item.receivedQty + item.bonusQty) * item.invoicePrice;
+    return item.receivedQty * item.invoicePrice;
   };
 
   const calculateTotal = () => {

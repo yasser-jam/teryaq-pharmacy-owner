@@ -178,9 +178,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       title={isEditMode && order ? t('editTitle', { id: order.id }) : t('createTitle')}
       subtitle={isEditMode ? t('editSubtitle') : t('createSubtitle')}
       className="w-full h-full"
+      fullHeight
       onOpenChange={goBack}
       headerChildren={
-        <Button loading={isPending} onClick={handleSubmit}>
+        <Button
+          loading={isPending}
+          onClick={handleSubmit}
+          disabled={!supplierId || items.length === 0}
+        >
           {isEditMode ? t('updateButton') : t('createButton')}
         </Button>
       }
@@ -196,7 +201,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               value={search}
               onChange={(e) => setSearch(String(e))}
             />
-            <div className="grid gap-2 max-h-[200px] overflow-auto">
+            <div className="grid gap-2 max-h-[400px] overflow-auto">
               {filteredMedicines?.map((medicine) => {
                 const isSelected = items.some(
                   (item) => item.productId === medicine.id
@@ -226,7 +231,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Card className="col-span-1 bg-muted/10">
           <CardContent>
             <CardTitle className="mb-4">{t('supplier')}</CardTitle>
-            <div className="max-h-[200px] grid gap-4 overflow-auto">
+            <div className="max-h-[400px] grid gap-4 overflow-auto">
               {suppliers?.map((supplier) => (
                 <SupplierInlineCard
                   key={supplier.id}

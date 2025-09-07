@@ -1,57 +1,40 @@
 version: '3.8'
 
 services:
-  # Next.js Application
-  app:
+  # Next.js Frontend Application
+  teryaq-frontend:
     build:
       context: .
       dockerfile: Dockerfile
+    image: teryaq-frontend
+    container_name: teryaq-frontend
     ports:
-      - "3000:3000"
+      - "3000:3000" # Frontend port
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
+      # Backend API URL - using the existing backend container
+      - NEXT_PUBLIC_API_URL=http://teryaq-backend:3000
+      - API_URL=http://teryaq-backend:3000
+      # Database connection (if frontend needs direct DB access)
+      - DATABASE_URL=postgresql://postgres:password@teryaq-db:5432/teryaq
     env_file:
       - .env.production
     restart: unless-stopped
     depends_on:
-      - postgres
-      - redis
+      - teryaq-backend
     networks:
-      - app-network
-
-  # PostgreSQL Database
-  postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-teryaq_pharmacy}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
-    restart: unless-stopped
-    networks:
-      - app-network
-
-  # Redis for caching and sessions
-  redis:
-    image: redis:7-alpine
-    command: redis-server --appendonly yes
-    volumes:
-      - redis_data:/data
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
-    networks:
-      - app-network
-
-volumes:
-  postgres_data:
-  redis_data:
+      - teryaq-net
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
 
 networks:
-  app-network:
-    driver: bridge
+  teryaq-net:
+    external: true # Use the existing network from backend

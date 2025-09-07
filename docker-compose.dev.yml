@@ -1,16 +1,23 @@
 version: '3.8'
 
 services:
-  # Next.js Application (Development)
-  app-dev:
+  # Next.js Frontend Application (Development)
+  teryaq-frontend-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    image: teryaq-frontend-dev
+    container_name: teryaq-frontend-dev
     ports:
-      - "3000:3000"
+      - "3000:3000" # Frontend development port
     environment:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
+      # Backend API URL - using the existing backend container
+      - NEXT_PUBLIC_API_URL=http://teryaq-backend:3000
+      - API_URL=http://teryaq-backend:3000
+      # Database connection (if frontend needs direct DB access)
+      - DATABASE_URL=postgresql://postgres:password@teryaq-db:5432/teryaq
     env_file:
       - .env.local
     volumes:
@@ -19,43 +26,19 @@ services:
       - /app/.next
     restart: unless-stopped
     depends_on:
-      - postgres-dev
-      - redis-dev
+      - teryaq-backend
     networks:
-      - dev-network
-
-  # PostgreSQL Database (Development)
-  postgres-dev:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-teryaq_pharmacy_dev}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-    volumes:
-      - postgres_dev_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5433:5432"
-    restart: unless-stopped
-    networks:
-      - dev-network
-
-  # Redis for caching and sessions (Development)
-  redis-dev:
-    image: redis:7-alpine
-    command: redis-server --appendonly yes
-    volumes:
-      - redis_dev_data:/data
-    ports:
-      - "6380:6379"
-    restart: unless-stopped
-    networks:
-      - dev-network
-
-volumes:
-  postgres_dev_data:
-  redis_dev_data:
+      - teryaq-net
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
 
 networks:
-  dev-network:
-    driver: bridge
+  teryaq-net:
+    external: true # Use the existing network from backend

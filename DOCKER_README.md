@@ -1,13 +1,23 @@
 # Docker Deployment Guide for Teryaq Pharmacy Management System
 
-This guide explains how to deploy the Teryaq Pharmacy Management System using Docker and Docker Compose.
+This guide explains how to deploy the Teryaq Pharmacy Management System frontend using Docker and Docker Compose, integrating with your existing backend infrastructure.
 
 ## Prerequisites
 
 - Docker Engine 20.10+
 - Docker Compose 2.0+
-- At least 2GB RAM available
-- At least 5GB disk space
+- Existing backend containers running (teryaq-backend, teryaq-db)
+- At least 1GB RAM available for frontend
+- At least 2GB disk space
+
+## Architecture
+
+This setup integrates with your existing backend infrastructure:
+
+- **teryaq-frontend**: Next.js frontend application (port 3000)
+- **teryaq-backend**: Your existing Spring Boot backend (port 13000)
+- **teryaq-db**: Your existing PostgreSQL database (port 15432)
+- **teryaq-net**: Shared Docker network
 
 ## Quick Start
 
@@ -47,22 +57,22 @@ NEXTAUTH_SECRET=your_nextauth_secret_here
 
 ### 3. Production Deployment
 
+**Make sure your backend containers are running first:**
+
 ```bash
-# Build and start all services (without nginx)
+# Start your existing backend (if not already running)
+cd /path/to/your/backend
+docker-compose up -d
+
+# Then start the frontend
+cd /path/to/your/frontend
 docker-compose up --build -d
 
 # View logs
-docker-compose logs -f
+docker-compose logs -f teryaq-frontend
 
 # Check service status
 docker-compose ps
-```
-
-### 4. With Nginx (Optional)
-
-```bash
-# Deploy with nginx reverse proxy
-docker-compose -f docker-compose.nginx.yml up --build -d
 ```
 
 ### 4. Development Setup
@@ -73,27 +83,30 @@ For development with hot reload:
 # Copy development environment
 cp env.example .env.local
 
-# Start development services
+# Make sure your backend is running
+cd /path/to/your/backend
+docker-compose up -d
+
+# Start frontend development
+cd /path/to/your/frontend
 docker-compose -f docker-compose.dev.yml up -d
 
 # View development logs
-docker-compose -f docker-compose.dev.yml logs -f app-dev
+docker-compose -f docker-compose.dev.yml logs -f teryaq-frontend-dev
 ```
 
 ## Services
 
-### Production Services
+### Frontend Services
 
-- **app**: Next.js application (port 3000)
-- **postgres**: PostgreSQL database (port 5432)
-- **redis**: Redis cache/session store (port 6379)
-- **nginx**: Reverse proxy and load balancer (ports 80, 443)
+- **teryaq-frontend**: Next.js frontend application (port 3000)
+- **teryaq-frontend-dev**: Development server with hot reload
 
-### Development Services
+### Backend Services (Existing)
 
-- **app-dev**: Next.js development server with hot reload
-- **postgres-dev**: PostgreSQL database (port 5433)
-- **redis-dev**: Redis cache/session store (port 6380)
+- **teryaq-backend**: Spring Boot backend API (port 13000)
+- **teryaq-db**: PostgreSQL database (port 15432)
+- **teryaq-net**: Shared Docker network
 
 ## Configuration
 

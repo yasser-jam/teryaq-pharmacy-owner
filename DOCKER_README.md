@@ -48,14 +48,21 @@ NEXTAUTH_SECRET=your_nextauth_secret_here
 ### 3. Production Deployment
 
 ```bash
-# Build and start all services
-docker-compose up -d
+# Build and start all services (without nginx)
+docker-compose up --build -d
 
 # View logs
 docker-compose logs -f
 
 # Check service status
 docker-compose ps
+```
+
+### 4. With Nginx (Optional)
+
+```bash
+# Deploy with nginx reverse proxy
+docker-compose -f docker-compose.nginx.yml up --build -d
 ```
 
 ### 4. Development Setup
@@ -211,10 +218,15 @@ services:
 
 ### Common Issues
 
-1. **Port conflicts**: Change ports in docker-compose.yml if 3000, 5432, or 6379 are in use
-2. **Permission issues**: Ensure Docker has proper permissions
-3. **Memory issues**: Increase Docker memory allocation
-4. **Database connection**: Check DATABASE_URL format and credentials
+1. **Standalone output error**: If you get "standalone not found" error:
+   - The Dockerfile has been updated to work without standalone output
+   - Make sure `output: 'standalone'` is set in `next.config.ts`
+   - Use the simplified Dockerfile that copies the full `.next` directory
+
+2. **Port conflicts**: Change ports in docker-compose.yml if 3000, 5432, or 6379 are in use
+3. **Permission issues**: Ensure Docker has proper permissions
+4. **Memory issues**: Increase Docker memory allocation
+5. **Database connection**: Check DATABASE_URL format and credentials
 
 ### Debug Commands
 

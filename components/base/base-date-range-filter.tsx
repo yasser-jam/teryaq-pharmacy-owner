@@ -84,7 +84,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
   };
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='relative flex flex-col gap-2'>
       <Button
         variant='outline'
         className='w-fit'
@@ -95,65 +95,64 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
       </Button>
 
       {isVisible && (
-        <div className='flex flex-col gap-2 border-2 border-dashed p-2 rounded-md'>
-          <div className='grid grid-cols-3 gap-2'>
-            <BaseDatePicker
-              value={startDate}
-              onChange={(dateString) => {
-                setStartDate(dateString);
-                onDateChange?.(dateString, endDate);
-              }}
-              placeholder={t('startDate')}
-            />
-            <BaseDatePicker
-              value={endDate}
-              onChange={(dateString) => {
-                setEndDate(dateString);
-                onDateChange?.(startDate, dateString);
-              }}
-              placeholder={t('endDate')}
-            />
-
-            <div className='flex items-center gap-2'>
-              <Button
-                variant='outline'
-                className={cn(
-                  selectedRange === 'day' &&
-                  'bg-primary text-primary-foreground'
-                )}
-                onClick={() => handleRangeChange('day')}
-              >
-                {t('day')}
+        <div className='flex flex-col gap-3 border-2 border-dashed p-3 rounded-md w-[320px] absolute top-16 -left-44 shadow-xl bg-white z-[9]'>
+          <BaseDatePicker
+            value={startDate}
+            onChange={(dateString) => {
+              setStartDate(dateString);
+              onDateChange?.(dateString, endDate);
+            }}
+            placeholder={t('startDate')}
+          />
+          <BaseDatePicker
+            value={endDate}
+            onChange={(dateString) => {
+              setEndDate(dateString);
+              onDateChange?.(startDate, dateString);
+            }}
+            placeholder={t('endDate')}
+          />
+          <div className='flex flex-wrap gap-2 w-full'>
+            <Button
+              variant='outline'
+              className={cn(
+                'flex-1',
+                selectedRange === 'day' &&
+                'bg-primary text-primary-foreground'
+              )}
+              onClick={() => handleRangeChange('day')}
+            >
+              {t('day')}
+            </Button>
+            <Button
+              variant='outline'
+              className={cn(
+                'flex-1',
+                selectedRange === 'month' &&
+                'bg-primary text-primary-foreground'
+              )}
+              onClick={() => handleRangeChange('month')}
+            >
+              {t('month')}
+            </Button>
+            <Button
+              variant='outline'
+              className={cn(
+                'flex-1',
+                selectedRange === 'year' &&
+                'bg-primary text-primary-foreground'
+              )}
+              onClick={() => handleRangeChange('year')}
+            >
+              {t('year')}
+            </Button>
+            {
+              !hideSearch &&
+              <Button className='flex-1' loading={loading} onClick={() => onSearch(startDate, endDate)}>
+                <Search></Search>
+                {t('search')}
               </Button>
-              <Button
-                variant='outline'
-                className={cn(
-                  selectedRange === 'month' &&
-                  'bg-primary text-primary-foreground'
-                )}
-                onClick={() => handleRangeChange('month')}
-              >
-                {t('month')}
-              </Button>
-              <Button
-                variant='outline'
-                className={cn(
-                  selectedRange === 'year' &&
-                  'bg-primary text-primary-foreground'
-                )}
-                onClick={() => handleRangeChange('year')}
-              >
-                {t('year')}
-              </Button>
-
-              {
-                !hideSearch &&
-                <Button className='grow' loading={loading} onClick={() => onSearch(startDate, endDate)}>
-                  <Search></Search>
-                  {t('search')}
-                </Button>
-              }
-            </div>
+            }
           </div>
         </div>
       )}

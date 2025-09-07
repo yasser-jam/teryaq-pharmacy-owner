@@ -70,16 +70,18 @@ export default function Page({ children }: { children: React.ReactNode }) {
             </Button>
 
           </Link>
-        </div>
-      </BaseHeader>
 
-      <div className='mt-4'>
-        <BaseDateRangeFilter
+          <BaseDateRangeFilter
           startDate={startDate}
           endDate={endDate}
           onDateChange={handleDateChange}
           onSearch={() => refetch()}
         />
+        </div>
+      </BaseHeader>
+
+      <div className='mt-4'>
+        
       </div>
 
       {isFetching ? (

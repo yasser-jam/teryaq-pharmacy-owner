@@ -345,10 +345,34 @@ export interface RefundItem {
 }
 export interface Refund {
   refundId?: number
-  saleInvoiceId?:	number
+  saleInvoiceId?: number
   totalRefundAmount?: number
   refundReason?: string
   refundDate?: string
   refundedItems: RefundItem[]
   stockRestored: boolean
+}
+
+export interface PurchaseChartData {
+  "success": boolean,
+  "pharmacyId": number
+  "generatedAt": [number, number, number, number, number, number, number],
+  "currency": Currency
+  "language": "EN" | 'AR'
+  "startDate": [number, number, number]
+  "endDate": [number, number, number]
+  "dailyData": [
+    {
+      "date": [number, number, number]
+      "totalInvoices": 1,
+      "totalAmount": 50000000,
+      "totalPaid": 50000000,
+      "averageAmount": 50000000
+    }
+  ],
+  "summary": Record<string, number>
+  "date": null,
+  "data": null,
+  "items": null,
+  "error": null
 }

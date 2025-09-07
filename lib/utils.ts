@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import Cookies from 'js-cookie';
 import { Medicine, ProductType, StockItem } from '@/types';
 import { useTranslations } from 'next-intl';
+import dayjs from 'dayjs';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -81,4 +82,14 @@ export const getTime = (time: number[]) => {
       date: `${time[0]}-${time[1]}-${time[2]}`,
       time: `${time[3]}:${time[4]}`
     }
+}
+
+export function getNextMonthFromNow(): string {
+  return dayjs().add(1, "month").format("YYYY-MM-DD")
+}
+
+export function getCurrentMonthRange(): { start: string; end: string } {
+  const start = dayjs().startOf("month").format("YYYY-MM-DD")
+  const end = dayjs().endOf("month").format("YYYY-MM-DD")
+  return { start, end }
 }

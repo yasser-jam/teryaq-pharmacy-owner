@@ -11,6 +11,7 @@ interface BaseDateRangeFilterProps {
   startDate: string | undefined;
   endDate: string | undefined;
   loading?: boolean
+  hideSearch?: boolean
   onDateChange?: (
     startDate: string | undefined,
     endDate: string | undefined
@@ -25,6 +26,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
   startDate: propStartDate,
   endDate: propEndDate,
   loading,
+  hideSearch = false,
   onDateChange,
   onSearch,
 }) => {
@@ -117,7 +119,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 variant='outline'
                 className={cn(
                   selectedRange === 'day' &&
-                    'bg-primary text-primary-foreground'
+                  'bg-primary text-primary-foreground'
                 )}
                 onClick={() => handleRangeChange('day')}
               >
@@ -127,7 +129,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 variant='outline'
                 className={cn(
                   selectedRange === 'month' &&
-                    'bg-primary text-primary-foreground'
+                  'bg-primary text-primary-foreground'
                 )}
                 onClick={() => handleRangeChange('month')}
               >
@@ -137,17 +139,20 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
                 variant='outline'
                 className={cn(
                   selectedRange === 'year' &&
-                    'bg-primary text-primary-foreground'
+                  'bg-primary text-primary-foreground'
                 )}
                 onClick={() => handleRangeChange('year')}
               >
                 {t('year')}
               </Button>
 
-              <Button className='grow' loading={loading} onClick={() => onSearch(startDate, endDate)}>
-                <Search></Search>
-                {t('search')}
-              </Button>
+              {
+                !hideSearch &&
+                <Button className='grow' loading={loading} onClick={() => onSearch(startDate, endDate)}>
+                  <Search></Search>
+                  {t('search')}
+                </Button>
+              }
             </div>
           </div>
         </div>

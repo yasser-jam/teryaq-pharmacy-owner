@@ -35,7 +35,12 @@ import BasePagination from '@/components/base/pagination';
 import ExchangeRateCard from '@/components/money-box/exchange-rate-card';
 import BaseSkeleton from '@/components/base/base-skeleton';
 import BaseNotFound from '@/components/base/base-not-found';
+import ChartMonthlyProfit from '@/components/chart/chart-monthly-profit';
+import BaseDateRangeFilter from '@/components/base/base-date-range-filter';
+import dayjs from 'dayjs';
+import { getCurrentMonthRange, getNextMonthFromNow } from '@/lib/utils';
 import ChartDailyProfit from '@/components/chart/chart-daily-profit';
+import { Calendar } from '@/components/ui/calendar';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -170,6 +175,10 @@ export default function Dashboard() {
     queryKey: ['money-box'],
     queryFn: () => api('moneybox'),
   });
+
+  const [startDate, setStartDate] = useState<string>(getCurrentMonthRange().start)
+  const [endDate, setEndDate] = useState<string>(getCurrentMonthRange().end)
+  const [selectedDay, setSelectedDay] = useState<string>(dayjs().format('YYYY-MM-DD'))
 
   const handleAction = () =>
     currentAction === 'deposit'
@@ -327,7 +336,23 @@ export default function Dashboard() {
 
           {/* Charts */}
           <div>
-            <ChartDailyProfit />
+            <BaseDateRangeFilter hideSearch startDate={startDate} endDate={endDate} onDateChange={(start: any, end: any) => {
+              setStartDate(start); setEndDate(end);
+            }} onSearch={() => { }} />
+            <ChartMonthlyProfit startDate={startDate} endDate={endDate} />
+
+
+            <div className='grid grid-cols-3 gap-4 my-6'>
+              <Calendar
+                mode="single"
+                required
+                selected={new Date(selectedDay)}
+                onSelect={(val: Date) => setSelectedDay(dayjs(val).format('YYYY-MM-DD'))}
+                className="rounded-md border shadow-sm col-span-1 w-full"
+                captionLayout="dropdown"
+              />
+              <ChartDailyProfit date={selectedDay} className='col-span-2'  />
+            </div>
           </div>
 
           <DialogContent className='sm:max-w-[500px]'>

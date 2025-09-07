@@ -33,7 +33,7 @@ import {
   Scan,
   X,
 } from "lucide-react";
-import type { SaleInvoice, StockItem } from "@/types";
+import type { Currency, SaleInvoice, StockItem } from "@/types";
 import { useRouter } from "next/navigation";
 import POSPaymentTypeSelect from "@/components/pos/pos-payment-type-select";
 import POSTypeMethodSelect from "@/components/pos/pos-type-method-select";
@@ -56,12 +56,21 @@ export default function POSPage() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { mutate: makeSale, isPending } = useMutation({
+  const { mutate: makeSale, isPending: processLoading } = useMutation({
     mutationKey: ["sale"],
     mutationFn: () =>
       api(`sales`, {
         method: "POST",
-        body: invoice,
+        body: {
+          ...invoice,
+          items: invoice.items.map((el) => ({
+            stockItemId: el.stockItemId,
+            unitPrice: el.unitPrice,
+            quantity: el.quantity
+          })),
+          sellingPrice: undefined,
+          sellingPriceUSD: undefined
+        },
       }),
     onSuccess: () => {
       successToast("Sale operation Successfully!");
@@ -77,10 +86,24 @@ export default function POSPage() {
     makeSale();
   };
 
+  const stockItems = queryClient.getQueryData(['pos-stock-items']) as any
   const selectStockItem = (stockItem: StockItem) => {
     const existingItemIndex = invoice.items.findIndex(
       (item) => item.stockItemId === stockItem.id
     );
+
+
+    // Find current quantity in invoice for this stock item
+    const currentQty = existingItemIndex >= 0 ? invoice.items[existingItemIndex].quantity : 0;
+    console.log(currentQty);
+
+    // Prevent adding more than available in stock
+    if (currentQty >= stockItem.totalQuantity) {
+      // Show a toast or warning
+      console.log('hello ');
+
+      return;
+    }
 
     if (existingItemIndex >= 0) {
       setInvoice((prev) => ({
@@ -98,6 +121,8 @@ export default function POSPage() {
         productName: stockItem.productName,
         stockItemId: stockItem.id,
         quantity: 1,
+        sellingPriceUSD: stockItem.sellingPriceUSD,
+        sellingPrice: stockItem.sellingPrice,
         unitPrice: stockItem.sellingPrice,
         subTotal: stockItem.sellingPrice,
       };
@@ -115,16 +140,32 @@ export default function POSPage() {
     }));
   };
 
-  const updateItemQuantity = (index: number, quantity: number) => {
-    if (quantity > 0) {
+  const updateItemQuantity = (item: any, index: number, quantity: number) => {
+
+    let totalQtn = stockItems?.find((el: any) => el.productName == item.productName)?.totalQuantity
+
+    if (quantity > 0 && quantity <= totalQtn) {
       setInvoice((prev) => ({
         ...prev,
-        items: prev.items.map((item, i) =>
-          i === index ? { ...item, quantity, subTotal: item.unitPrice * quantity } : item
+        items: prev.items.map((itemEl, i) =>
+          i === index ? { ...itemEl, quantity, subTotal: itemEl.unitPrice * quantity } : itemEl
         ),
       }));
     }
+
   };
+
+
+  const changeCurrency = (currency: Currency) => {
+
+
+
+    setInvoice((prev: any) => ({
+      ...prev,
+      currency
+    }))
+    
+  }
 
   //   const discountAmount =
   //     invoice.invoiceDiscountType === "PERCENTAGE"
@@ -219,10 +260,9 @@ export default function POSPage() {
                       <POSCurrencyToggle
                         currency={invoice.currency}
                         setCurrency={(currency: "SYP" | "USD") =>
-                          setInvoice((prev) => ({
-                            ...prev,
-                            currency,
-                          }))
+                        {
+                          changeCurrency(currency)
+                        }
                         }
                       />
                     </div>
@@ -246,6 +286,7 @@ export default function POSPage() {
               <POSInvoiceSummary
                 invoice={invoice}
                 onProcessSale={onProcessSale}
+                loading={processLoading}
               />
             </div>
           </div>

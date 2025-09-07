@@ -54,16 +54,13 @@ export default function Page({ children }: { children: React.ReactNode }) {
         title="Refunds"
         subtitle="Refund Operations"
       >
-      </BaseHeader>
-
-      <div className="mt-4">
         <BaseDateRangeFilter
           startDate={startDate}
           endDate={endDate}
           onDateChange={handleDateChange}
           onSearch={() => refetch()}
         />
-      </div>
+      </BaseHeader>
 
       {isFetching ? (
         <BaseSkeleton />

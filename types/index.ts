@@ -77,6 +77,8 @@ export interface SaleInvoice {
   paidAmount: number;
   remainingAmount?: number;
   status?: string;
+  sellingPriceUSD?: number
+  sellingPrice?: number
   refundStatus?: RefundStatus;
   items: SaleInvoiceItem[];
 }
@@ -201,6 +203,7 @@ export interface StockItem {
   totalValue: number;
   categories: string[];
   sellingPrice: number;
+  sellingPriceUSD?: number;
   minStockLevel: number;
   hasExpiredItems: boolean;
   hasExpiringSoonItems: boolean;
@@ -250,6 +253,8 @@ export interface SaleInvoiceItem {
   stockItemId: number;
   quantity: number;
   unitPrice: number;
+  sellingPrice?: number;
+  sellingPriceUSD?: number;
   subTotal: number;
   refundedQuantity?: number;
   availableForRefund?: number;

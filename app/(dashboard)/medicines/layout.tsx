@@ -32,10 +32,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   } = useQuery({
     queryKey: ["medicines-list", pagination.page, pagination.size],
     queryFn: () =>
-      api("search/all-products", {
+      api("search/products", {
         params: {
           page: pagination.page,
           size: pagination.size,
+          keyword: search 
+
         },
       })
   });
@@ -52,7 +54,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   // Update totalElements when new data arrives
   useEffect(() => {
-      setPagination(prev => ({ ...prev, totalElements: medicines?.totalElements || 10 }));
+    setPagination(prev => ({ ...prev, totalElements: medicines?.totalElements || 10 }));
   }, [medicines]);
 
   const { mutate: remove } = useMutation({
@@ -68,6 +70,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
+      <BaseHeader
+        title="Medicines"
+        subtitle="Pharmacy and Master Products"
+      >
+      </BaseHeader>
       <div className="flex items-center gap-4 my-4">
         <Input
           value={search}

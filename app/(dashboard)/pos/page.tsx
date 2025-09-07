@@ -16,6 +16,7 @@ import dayjs from 'dayjs';
 import { initPagination } from '@/lib/init';
 import BasePagination from '@/components/base/pagination';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function Page({ children }: { children: React.ReactNode }) {
   let { data, isFetching, refetch, isError } = useQuery<SaleInvoice[]>({
@@ -59,30 +60,28 @@ export default function Page({ children }: { children: React.ReactNode }) {
     setEndDate(end);
   };
 
+  const t = useTranslations('Sale')
+
   return (
     <>
-      <BaseHeader title='Sales' subtitle='Sales pageto handle sales operations'>
+      <BaseHeader title={t('salesHeader')} subtitle={t('salesSubtitle')}>
         <div className='flex items-center gap-2'>
           <Link href='/pos/create' target='_blank'>
             <Button>
               <Plus />
-              Make new Sale
+              {t('makeNewSale')}
             </Button>
-
           </Link>
-
           <BaseDateRangeFilter
-          startDate={startDate}
-          endDate={endDate}
-          onDateChange={handleDateChange}
-          onSearch={() => refetch()}
-        />
+            startDate={startDate}
+            endDate={endDate}
+            onDateChange={handleDateChange}
+            onSearch={() => refetch()}
+          />
         </div>
       </BaseHeader>
 
-      <div className='mt-4'>
-        
-      </div>
+      <div className='mt-4'></div>
 
       {isFetching ? (
         <BaseSkeleton />
@@ -93,7 +92,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
           ))}
         </div>
       ) : (
-        <BaseNotFound item='Sale' />
+        <BaseNotFound item={t('saleNotFound')} />
       )}
 
       {children}

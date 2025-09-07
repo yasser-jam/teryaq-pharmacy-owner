@@ -1,4 +1,17 @@
 {
+  "Auth": {
+    "welcomeBack": "مرحباً بعودتك",
+    "signInToContinue": "سجّل الدخول إلى حسابك للمتابعة",
+    "emailLabel": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordLabel": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "loginButton": "تسجيل الدخول",
+    "loginSuccess": "تم تسجيل الدخول بنجاح",
+    "noAccount": "ليس لديك حساب؟",
+    "contactUs": "تواصل معنا!"
+  },
   "Roles": {
     "PHARMACY_MANAGER": "مدير",
     "PHARMACY_EMPLOYEE": "موظف",
@@ -237,6 +250,10 @@
     "total": "الإجمالي",
     "processSale": "تنفيذ البيع",
     "searchItems": "ابحث عن المنتج عن طريق الاسم",
-    "invoiceItemsEmpty": "لا يوجد أي عناصر مختارة، انقر على العناصر لإضافتها"
+    "invoiceItemsEmpty": "لا يوجد أي عناصر مختارة، انقر على العناصر لإضافتها",
+    "salesHeader": "المبيعات",
+    "salesSubtitle": "صفحة المبيعات لإدارة عمليات البيع",
+    "makeNewSale": "إجراء عملية بيع جديدة",
+    "saleNotFound": "لا توجد مبيعات"
   }
 }

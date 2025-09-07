@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Package, Search } from "lucide-react";
 import { Badge } from "../ui/badge";
 import POSStockItem from "./pos-stock-item";
+import { useTranslations } from "next-intl";
 
 interface POSStockItemsProps {
     selectStockItem: (stockItem: StockItem) => void;
@@ -27,13 +28,14 @@ export default function POSStockItems({ selectStockItem, invoice }: POSStockItem
         setFilteredItems(data?.filter((item) => item.productName.toLowerCase().includes(searchTerm.toLowerCase())) || [])
     }, [searchTerm, data])
 
+    const t = useTranslations('Sale');
   return (
     <>
       <div>
         <div className="mb-4">
           <div className="relative">
             <Input
-              placeholder="Search products by name or ID..."
+              placeholder={t('searchItems')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(String(e))}
               prefix={<Search />}

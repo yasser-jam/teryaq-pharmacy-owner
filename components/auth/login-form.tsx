@@ -16,12 +16,14 @@ import { setCookie } from '@/lib/utils';
 
 import BasePasswordInput from '@/components/base/base-password-input';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const t = useTranslations('Auth');
   const router = useRouter();
 
   const submitMutation = useMutation({
@@ -35,7 +37,7 @@ export default function LoginForm() {
         },
       }),
     onSuccess(response) {
-      successToast('Logged in Successfully');
+      successToast(t('loginSuccess'));
       setCookie('tp.access-token', response.token);
 
       // complete register (if not) or redirect to home page
@@ -62,9 +64,9 @@ export default function LoginForm() {
         </div>
 
         <div className='space-y-2'>
-          <h1 className='text-3xl font-bold tracking-tight'>Welcome Back</h1>
+          <h1 className='text-3xl font-bold tracking-tight'>{t('welcomeBack')}</h1>
           <p className='text-muted-foreground'>
-            Sign in to your account to continue
+            {t('signInToContinue')}
           </p>
         </div>
       </div>
@@ -74,14 +76,14 @@ export default function LoginForm() {
         {/* Email Field */}
         <div className='space-y-2'>
           <Label htmlFor='email' className='text-sm font-medium'>
-            Email
+            {t('emailLabel')}
           </Label>
 
           <Input
             id='email'
             type='tel'
             prefix={<Smartphone />}
-            placeholder='Enter your email'
+            placeholder={t('emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(String(e))}
             required
@@ -91,13 +93,14 @@ export default function LoginForm() {
         {/* Password Field */}
         <div className='space-y-2'>
           <Label htmlFor='password' className='text-sm font-medium'>
-            Password
+            {t('passwordLabel')}
           </Label>
 
           <BasePasswordInput
             id='password'
             value={password}
             onChange={(e) => setPassword(String(e))}
+            placeholder={t('passwordPlaceholder')}
           />
         </div>
 
@@ -108,7 +111,7 @@ export default function LoginForm() {
             variant='link'
             className='px-0 text-sm text-primary hover:underline'
           >
-            Forgot Password?
+            {t('forgotPassword')}
           </Button>
         </div> */}
 
@@ -119,16 +122,16 @@ export default function LoginForm() {
           className='w-full'
           size='lg'
         >
-          Login
+          {t('loginButton')}
         </Button>
       </form>
 
       {/* Additional Options */}
       <div className='text-center text-sm text-muted-foreground'>
-        {"Don't have an account? "}
+        {t('noAccount') + ' '}
         <Link href={'mailto:yasserjamalaldeen@gmail.com'}>
           <Button variant='link' className='px-0 text-primary hover:underline'>
-            Contact with US!
+            {t('contactUs')}
           </Button>
         </Link>
       </div>

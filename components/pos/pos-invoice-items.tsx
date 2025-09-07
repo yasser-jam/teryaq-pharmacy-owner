@@ -9,7 +9,7 @@ export default function POSInvoiceItems({
 }: {
   invoice: SaleInvoice;
   removeItem: (index: number) => void;
-  updateItemQuantity: (index: number, quantity: number) => void;
+  updateItemQuantity: (item: any, index: number, quantity: number) => void;
 }) {
   return (
     <div className="space-y-2">
@@ -34,7 +34,7 @@ export default function POSInvoiceItems({
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => updateItemQuantity(index, item.quantity - 1)}
+                  onClick={() => updateItemQuantity(item,index, item.quantity - 1)}
                 >
                   <Minus className="h-3 w-3" />
                 </Button>
@@ -42,8 +42,8 @@ export default function POSInvoiceItems({
                 <Button
                   size="sm"
                   variant="outline"
-                  onClick={() => updateItemQuantity(index, item.quantity + 1)}
-                >
+                  onClick={() => updateItemQuantity(item,index, item.quantity + 1)}
+              >
                   <Plus className="h-3 w-3" />
                 </Button>
               </div>

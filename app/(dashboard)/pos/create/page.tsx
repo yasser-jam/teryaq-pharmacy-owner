@@ -77,10 +77,24 @@ export default function POSPage() {
     makeSale();
   };
 
+  const stockItems = queryClient.getQueryData(['pos-stock-items']) as any
   const selectStockItem = (stockItem: StockItem) => {
     const existingItemIndex = invoice.items.findIndex(
       (item) => item.stockItemId === stockItem.id
     );
+
+
+    // Find current quantity in invoice for this stock item
+    const currentQty = existingItemIndex >= 0 ? invoice.items[existingItemIndex].quantity : 0;
+    console.log(currentQty);
+
+    // Prevent adding more than available in stock
+    if (currentQty >= stockItem.totalQuantity) {
+      // Show a toast or warning
+      console.log('hello ');
+
+      return;
+    }
 
     if (existingItemIndex >= 0) {
       setInvoice((prev) => ({
@@ -115,15 +129,19 @@ export default function POSPage() {
     }));
   };
 
-  const updateItemQuantity = (index: number, quantity: number) => {
-    if (quantity > 0) {
+  const updateItemQuantity = (item: any, index: number, quantity: number) => {
+
+    let totalQtn = stockItems?.find((el: any) => el.productName == item.productName)?.totalQuantity
+
+    if (quantity > 0 && quantity <= totalQtn) {
       setInvoice((prev) => ({
         ...prev,
-        items: prev.items.map((item, i) =>
-          i === index ? { ...item, quantity, subTotal: item.unitPrice * quantity } : item
+        items: prev.items.map((itemEl, i) =>
+          i === index ? { ...itemEl, quantity, subTotal: itemEl.unitPrice * quantity } : itemEl
         ),
       }));
     }
+
   };
 
   //   const discountAmount =

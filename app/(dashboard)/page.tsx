@@ -42,6 +42,7 @@ import { getCurrentMonthRange, getNextMonthFromNow } from '@/lib/utils';
 import ChartDailyProfit from '@/components/chart/chart-daily-profit';
 import { Calendar } from '@/components/ui/calendar';
 import { ChartMostSold } from '@/components/chart/chart-most-sold';
+import { ChartMostSoldType } from '@/components/chart/chart-most-sold-type';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -342,12 +343,12 @@ export default function Dashboard() {
             }} onSearch={() => { }} />
             <ChartMonthlyProfit startDate={startDate} endDate={endDate} />
 
-            <div className='grid grid-cols-3'>
+            <div className='grid grid-cols-3 gap-4'>
 
               <div className='col-span-2 min-h-[300px]'>
                 <ChartMostSold startDate={startDate} endDate={endDate} />
               </div>
-
+                <ChartMostSoldType startDate={startDate} endDate={endDate} />
             </div>
 
             <div className='grid grid-cols-3 gap-4 my-6'>

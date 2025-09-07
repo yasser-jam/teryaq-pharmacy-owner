@@ -20,7 +20,7 @@ services:
       - .env.production
     restart: unless-stopped
     networks:
-      - teryaq-net
+      - teryaq_teryaq-net
     # Resource limits
     deploy:
       resources:
@@ -32,5 +32,5 @@ services:
           memory: 256M
 
 networks:
-  teryaq-net:
+  teryaq_teryaq-net:
     external: true # Use the existing network from backend

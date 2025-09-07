@@ -32,10 +32,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   } = useQuery({
     queryKey: ["medicines-list", pagination.page, pagination.size],
     queryFn: () =>
-      api("search/all-products", {
+      api("search/products", {
         params: {
           page: pagination.page,
           size: pagination.size,
+          keyword: search 
+
         },
       })
   });

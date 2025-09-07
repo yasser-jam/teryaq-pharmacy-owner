@@ -1,6 +1,8 @@
+'use client'
 import { SaleInvoice, SaleInvoiceItem } from "@/types";
 import { Button } from "../ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function POSInvoiceItems({
   invoice,
@@ -11,6 +13,15 @@ export default function POSInvoiceItems({
   removeItem: (index: number) => void;
   updateItemQuantity: (item: any, index: number, quantity: number) => void;
 }) {
+
+
+  const [currency, setCurrency] = useState(invoice.currency)
+
+  useEffect(() => {
+    setCurrency(invoice.currency)
+    
+  }, [invoice.currency])
+
   return (
     <div className="space-y-2">
       {invoice.items.length === 0 ? (
@@ -18,9 +29,9 @@ export default function POSInvoiceItems({
           No items selected. Click on stock items above to add them.
         </p>
       ) : (
-        invoice.items.map((item, index) => (
-          <div
-            key={index}
+        invoice.items?.map((item, index) => {
+          return <div
+            key={item.id}
             className="flex items-center justify-between p-3 bg-white border rounded-lg"
           >
             <div className="flex items-center gap-4">
@@ -48,7 +59,7 @@ export default function POSInvoiceItems({
                 </Button>
               </div>
               <span className="text-sm text-gray-600">
-                @ {item.unitPrice.toFixed(2)}
+                {currency == 'USD' ? item.sellingPrice?.toFixed(2) : item.sellingPriceUSD?.toFixed(2)}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -64,7 +75,7 @@ export default function POSInvoiceItems({
               </Button>
             </div>
           </div>
-        ))
+        })
       )}
     </div>
   );

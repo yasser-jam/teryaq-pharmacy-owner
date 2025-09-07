@@ -33,7 +33,7 @@ import {
   Scan,
   X,
 } from "lucide-react";
-import type { SaleInvoice, StockItem } from "@/types";
+import type { Currency, SaleInvoice, StockItem } from "@/types";
 import { useRouter } from "next/navigation";
 import POSPaymentTypeSelect from "@/components/pos/pos-payment-type-select";
 import POSTypeMethodSelect from "@/components/pos/pos-type-method-select";
@@ -112,6 +112,8 @@ export default function POSPage() {
         productName: stockItem.productName,
         stockItemId: stockItem.id,
         quantity: 1,
+        sellingPriceUSD: stockItem.sellingPriceUSD,
+        sellingPrice: stockItem.sellingPrice,
         unitPrice: stockItem.sellingPrice,
         subTotal: stockItem.sellingPrice,
       };
@@ -143,6 +145,18 @@ export default function POSPage() {
     }
 
   };
+
+
+  const changeCurrency = (currency: Currency) => {
+
+
+
+    setInvoice((prev: any) => ({
+      ...prev,
+      currency
+    }))
+    
+  }
 
   //   const discountAmount =
   //     invoice.invoiceDiscountType === "PERCENTAGE"
@@ -237,10 +251,9 @@ export default function POSPage() {
                       <POSCurrencyToggle
                         currency={invoice.currency}
                         setCurrency={(currency: "SYP" | "USD") =>
-                          setInvoice((prev) => ({
-                            ...prev,
-                            currency,
-                          }))
+                        {
+                          changeCurrency(currency)
+                        }
                         }
                       />
                     </div>

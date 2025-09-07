@@ -15,15 +15,34 @@ export const getCookie = (name: string) => {
 };
 
 export const setCookie = (name: string, value: string) => {
+  const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   Cookies.set(name, value, {
-    secure: process.env.NODE_ENV == 'production',
+    secure: isProduction && isHttps,
     sameSite: 'lax',
+    path: '/',
+    expires: 7, // 7 days
+    // Don't set domain in production to avoid subdomain issues
+    domain: isProduction ? undefined : undefined,
   });
 };
 
 export const isMasterProduct = (med: Medicine) => {
   return med.productTypeName?.toLowerCase() == "master" || med.productTypeName == "مركزي";
 }
+
+// Debug utility for cookie issues
+export const debugCookies = () => {
+  if (typeof window !== 'undefined') {
+    console.log('Cookie Debug Info:');
+    console.log('- Protocol:', window.location.protocol);
+    console.log('- Host:', window.location.host);
+    console.log('- Domain:', window.location.hostname);
+    console.log('- Access Token:', Cookies.get('tp.access-token'));
+    console.log('- All Cookies:', document.cookie);
+  }
+};
 
 export const getProductType = (type: ProductType) => {
   return type == "MASTER" || type == "مركزي" ? "MASTER" : "PHARMACY";

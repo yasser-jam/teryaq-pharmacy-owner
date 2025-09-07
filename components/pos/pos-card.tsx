@@ -49,7 +49,7 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
     unitPrice: item.unitPrice,
     availableForRefund: item.availableForRefund || item.quantity - (item.refundedQuantity || 0),
   }));
-  
+
   return (
     <Card className="border-2 border-dashed rounded-sm">
       <CardHeader>
@@ -96,49 +96,70 @@ export default function POSCard({ invoice }: { invoice: SaleInvoice }) {
               <Badge variant="outline" className="bg-purple-100 text-purple-800 border-purple-300">{invoice.currency}</Badge>
             </div>
           </div>
+
+          <div className="bg-yellow-50 rounded-lg p-4 space-y-2 relative overflow-hidden">
+            {/* <div className="absolute -top-5 -right-5 h-20 w-20 bg-yellow-200 rounded-full flex items-end justify-start p-3 opacity-70">
+              <ReceiptText className="h-8 w-8 text-yellow-700" />
+            </div> */}
+            <h4 className="font-semibold text-yellow-800 mb-3">Items</h4>
+            <div className="divide-y divide-yellow-200">
+              {invoice.items && invoice.items.length > 0 ? (
+                invoice.items.map((item) => (
+                  <div key={item.id} className="flex justify-between py-1">
+                    <span className="text-yellow-900 truncate max-w-[60%]">{item.productName}</span>
+                    <span className="font-medium text-yellow-800">x{item.quantity}</span>
+                  </div>
+                ))
+              ) : (
+                <span className="text-yellow-600">No items</span>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="bg-green-50 rounded-lg p-4 space-y-2 relative overflow-hidden">
-          <div className="absolute -top-5 -right-5 h-20 w-20 bg-green-200 rounded-full flex items-end justify-start p-3 opacity-70">
-            <ReceiptText className="h-8 w-8 text-green-700" />
+        <div className="flex flex-col gap-4">
+          {/* Bill Details section */}
+          <div className="bg-green-50 rounded-lg p-4 space-y-2 relative overflow-hidden">
+            <div className="absolute -top-5 -right-5 h-20 w-20 bg-green-200 rounded-full flex items-end justify-start p-3 opacity-70">
+              <ReceiptText className="h-8 w-8 text-green-700" />
+            </div>
+            <h4 className="font-semibold text-green-800 mb-3">Bill Details</h4>
+            <div className="flex justify-between">
+              <span className="text-green-700">Items</span>
+              <span className="font-medium text-green-900">{invoice.items?.length ?? 0}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-green-700">Subtotal</span>
+              <span className="font-medium text-green-900">{subtotal.toFixed(2)} {invoice.currency}</span>
+            </div>
+            <div className="flex justify-between text-red-600">
+              <span className="text-green-700">Discount</span>
+              <span className="font-medium text-red-700">-{discount.toFixed(2)} {invoice.currency}</span>
+            </div>
+            <Separator className="my-2 bg-green-200" />
+            <div className="flex justify-between font-semibold text-lg">
+              <span className="text-green-800">Total</span>
+              <span className="text-green-900">{total.toFixed(2)} {invoice.currency}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-green-700">Paid</span>
+              <span className="font-medium text-green-900">{paid.toFixed(2)} {invoice.currency}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-green-700">Remaining</span>
+              <span className="font-medium text-green-900">{remaining.toFixed(2)} {invoice.currency}</span>
+            </div>
+            <Button
+              variant="outline"
+              className="w-full mt-4 bg-red-100 text-red-700 border-red-300 hover:bg-red-200"
+              onClick={() => setIsRefundDialogOpen(true)}
+              disabled={invoice.refundStatus === "FULLY_REFUNDED"}
+            >
+              Refund
+            </Button>
           </div>
-          <h4 className="font-semibold text-green-800 mb-3">Bill Details</h4>
-          <div className="flex justify-between">
-            <span className="text-green-700">Items</span>
-            <span className="font-medium text-green-900">{invoice.items?.length ?? 0}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-green-700">Subtotal</span>
-            <span className="font-medium text-green-900">{subtotal.toFixed(2)} {invoice.currency}</span>
-          </div>
-          <div className="flex justify-between text-red-600">
-            <span className="text-green-700">Discount</span>
-            <span className="font-medium text-red-700">-{discount.toFixed(2)} {invoice.currency}</span>
-          </div>
-          <Separator className="my-2 bg-green-200" />
-          <div className="flex justify-between font-semibold text-lg">
-            <span className="text-green-800">Total</span>
-            <span className="text-green-900">{total.toFixed(2)} {invoice.currency}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-green-700">Paid</span>
-            <span className="font-medium text-green-900">{paid.toFixed(2)} {invoice.currency}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-green-700">Remaining</span>
-            <span className="font-medium text-green-900">{remaining.toFixed(2)} {invoice.currency}</span>
-          </div>
-          <Button
-            variant="outline"
-            className="w-full mt-4 bg-red-100 text-red-700 border-red-300 hover:bg-red-200"
-            onClick={() => setIsRefundDialogOpen(true)}
-            disabled={invoice.refundStatus === "FULLY_REFUNDED"}
-          >
-            Refund
-          </Button>
         </div>
       </CardContent>
-
 
       <RefundItemsDialog
         items={refundItems}

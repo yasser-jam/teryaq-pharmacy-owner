@@ -19,8 +19,6 @@ services:
     env_file:
       - .env.production
     restart: unless-stopped
-    depends_on:
-      - teryaq-backend
     networks:
       - teryaq-net
     # Resource limits

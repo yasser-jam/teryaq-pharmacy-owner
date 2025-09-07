@@ -8,7 +8,7 @@ echo "====================================="
 
 # Check if backend containers are running
 echo "📋 Checking backend containers..."
-if ! docker ps | grep -q "teryaq-backend"; then
+if ! docker ps --format "table {{.Names}}" | grep -q "teryaq-backend"; then
     echo "❌ Backend container 'teryaq-backend' is not running!"
     echo "Please start your backend first:"
     echo "  cd /path/to/your/backend"
@@ -16,7 +16,7 @@ if ! docker ps | grep -q "teryaq-backend"; then
     exit 1
 fi
 
-if ! docker ps | grep -q "teryaq-db"; then
+if ! docker ps --format "table {{.Names}}" | grep -q "teryaq-db"; then
     echo "❌ Database container 'teryaq-db' is not running!"
     echo "Please start your backend first:"
     echo "  cd /path/to/your/backend"

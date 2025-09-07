@@ -7,7 +7,7 @@ echo =====================================
 
 REM Check if backend containers are running
 echo 📋 Checking backend containers...
-docker ps | findstr "teryaq-backend" >nul
+docker ps --format "table {{.Names}}" | findstr "teryaq-backend" >nul
 if %errorlevel% neq 0 (
     echo ❌ Backend container 'teryaq-backend' is not running!
     echo Please start your backend first:
@@ -17,7 +17,7 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-docker ps | findstr "teryaq-db" >nul
+docker ps --format "table {{.Names}}" | findstr "teryaq-db" >nul
 if %errorlevel% neq 0 (
     echo ❌ Database container 'teryaq-db' is not running!
     echo Please start your backend first:

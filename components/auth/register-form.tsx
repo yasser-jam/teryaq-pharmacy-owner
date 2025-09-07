@@ -24,6 +24,7 @@ import BasePasswordInput from '@/components/base/base-password-input';
 import { BasePhoneInput } from '@/components/base/phone-input';
 import { setCookie } from '@/lib/utils';
 import { Phone } from 'lucide-react';
+import SysAreaSelect from '../sys/area-select';
 
 type RegisterFormData = z.infer<typeof REGISTER_SCHEMA>;
 
@@ -141,10 +142,23 @@ export default function RegisterForm() {
 
             <FormField
               control={form.control}
+              name='areaId'
+              render={({ field }) => (
+                <FormItem className='col-span-2'>
+                  <FormLabel>Area</FormLabel>
+                  <FormControl>
+                    <SysAreaSelect {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name='location'
               render={({ field }) => (
                 <FormItem className='col-span-2'>
-                  <FormLabel>Location</FormLabel>
+                  <FormLabel>Location (Address)</FormLabel>
                   <FormControl>
                     <Input {...field} placeholder='City, Country' />
                   </FormControl>

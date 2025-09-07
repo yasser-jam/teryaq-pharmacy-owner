@@ -136,6 +136,7 @@ export const MEDICINE_SCHEMA = z.object({
 export const REGISTER_SCHEMA = z.object({
   newPassword: passwordSchema,
   location: requiredString(),
+  areaId: requiredString(),
   pharmacyEmail: requiredString().email(),
   pharmacyPhone: requiredString(),
   managerFirstName: requiredString(),

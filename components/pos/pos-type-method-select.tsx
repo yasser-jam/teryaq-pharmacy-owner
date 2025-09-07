@@ -1,6 +1,7 @@
 import { Banknote, Landmark } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
 import { Label } from "../ui/label";
+import { useTranslations } from "next-intl";
 
 interface POSTypeMethodSelectProps {
   typeMethod: 'CASH' | 'BANK_ACCOUNT';
@@ -8,9 +9,10 @@ interface POSTypeMethodSelectProps {
 }
 
 export default function POSTypeMethodSelect({ typeMethod, setTypeMethod }: POSTypeMethodSelectProps) {
+  const t = useTranslations('Sale');
   return (
     <div>
-      <Label className="mb-3 block">Type Method</Label>
+      <Label className="mb-3 block">{t('typeMethod')}</Label>
       <div className="grid grid-cols-2 gap-3">
         <Card
           className={`cursor-pointer transition-all hover:shadow-sm ${
@@ -23,7 +25,7 @@ export default function POSTypeMethodSelect({ typeMethod, setTypeMethod }: POSTy
           <CardContent className="flex items-center justify-center p-4">
             <div className="text-center">
               <Banknote className="h-5 w-5 mx-auto mb-1 text-green-600" />
-              <span className="text-sm font-medium">Cash</span>
+              <span className="text-sm font-medium">{t('cash')}</span>
             </div>
           </CardContent>
         </Card>
@@ -39,7 +41,7 @@ export default function POSTypeMethodSelect({ typeMethod, setTypeMethod }: POSTy
           <CardContent className="flex items-center justify-center p-4">
             <div className="text-center">
               <Landmark className="h-5 w-5 mx-auto mb-1 text-blue-600" />
-              <span className="text-sm font-medium">Bank Account</span>
+              <span className="text-sm font-medium">{t('bankAccount')}</span>
             </div>
           </CardContent>
         </Card>

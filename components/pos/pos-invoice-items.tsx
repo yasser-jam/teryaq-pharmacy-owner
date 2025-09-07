@@ -3,6 +3,7 @@ import { SaleInvoice, SaleInvoiceItem } from "@/types";
 import { Button } from "../ui/button";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function POSInvoiceItems({
   invoice,
@@ -22,11 +23,12 @@ export default function POSInvoiceItems({
     
   }, [invoice.currency])
 
+  const t = useTranslations('POS')
   return (
     <div className="space-y-2">
       {invoice.items.length === 0 ? (
         <p className="text-gray-500 text-center py-4">
-          No items selected. Click on stock items above to add them.
+          {t('InvoiceItemsEmpty')}
         </p>
       ) : (
         invoice.items?.map((item, index) => {

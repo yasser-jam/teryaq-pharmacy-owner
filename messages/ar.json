@@ -1,215 +1,242 @@
 {
-    "Roles": {
-      "PHARMACY_MANAGER": "مدير",
-      "PHARMACY_EMPLOYEE": "موظف",
-      "PHARMACY_TRAINEE": "متدرب",
-      "Unknown": "غير معروف"
-    },
-    "General": {
-      "teryaq": "ترياق",
-      "logout": "تسجيل الخروج"
-    },
-    "Placeholder": {
-      "searchProject": "بحث في جميع الصفحات",
-      "searchMedicine": "ابحث عن دواء"
-    },
-    "Sidebar": {
-      "home": "الرئيسية",
-      "pos": "البيع",
-      "refunds": "المرتجعات",
-      "sales": "البيع",
-      "medicines": "الأدوية",
-      "employees": "الموظفين",
-      "suppliers": "الموردين",
-      "purchaseOrders": "طلبات الشراء",
-      "stock": "المخزون",
-      "customers": "العملاء"
-    },
-    "Medicines": {
-      "addButton": "إضافة دواء",
-      "deleteSuccess": "تم حذف الدواء بنجاح",
-      "searchPlaceholder": "ابحث عن دواء",
-      "details": {
-        "title": "تفاصيل الدواء",
-        "subtitle": "إدخال بيانات الدواء",
-        "tradeName": "الاسم التجاري",
-        "scientificName": "الاسم العلمي",
-        "concentration": "التركيز",
-        "size": "الحجم",
-        "tax": "الضريبة",
-        "manufacturer": "الشركة المصنعة",
-        "type": "النوع",
-        "form": "الشكل الدوائي",
-        "categories": "الفئات",
-        "barcodes": "الباركود",
-        "notes": "ملاحظات",
-        "requiresPrescription": "يتطلب وصفة طبية",
-        "prescriptionHint": "يجب رؤية وصفة طبية معتمدة قبل بيع هذا المنتج",
-        "save": "حفظ",
-        "cancel": "إلغاء",
-        "createSuccess": "تم إنشاء الدواء بنجاح",
-        "updateSuccess": "تم تحديث الدواء بنجاح"
-      },
-      "table": {
-        "name": "الاسم",
-        "type": "النوع",
-        "size": "الحجم",
-        "prescription": {
-          "required": "يتطلب وصفة طبية",
-          "notRequired": "لا يتطلب وصفة"
-        },
-        "actions": "الإجراءات"
-      },
-      "types": {
-        "tablet": "أقراص",
-        "liquid": "سائل",
-        "injection": "حقن",
-        "capsule": "كبسولات",
-        "other": "أخرى"
-      }
-    },
-    "PurchaseOrders": {
-      "loading": "جاري التحميل...",
-      "notFound": "لم يتم العثور على الطلب",
-      "editTitle": "تعديل طلب الشراء #{id}",
-      "createTitle": "إنشاء طلب شراء جديد",
-      "editSubtitle": "تحديث تفاصيل طلب الشراء",
-      "createSubtitle": "املأ تفاصيل طلب الشراء الجديد",
-      "updateButton": "تحديث الطلب",
-      "createButton": "إنشاء طلب",
-      "medicines": "الأدوية",
-      "searchPlaceholder": "ابحث عن دواء",
-      "supplier": "المورد",
-      "orderItems": "عناصر الطلب",
-      "noItems": "لا توجد عناصر مضافة لهذا الطلب",
-      "selectSupplier": "الرجاء اختيار مورد",
-      "addItems": "الرجاء إضافة عنصر واحد على الأقل",
-      "createSuccess": "تم إنشاء طلب الشراء بنجاح",
-      "updateSuccess": "تم تحديث طلب الشراء بنجاح",
-      "createError": "فشل إنشاء طلب الشراء",
-      "updateError": "فشل تحديث طلب الشراء"
-    },
-    "PurchaseOrderList": {
-      "title": "طلبات الشراء",
-      "subtitle": "إدارة وتتبع طلبات الشراء الخاصة بك",
-      "createButton": "طلب شراء جديد",
-      "tabs": {
-        "pending": "الطلبات المعلقة",
-        "done": "الطلبات المستلمة"
-      },
-      "loading": "جاري التحميل...",
-      "noOrders": "لا توجد طلبات شراء",
-      "receiveSuccess": "تم استلام الطلب بنجاح",
-      "receiveError": "فشل تأكيد استلام الطلب",
-      "deleteSuccess": "تم حذف الطلب بنجاح",
-      "deleteError": "فشل حذف الطلب"
-    },
-    "PurchaseOrderCard": {
-      "orderNumber": "طلب #{id}",
-      "createdDate": "تاريخ الإنشاء",
-      "items": "العناصر",
-      "quantity": "الكمية",
-      "perUnit": "للوحدة",
-      "totalAmount": "إجمالي المبلغ",
-      "receiveOrder": "استلام الطلب",
-      "viewDetails": "عرض التفاصيل",
-      "status": {
-        "pending": "قيد الانتظار",
-        "done": "مكتمل",
-        "received": "مستلم",
-        "cancelled": "ملغي"
-      }
-    },
-    "SupplierOrders": {
-      "title": "طلبات المورد",
-      "noOrders": "لا توجد طلبات",
-      "noOrdersDescription": "هذا المورد لا يملك طلبات شراء بعد.",
-      "loading": "جاري التحميل..."
-    },
-    "ViewModes": {
-      "table": "عرض الجدول",
-      "cards": "عرض البطاقات",
-      "inlineCards": "عرض القائمة"
-    },
-    "StockItem": {
-      "title": "عنصر مخزون",
-      "subtitle": "عنصر مخزون",
-      "productInfo": "معلومات المنتج",
-      "productId": "معرف المنتج:",
-      "inventoryDetails": "تفاصيل المخزون",
-      "currentStock": "المخزون الحالي:",
-      "batchDetails": "تفاصيل الدفعة",
-      "batchId": "معرف الدفعة:",
-      "expiryDate": "تاريخ الانتهاء:"
-    },
-    "DateRangeFilter": {
-      "dateRange": "نطاق التاريخ",
-      "startDate": "تاريخ البداية",
-      "endDate": "تاريخ النهاية",
-      "day": "اليوم",
-      "month": "الشهر",
-      "year": "السنة",
-      "search": "بحث"
-    },
-    "PurchaseInvoiceDialog": {
-      "title": "إنشاء فاتورة شراء",
-      "supplierInfo": "معلومات المورد",
-      "invoiceInfo": "معلومات الفاتورة",
-      "invoiceNumber": "رقم الفاتورة",
-      "invoiceNumberPlaceholder": "أدخل رقم الفاتورة",
-      "invoiceItems": "عناصر الفاتورة",
-      "invoiceItemsDescription": "املأ الكميات المستلمة وتفاصيل التسعير لكل عنصر",
-      "receivedQty": "الكمية المستلمة",
-      "bonusQty": "كمية المكافأة",
-      "invoicePrice": "سعر الفاتورة",
-      "batchNo": "رقم الدفعة",
-      "batchNoPlaceholder": "أدخل رقم الدفعة",
-      "expiryDate": "تاريخ الانتهاء",
-      "sellingPrice": "سعر البيع",
-      "minStockLevel": "الحد الأدنى للمخزون",
-      "createInvoice": "إنشاء الفاتورة",
-      "cancel": "إلغاء",
-      "createSuccess": "تم إنشاء الفاتورة بنجاح"
-    },
-    "PurchaseInvoiceBill": {
-      "orderSummary": "ملخص الطلب",
-      "items": "عناصر",
-      "invoice": "الفاتورة #",
-      "date": "التاريخ",
-      "supplier": "المورد",
-      "notSet": "غير محدد",
-      "subtotal": "المجموع الفرعي",
-      "tax": "الضريبة (0%)",
-      "total": "المجموع",
-      "createInvoice": "إنشاء الفاتورة",
-      "cancel": "إلغاء"
-    },
-    "Suppliers": {
-      "title": "الموردون",
-      "subtitle": "صفحة الموردين لإضافة الموردين لإدارة عمليات البيع",
-      "add": "إضافة مورد",
-      "deleted": "تم حذف المورد بنجاح",
-      "supplier": "مورد",
-      "search": "بحث...",
-      "info": "هذه الصفحة مسؤولة عن إضافة الموردين وتحديث بياناتهم من أجل تنفيذ الطلبات"
-    },
-    "SupplierDetails": {
-      "title": "تفاصيل المورد",
-      "subtitle": "ملء بيانات المورد",
-      "createSuccess": "تم إنشاء المورد بنجاح",
-      "name": {
-        "label": "الاسم",
-        "placeholder": "اسم المورد"
-      },
-      "phone": {
-        "label": "رقم الهاتف",
-        "placeholder": "رقم هاتف المورد"
-      },
-      "address": {
-        "label": "العنوان",
-        "placeholder": "عنوان المورد"
-      },
+  "Roles": {
+    "PHARMACY_MANAGER": "مدير",
+    "PHARMACY_EMPLOYEE": "موظف",
+    "PHARMACY_TRAINEE": "متدرب",
+    "Unknown": "غير معروف"
+  },
+  "General": {
+    "teryaq": "ترياق",
+    "logout": "تسجيل الخروج"
+  },
+  "Placeholder": {
+    "searchProject": "بحث في جميع الصفحات",
+    "searchMedicine": "ابحث عن دواء"
+  },
+  "Sidebar": {
+    "home": "الرئيسية",
+    "pos": "البيع",
+    "refunds": "المرتجعات",
+    "sales": "البيع",
+    "medicines": "الأدوية",
+    "employees": "الموظفين",
+    "suppliers": "الموردين",
+    "purchaseOrders": "طلبات الشراء",
+    "stock": "المخزون",
+    "customers": "العملاء"
+  },
+  "Medicines": {
+    "addButton": "إضافة دواء",
+    "deleteSuccess": "تم حذف الدواء بنجاح",
+    "searchPlaceholder": "ابحث عن دواء",
+    "details": {
+      "title": "تفاصيل الدواء",
+      "subtitle": "إدخال بيانات الدواء",
+      "tradeName": "الاسم التجاري",
+      "scientificName": "الاسم العلمي",
+      "concentration": "التركيز",
+      "size": "الحجم",
+      "tax": "الضريبة",
+      "manufacturer": "الشركة المصنعة",
+      "type": "النوع",
+      "form": "الشكل الدوائي",
+      "categories": "الفئات",
+      "barcodes": "الباركود",
+      "notes": "ملاحظات",
+      "requiresPrescription": "يتطلب وصفة طبية",
+      "prescriptionHint": "يجب رؤية وصفة طبية معتمدة قبل بيع هذا المنتج",
       "save": "حفظ",
-      "cancel": "إلغاء"
+      "cancel": "إلغاء",
+      "createSuccess": "تم إنشاء الدواء بنجاح",
+      "updateSuccess": "تم تحديث الدواء بنجاح"
+    },
+    "table": {
+      "name": "الاسم",
+      "type": "النوع",
+      "size": "الحجم",
+      "prescription": {
+        "required": "يتطلب وصفة طبية",
+        "notRequired": "لا يتطلب وصفة"
+      },
+      "actions": "الإجراءات"
+    },
+    "types": {
+      "tablet": "أقراص",
+      "liquid": "سائل",
+      "injection": "حقن",
+      "capsule": "كبسولات",
+      "other": "أخرى"
     }
+  },
+  "PurchaseOrders": {
+    "loading": "جاري التحميل...",
+    "notFound": "لم يتم العثور على الطلب",
+    "editTitle": "تعديل طلب الشراء #{id}",
+    "createTitle": "إنشاء طلب شراء جديد",
+    "editSubtitle": "تحديث تفاصيل طلب الشراء",
+    "createSubtitle": "املأ تفاصيل طلب الشراء الجديد",
+    "updateButton": "تحديث الطلب",
+    "createButton": "إنشاء طلب",
+    "medicines": "الأدوية",
+    "searchPlaceholder": "ابحث عن دواء",
+    "supplier": "المورد",
+    "orderItems": "عناصر الطلب",
+    "noItems": "لا توجد عناصر مضافة لهذا الطلب",
+    "selectSupplier": "الرجاء اختيار مورد",
+    "addItems": "الرجاء إضافة عنصر واحد على الأقل",
+    "createSuccess": "تم إنشاء طلب الشراء بنجاح",
+    "updateSuccess": "تم تحديث طلب الشراء بنجاح",
+    "createError": "فشل إنشاء طلب الشراء",
+    "updateError": "فشل تحديث طلب الشراء"
+  },
+  "PurchaseOrderList": {
+    "title": "طلبات الشراء",
+    "subtitle": "إدارة وتتبع طلبات الشراء الخاصة بك",
+    "createButton": "طلب شراء جديد",
+    "tabs": {
+      "pending": "الطلبات المعلقة",
+      "done": "الطلبات المستلمة"
+    },
+    "loading": "جاري التحميل...",
+    "noOrders": "لا توجد طلبات شراء",
+    "receiveSuccess": "تم استلام الطلب بنجاح",
+    "receiveError": "فشل تأكيد استلام الطلب",
+    "deleteSuccess": "تم حذف الطلب بنجاح",
+    "deleteError": "فشل حذف الطلب"
+  },
+  "PurchaseOrderCard": {
+    "orderNumber": "طلب #{id}",
+    "createdDate": "تاريخ الإنشاء",
+    "items": "العناصر",
+    "quantity": "الكمية",
+    "perUnit": "للوحدة",
+    "totalAmount": "إجمالي المبلغ",
+    "receiveOrder": "استلام الطلب",
+    "viewDetails": "عرض التفاصيل",
+    "status": {
+      "pending": "قيد الانتظار",
+      "done": "مكتمل",
+      "received": "مستلم",
+      "cancelled": "ملغي"
+    }
+  },
+  "SupplierOrders": {
+    "title": "طلبات المورد",
+    "noOrders": "لا توجد طلبات",
+    "noOrdersDescription": "هذا المورد لا يملك طلبات شراء بعد.",
+    "loading": "جاري التحميل..."
+  },
+  "ViewModes": {
+    "table": "عرض الجدول",
+    "cards": "عرض البطاقات",
+    "inlineCards": "عرض القائمة"
+  },
+  "StockItem": {
+    "title": "عنصر مخزون",
+    "subtitle": "عنصر مخزون",
+    "productInfo": "معلومات المنتج",
+    "productId": "معرف المنتج:",
+    "inventoryDetails": "تفاصيل المخزون",
+    "currentStock": "المخزون الحالي:",
+    "batchDetails": "تفاصيل الدفعة",
+    "batchId": "معرف الدفعة:",
+    "expiryDate": "تاريخ الانتهاء:"
+  },
+  "DateRangeFilter": {
+    "dateRange": "نطاق التاريخ",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "day": "اليوم",
+    "month": "الشهر",
+    "year": "السنة",
+    "search": "بحث"
+  },
+  "PurchaseInvoiceDialog": {
+    "title": "إنشاء فاتورة شراء",
+    "supplierInfo": "معلومات المورد",
+    "invoiceInfo": "معلومات الفاتورة",
+    "invoiceNumber": "رقم الفاتورة",
+    "invoiceNumberPlaceholder": "أدخل رقم الفاتورة",
+    "invoiceItems": "عناصر الفاتورة",
+    "invoiceItemsDescription": "املأ الكميات المستلمة وتفاصيل التسعير لكل عنصر",
+    "receivedQty": "الكمية المستلمة",
+    "bonusQty": "كمية المكافأة",
+    "invoicePrice": "سعر الفاتورة",
+    "batchNo": "رقم الدفعة",
+    "batchNoPlaceholder": "أدخل رقم الدفعة",
+    "expiryDate": "تاريخ الانتهاء",
+    "sellingPrice": "سعر البيع",
+    "minStockLevel": "الحد الأدنى للمخزون",
+    "createInvoice": "إنشاء الفاتورة",
+    "cancel": "إلغاء",
+    "createSuccess": "تم إنشاء الفاتورة بنجاح"
+  },
+  "PurchaseInvoiceBill": {
+    "orderSummary": "ملخص الطلب",
+    "items": "عناصر",
+    "invoice": "الفاتورة #",
+    "date": "التاريخ",
+    "supplier": "المورد",
+    "notSet": "غير محدد",
+    "subtotal": "المجموع الفرعي",
+    "tax": "الضريبة (0%)",
+    "total": "المجموع",
+    "createInvoice": "إنشاء الفاتورة",
+    "cancel": "إلغاء"
+  },
+  "Suppliers": {
+    "title": "الموردون",
+    "subtitle": "صفحة الموردين لإضافة الموردين لإدارة عمليات البيع",
+    "add": "إضافة مورد",
+    "deleted": "تم حذف المورد بنجاح",
+    "supplier": "مورد",
+    "search": "بحث...",
+    "info": "هذه الصفحة مسؤولة عن إضافة الموردين وتحديث بياناتهم من أجل تنفيذ الطلبات"
+  },
+  "SupplierDetails": {
+    "title": "تفاصيل المورد",
+    "subtitle": "ملء بيانات المورد",
+    "createSuccess": "تم إنشاء المورد بنجاح",
+    "name": {
+      "label": "الاسم",
+      "placeholder": "اسم المورد"
+    },
+    "phone": {
+      "label": "رقم الهاتف",
+      "placeholder": "رقم هاتف المورد"
+    },
+    "address": {
+      "label": "العنوان",
+      "placeholder": "عنوان المورد"
+    },
+    "save": "حفظ",
+    "cancel": "إلغاء"
+  },
+  "Sale": {
+    "pos": "نقطة البيع",
+    "stockItems": "عناصر المخزون",
+    "scanHint": "يمكنك مسح الباركود بدلاً من البحث عن المنتجات",
+    "paymentDetails": "تفاصيل الدفع",
+    "customerInvoiceDetails": "تفاصيل العميل والفاتورة",
+    "walkInHint": "يمكنك ترك العميل فارغاً للعملاء العابرين",
+    "selectCustomer": "اختر العميل",
+    "currency": "العملة",
+    "invoiceItems": "عناصر الفاتورة",
+    "saleSuccess": "تمت عملية البيع بنجاح!",
+    "stockLimit": "لا يمكن إضافة أكثر من الكمية المتوفرة في المخزون.",
+    "paymentType": "نوع الدفع",
+    "typeMethod": "طريقة الدفع",
+    "cash": "نقدي",
+    "bankAccount": "حساب بنكي",
+    "cashSale": "بيع نقدي",
+    "creditSale": "بيع آجل",
+    "withDebt": "مع دين",
+    "invoiceSummary": "ملخص الفاتورة",
+    "subtotal": "المجموع الفرعي",
+    "discount": "الخصم",
+    "total": "الإجمالي",
+    "processSale": "تنفيذ البيع",
+    "searchItems": "ابحث عن المنتج عن طريق الاسم",
+    "invoiceItemsEmpty": "لا يوجد أي عناصر مختارة، انقر على العناصر لإضافتها"
   }
+}

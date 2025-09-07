@@ -27,33 +27,32 @@ function formatCurrency(amount: number): string {
 }
 
 export function FinancePurchaseDailyCard({ data }: FinancialDataCardProps) {
-  const { averageAmount, totalAmount, totalInvoices, totalPaid } = data
 
   const metrics = [
     {
       title: "Total Amount",
-      value: formatCurrency(totalAmount) || 'Unknown',
+      value: formatCurrency(data?.totalAmount) || 'Unknown',
       icon: DollarSign,
       color: "text-emerald-600",
       bgColor: "bg-emerald-50 dark:bg-emerald-950/20",
     },
     {
       title: "Total Paid",
-      value: formatCurrency(totalPaid),
+      value: formatCurrency(data?.totalPaid),
       icon: CheckCircle,
       color: "text-green-600",
       bgColor: "bg-green-50 dark:bg-green-950/20",
     },
     {
       title: "Average Amount",
-      value: formatCurrency(averageAmount),
+      value: formatCurrency(data?.averageAmount),
       icon: TrendingUp,
       color: "text-blue-600",
       bgColor: "bg-blue-50 dark:bg-blue-950/20",
     },
     {
       title: "Total Invoices",
-      value: totalInvoices.toLocaleString(),
+      value: data?.totalInvoices?.toLocaleString(),
       icon: FileText,
       color: "text-purple-600",
       bgColor: "bg-purple-50 dark:bg-purple-950/20",

@@ -89,20 +89,20 @@
     "updateError": "Failed to update purchase order"
   },
   "PurchaseOrderList": {
-      "title": "Purchase Orders",
-      "subtitle": "Manage and track your purchase orders",
-      "createButton": "Create New Purchase Order",
-      "tabs": {
-        "pending": "Pending Orders",
-        "done": "Completed Orders"
-      },
-      "loading": "Loading...",
-      "noOrders": "No purchase orders found",
-      "receiveSuccess": "Purchase Order Received Successfully",
-      "receiveError": "Failed to receive purchase order",
-      "deleteSuccess": "Purchase Order Deleted Successfully",
-      "deleteError": "Failed to delete purchase order"
+    "title": "Purchase Orders",
+    "subtitle": "Manage and track your purchase orders",
+    "createButton": "Create New Purchase Order",
+    "tabs": {
+      "pending": "Pending Orders",
+      "done": "Completed Orders"
     },
+    "loading": "Loading...",
+    "noOrders": "No purchase orders found",
+    "receiveSuccess": "Purchase Order Received Successfully",
+    "receiveError": "Failed to receive purchase order",
+    "deleteSuccess": "Purchase Order Deleted Successfully",
+    "deleteError": "Failed to delete purchase order"
+  },
   "PurchaseOrderCard": {
     "orderNumber": "Order #{id}",
     "createdDate": "Created Date",
@@ -210,5 +210,32 @@
     },
     "save": "Save",
     "cancel": "Cancel"
+  },
+  "Sale": {
+    "pos": "Point of Sale",
+    "stockItems": "Stock Items",
+    "scanHint": "You can scan barcode instead of searching products",
+    "paymentDetails": "Payment Details",
+    "customerInvoiceDetails": "Customer & Invoice Details",
+    "walkInHint": "You can leave Customer empty for walk-in customers",
+    "selectCustomer": "Select Customer",
+    "currency": "Currency",
+    "invoiceItems": "Invoice Items",
+    "saleSuccess": "Sale operation Successfully!",
+    "stockLimit": "Cannot add more than available in stock.",
+    "paymentType": "Payment Type",
+    "typeMethod": "Type Method",
+    "cash": "Cash",
+    "bankAccount": "Bank Account",
+    "cashSale": "Cash Sale",
+    "creditSale": "Credit Sale",
+    "withDebt": "with Debt",
+    "invoiceSummary": "Invoice Summary",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "total": "Total",
+    "processSale": "Process Sale",
+    "searchItems": "Search products by name...",
+    "invoiceItemsEmptys": "No items selected. Click on stock items above to add them."
   }
 }

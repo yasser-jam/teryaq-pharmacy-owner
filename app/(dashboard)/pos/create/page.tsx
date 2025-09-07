@@ -47,6 +47,7 @@ import POSStockItems from "@/components/pos/pos-stock-items";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 import { successToast } from "@/lib/toast";
+import { useTranslations } from "next-intl";
 
 
 
@@ -55,6 +56,8 @@ export default function POSPage() {
   const [typeMethod, setTypeMethod] = useState<'CASH' | 'BANK_ACCOUNT'>('CASH');
   const queryClient = useQueryClient();
   const router = useRouter();
+
+  const t = useTranslations('Sale');
 
   const { mutate: makeSale, isPending: processLoading } = useMutation({
     mutationKey: ["sale"],
@@ -73,7 +76,7 @@ export default function POSPage() {
         },
       }),
     onSuccess: () => {
-      successToast("Sale operation Successfully!");
+      successToast(t('saleSuccess'));
       queryClient.invalidateQueries({ queryKey: ["list-pos"] });
 
       // reset the data
@@ -86,22 +89,19 @@ export default function POSPage() {
     makeSale();
   };
 
-  const stockItems = queryClient.getQueryData(['pos-stock-items']) as any
+  const stockItems = queryClient.getQueryData(['pos-stock-items']) as any;
   const selectStockItem = (stockItem: StockItem) => {
     const existingItemIndex = invoice.items.findIndex(
       (item) => item.stockItemId === stockItem.id
     );
 
-
     // Find current quantity in invoice for this stock item
     const currentQty = existingItemIndex >= 0 ? invoice.items[existingItemIndex].quantity : 0;
-    console.log(currentQty);
 
     // Prevent adding more than available in stock
     if (currentQty >= stockItem.totalQuantity) {
       // Show a toast or warning
-      console.log('hello ');
-
+      successToast(t('stockLimit'));
       return;
     }
 
@@ -141,9 +141,7 @@ export default function POSPage() {
   };
 
   const updateItemQuantity = (item: any, index: number, quantity: number) => {
-
-    let totalQtn = stockItems?.find((el: any) => el.productName == item.productName)?.totalQuantity
-
+    let totalQtn = stockItems?.find((el: any) => el.productName == item.productName)?.totalQuantity;
     if (quantity > 0 && quantity <= totalQtn) {
       setInvoice((prev) => ({
         ...prev,
@@ -152,34 +150,22 @@ export default function POSPage() {
         ),
       }));
     }
-
   };
 
-
   const changeCurrency = (currency: Currency) => {
-
-
-
     setInvoice((prev: any) => ({
       ...prev,
       currency
     }))
-    
   }
 
-  //   const discountAmount =
-  //     invoice.invoiceDiscountType === "PERCENTAGE"
-  //       ? (subtotal * invoice.invoiceDiscountValue) / 100
-  //       : invoice.invoiceDiscountValue;
-  //   const total = subtotal - discountAmount;
-
   return (
-    <Dialog open={true} onOpenChange={() => router.replace("/pos")}>
+    <Dialog open={true} onOpenChange={() => router.replace("/pos")}> 
       <DialogContent className="!max-w-[100vw] !max-h-[100vh] w-full h-full overflow-auto p-0">
         <div className="flex flex-col h-full">
           <DialogHeader className="px-6 py-4 border-b">
             <DialogTitle className="text-2xl font-bold">
-              Point of Sale
+              {t('pos')}
             </DialogTitle>
           </DialogHeader>
 
@@ -189,12 +175,12 @@ export default function POSPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Package className="h-5 w-5" />
-                    Stock Items
+                    {t('stockItems')}
                   </CardTitle>
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Scan className="h-4 w-4" />
                     <span>
-                      You can scan barcode instead of searching products
+                      {t('scanHint')}
                     </span>
                   </div>
                 </CardHeader>
@@ -209,7 +195,7 @@ export default function POSPage() {
               <div className="space-y-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Payment Details</CardTitle>
+                    <CardTitle>{t('paymentDetails')}</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <POSPaymentTypeSelect
@@ -232,18 +218,18 @@ export default function POSPage() {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Wallet className="h-5 w-5" />
-                      Customer & Invoice Details
+                      {t('customerInvoiceDetails')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <SysInfo
-                      text="You can leave Customer empty for walk-in customers"
+                      text={t('walkInHint')}
                       color="blue"
                     ></SysInfo>
                     {/* CustomerSelect in separate row, only if paymentType is CREDIT */}
                     {invoice.paymentType === 'CREDIT' && (
                       <div>
-                        <Label>Select Customer</Label>
+                        <Label>{t('selectCustomer')}</Label>
                         <CustomerSelect
                           customerId={invoice.customerId ?? 0}
                           setCustomerId={(customerId: number) =>
@@ -256,7 +242,7 @@ export default function POSPage() {
                       </div>
                     )}
                     <div>
-                      <Label>Currency</Label>
+                      <Label>{t('currency')}</Label>
                       <POSCurrencyToggle
                         currency={invoice.currency}
                         setCurrency={(currency: "SYP" | "USD") =>
@@ -271,7 +257,7 @@ export default function POSPage() {
               </div>
               <Card className="col-span-2">
                 <CardHeader>
-                  <CardTitle>Invoice Items</CardTitle>
+                  <CardTitle>{t('invoiceItems')}</CardTitle>
                 </CardHeader>
 
                 <CardContent>
@@ -293,5 +279,5 @@ export default function POSPage() {
         </div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

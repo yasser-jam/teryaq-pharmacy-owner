@@ -196,7 +196,7 @@ function ChartTooltipContent({
                 formatter(item.value, item.name, item, index, item.payload)
               ) : (
                 <>
-                  {itemConfig?.icon ? (
+                  {itemConfig && itemConfig.icon ? (
                     <itemConfig.icon />
                   ) : (
                     !hideIndicator && (
@@ -286,7 +286,7 @@ function ChartLegendContent({
               "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3"
             )}
           >
-            {itemConfig?.icon && !hideIcon ? (
+            {itemConfig && itemConfig.icon && !hideIcon ? (
               <itemConfig.icon />
             ) : (
               <div
@@ -340,7 +340,7 @@ function getPayloadConfigFromPayload(
 
   return configLabelKey in config
     ? config[configLabelKey]
-    : config[key as keyof typeof config]
+    : config[key as keyof typeof config] || {}
 }
 
 export {

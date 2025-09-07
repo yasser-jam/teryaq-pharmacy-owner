@@ -1,0 +1,40 @@
+services:
+  # Next.js Frontend Application (Development)
+  teryaq-frontend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: teryaq-frontend-dev
+    container_name: teryaq-frontend-dev
+    ports:
+      - "3000:3000" # Frontend development port
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      # Backend API URL - using the existing backend container
+      - NEXT_PUBLIC_API_URL=http://teryaq-backend:3000
+      - API_URL=http://teryaq-backend:3000
+      # Database connection (if frontend needs direct DB access)
+      - DATABASE_URL=postgresql://postgres:password@teryaq-db:5432/teryaq
+    env_file:
+      - .env.local
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    networks:
+      - teryaq_teryaq-net
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+networks:
+  teryaq_teryaq-net:
+    external: true # Use the existing network from backend

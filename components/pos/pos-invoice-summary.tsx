@@ -5,14 +5,21 @@ import { Button } from "../ui/button";
 
 interface POSInvoiceSummaryProps {
   invoice: SaleInvoice;
+  loading?: boolean;
   onProcessSale: () => void;
 }
 
-export default function POSInvoiceSummary({ invoice, onProcessSale }: POSInvoiceSummaryProps) {
+export default function POSInvoiceSummary({ invoice, loading, onProcessSale }: POSInvoiceSummaryProps) {
+
+  const getPrice = (item: any) => {
+  return invoice.currency == 'USD' ? item.sellingPriceUSD : item.sellingPrice
+
+  }
   const subtotal = invoice.items.reduce(
-    (sum, item) => sum + item.quantity * item.unitPrice,
+    (sum, item) => sum + item.quantity * getPrice(item),
     0
   );
+
 
   return (
     <>
@@ -30,14 +37,14 @@ export default function POSInvoiceSummary({ invoice, onProcessSale }: POSInvoice
           <div className="flex justify-between text-red-600">
             <span>Discount:</span>
             <span>
-              -{invoice.discount?.toFixed(2)} {invoice.currency}
+              -{invoice.discount?.toFixed(2) || 0} {invoice.currency}
             </span>
           </div>
           <Separator />
           <div className="flex justify-between text-lg font-bold">
             <span>Total:</span>
             <span>
-              {invoice.totalAmount?.toFixed(2)} {invoice.currency}
+              {subtotal?.toFixed(2)} {invoice.currency}
             </span>
           </div>
 
@@ -45,6 +52,7 @@ export default function POSInvoiceSummary({ invoice, onProcessSale }: POSInvoice
             className="w-full"
             size="lg"
             disabled={invoice.items.length === 0}
+            loading={loading}
             onClick={() => {
                 onProcessSale()
             }}

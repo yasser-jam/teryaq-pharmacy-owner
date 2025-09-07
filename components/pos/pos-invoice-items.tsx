@@ -30,6 +30,7 @@ export default function POSInvoiceItems({
         </p>
       ) : (
         invoice.items?.map((item, index) => {
+          let currentPrice = currency == 'USD' ? item.sellingPriceUSD : item.sellingPrice
           return <div
             key={item.id}
             className="flex items-center justify-between p-3 bg-white border rounded-lg"
@@ -59,12 +60,12 @@ export default function POSInvoiceItems({
                 </Button>
               </div>
               <span className="text-sm text-gray-600">
-                {currency == 'USD' ? item.sellingPrice?.toFixed(2) : item.sellingPriceUSD?.toFixed(2)}
+                {currentPrice?.toFixed(2)}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="font-semibold">
-                {(item.quantity * item.unitPrice).toFixed(2)} {invoice.currency}
+                {(item.quantity * Number(currentPrice)).toFixed(2)} {invoice.currency}
               </span>
               <Button
                 size="sm"

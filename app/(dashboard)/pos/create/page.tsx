@@ -56,12 +56,21 @@ export default function POSPage() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const { mutate: makeSale, isPending } = useMutation({
+  const { mutate: makeSale, isPending: processLoading } = useMutation({
     mutationKey: ["sale"],
     mutationFn: () =>
       api(`sales`, {
         method: "POST",
-        body: invoice,
+        body: {
+          ...invoice,
+          items: invoice.items.map((el) => ({
+            stockItemId: el.stockItemId,
+            unitPrice: el.unitPrice,
+            quantity: el.quantity
+          })),
+          sellingPrice: undefined,
+          sellingPriceUSD: undefined
+        },
       }),
     onSuccess: () => {
       successToast("Sale operation Successfully!");
@@ -277,6 +286,7 @@ export default function POSPage() {
               <POSInvoiceSummary
                 invoice={invoice}
                 onProcessSale={onProcessSale}
+                loading={processLoading}
               />
             </div>
           </div>

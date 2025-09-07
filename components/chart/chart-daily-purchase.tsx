@@ -17,12 +17,12 @@ interface ChartProps {
     className?: string
 }
 
-export default function ChartDailyProfit({ date, className }: ChartProps) {
+export default function ChartDailyPurchase({ date, className }: ChartProps) {
 
 
     const { data: chartDataRes, isFetching, refetch } = useQuery({
-        queryKey: ['daily-profit'],
-        queryFn: () => api('/reports/profit/daily', {
+        queryKey: ['daily-purchase'],
+        queryFn: () => api('/reports/purchase/daily', {
             params: {
                 date
             }
@@ -43,11 +43,11 @@ export default function ChartDailyProfit({ date, className }: ChartProps) {
                     isFetching ? <BaseSkeleton className="mt-0" /> :
                         data ?
                             <Card>
-                                <CardHeader className="font-semibold">Daily Profit </CardHeader>
+                                <CardHeader className="font-semibold">Daily Purchase </CardHeader>
                                 <CardContent>
                                     <FinancePurchaseDailyCard data={chartDataRes?.data as any} />
                                 </CardContent>
-                            </Card> : <BaseNotFound item="Profit" />
+                            </Card> : <BaseNotFound item="Purchase" />
 
                 }
             </div>

@@ -16,12 +16,12 @@ interface ChartProps {
     endDate: string
 }
 
-export default function ChartMonthlyProfit({ startDate, endDate }: ChartProps) {
+export default function ChartMonthlyPurchase({ startDate, endDate }: ChartProps) {
 
 
     const { data: chartDataRes, isFetching, refetch } = useQuery({
         queryKey: ['monthly-profit'],
-        queryFn: () => api('/reports/profit/monthly', {
+        queryFn: () => api('/reports/purchase/monthly', {
             params: {
                 startDate,
                 endDate,
@@ -68,7 +68,7 @@ export default function ChartMonthlyProfit({ startDate, endDate }: ChartProps) {
                 data?.length ?
                     <Card>
                         <CardHeader>
-                            <CardTitle>Profit Chart</CardTitle>
+                            <CardTitle>Purchase Chart</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <ChartContainer className="h-[300px] w-full" config={chartConfig}>

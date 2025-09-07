@@ -35,7 +35,7 @@ import BasePagination from '@/components/base/pagination';
 import ExchangeRateCard from '@/components/money-box/exchange-rate-card';
 import BaseSkeleton from '@/components/base/base-skeleton';
 import BaseNotFound from '@/components/base/base-not-found';
-import ChartMonthlyProfit from '@/components/chart/chart-monthly-profit';
+import ChartMonthlyPurchase from '@/components/chart/chart-monthly-puchase';
 import BaseDateRangeFilter from '@/components/base/base-date-range-filter';
 import dayjs from 'dayjs';
 import { getCurrentMonthRange, getNextMonthFromNow } from '@/lib/utils';
@@ -43,6 +43,8 @@ import ChartDailyProfit from '@/components/chart/chart-daily-profit';
 import { Calendar } from '@/components/ui/calendar';
 import { ChartMostSold } from '@/components/chart/chart-most-sold';
 import { ChartMostSoldType } from '@/components/chart/chart-most-sold-type';
+import ChartDailyPurchase from '@/components/chart/chart-daily-purchase';
+import ChartMonthlyProfit from '@/components/chart/chart-monthly-profit';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -181,6 +183,7 @@ export default function Dashboard() {
   const [startDate, setStartDate] = useState<string>(getCurrentMonthRange().start)
   const [endDate, setEndDate] = useState<string>(getCurrentMonthRange().end)
   const [selectedDay, setSelectedDay] = useState<string>(dayjs().format('YYYY-MM-DD'))
+  const [selectedDayProfit, setSelectedDayProfit] = useState<string>(dayjs().format('YYYY-MM-DD'))
 
   const handleAction = () =>
     currentAction === 'deposit'
@@ -341,7 +344,7 @@ export default function Dashboard() {
             <BaseDateRangeFilter hideSearch startDate={startDate} endDate={endDate} onDateChange={(start: any, end: any) => {
               setStartDate(start); setEndDate(end);
             }} onSearch={() => { }} />
-            <ChartMonthlyProfit startDate={startDate} endDate={endDate} />
+            <ChartMonthlyPurchase startDate={startDate} endDate={endDate} />
 
             <div className='grid grid-cols-3 gap-4'>
 
@@ -360,7 +363,21 @@ export default function Dashboard() {
                 className="rounded-md border shadow-sm col-span-1 w-full"
                 captionLayout="dropdown"
               />
-              <ChartDailyProfit date={selectedDay} className='col-span-2' />
+              <ChartDailyPurchase date={selectedDay} className='col-span-2' />
+            </div>
+
+            <ChartMonthlyProfit startDate={startDate} endDate={endDate} />
+
+            <div className='grid grid-cols-3 gap-4 my-6'>
+              <Calendar
+                mode="single"
+                required
+                selected={new Date(selectedDay)}
+                onSelect={(val: Date) => setSelectedDay(dayjs(val).format('YYYY-MM-DD'))}
+                className="rounded-md border shadow-sm col-span-1 w-full"
+                captionLayout="dropdown"
+              />
+              <ChartDailyProfit date={selectedDayProfit} className='col-span-2' />
             </div>
           </div>
 

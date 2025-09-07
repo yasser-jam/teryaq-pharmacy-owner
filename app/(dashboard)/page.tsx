@@ -35,6 +35,7 @@ import BasePagination from '@/components/base/pagination';
 import ExchangeRateCard from '@/components/money-box/exchange-rate-card';
 import BaseSkeleton from '@/components/base/base-skeleton';
 import BaseNotFound from '@/components/base/base-not-found';
+import ChartDailyProfit from '@/components/chart/chart-daily-profit';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -128,7 +129,7 @@ export default function Dashboard() {
     transactionType: '',
   });
 
-  
+
 
   const [pagination, setPagination] = useState<Pagination>(initPagination());
 
@@ -180,7 +181,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     console.log(filters);
-    
+
     refetchTransactions();
   }, [filters]);
 
@@ -321,6 +322,13 @@ export default function Dashboard() {
             pagination={pagination}
             onPaginationChange={setPagination}
           ></BasePagination>
+
+
+
+          {/* Charts */}
+          <div>
+            <ChartDailyProfit />
+          </div>
 
           <DialogContent className='sm:max-w-[500px]'>
             <DialogHeader>

@@ -187,7 +187,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="scientificName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('scientificName')}</FormLabel>
+                    <FormLabel>{t('scientificName')} (en)</FormLabel>
                     <FormControl>
                       <Input {...field} placeholder={t('scientificName')} />
                     </FormControl>
@@ -200,7 +200,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name="scientificNameAr"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t('scientificName')}</FormLabel>
+                    <FormLabel>{t('scientificName')} (ar)</FormLabel>
                     <FormControl>
                       <Input {...field} placeholder={t('scientificName')} />
                     </FormControl>

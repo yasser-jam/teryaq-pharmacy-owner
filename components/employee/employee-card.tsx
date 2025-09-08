@@ -36,17 +36,20 @@ export default function EmployeeCard({
           <div className="text-sm text-gray-500">{employee?.email}</div>
 
           <div className="absolute top-4 end-4">
-            <ActionMenu
-            // Todo: fix
-              editAction={false}
-              deleteAction={employee.roleName != 'PHARMACY_MANAGER'}
-              onEdit={onEdit}
-              onDelete={onDelete}
-            >
-              {/* <DropdownMenuItem onClick={() => setWorkingOpen(true)}>
+            {
+              employee.roleName != 'PHARMACY_MANAGER' &&
+              <ActionMenu
+                // Todo: fix
+                editAction={false}
+                deleteAction
+                onEdit={onEdit}
+                onDelete={onDelete}
+              >
+                {/* <DropdownMenuItem onClick={() => setWorkingOpen(true)}>
                 <Calendar /> Set Working Hours
               </DropdownMenuItem> */}
-            </ActionMenu>
+              </ActionMenu>
+            }
           </div>
         </CardContent>
       </Card>

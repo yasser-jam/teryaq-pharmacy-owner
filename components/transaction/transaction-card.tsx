@@ -1,5 +1,6 @@
 import { getTime } from "@/lib/utils";
 import { Transaction, TransactionType } from "@/types";
+import { useTranslations } from 'next-intl';
 import {
   Wallet,
   MinusCircle,
@@ -90,6 +91,7 @@ const transactionConfig: Record<
 export default function TransactionCard({ item }: TransactionCardProps) {
   const config = transactionConfig[item.transactionType];
   const IconComponent = config.icon;
+  const t = useTranslations('TransactionType');
 
   return (
     <div className={`flex items-center justify-between px-6 py-4 border-l-4 ${config.borderColor} ${config.bgColor}`}>
@@ -98,7 +100,7 @@ export default function TransactionCard({ item }: TransactionCardProps) {
           <IconComponent className={`h-5 w-5 ${config.color}`} />
         </div>
         <div>
-          <p className="font-medium">{item.transactionType.replace(/_/g, " ")}</p>
+          <p className="font-medium">{t(item.transactionType)}</p>
           <p className="text-muted-foreground text-sm">
             {getTime(item.createdAt).default}
           </p>

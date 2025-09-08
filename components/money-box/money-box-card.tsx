@@ -12,6 +12,7 @@ import BaseSkeleton from "../base/base-skeleton";
 import { Skeleton } from "../ui/skeleton";
 import { getCookie } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { useTranslations } from 'next-intl';
 
 interface MoneyBoxProps {
   loading?: boolean
@@ -19,6 +20,7 @@ interface MoneyBoxProps {
 }
 
 export default function MoneyBoxCard({ loading, box }: MoneyBoxProps) {
+  const t = useTranslations('MoneyBox');
   const [currency, setCurrency] = useState<'syp' | 'usd'>("syp");
 
   useEffect(() => {
@@ -49,11 +51,11 @@ export default function MoneyBoxCard({ loading, box }: MoneyBoxProps) {
       ) : (
         <Card className="col-span-6 text-white bg-gradient-to-tr from-primary to-blue-500  h-full">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xl font-bold">Current Balance</CardTitle>
+            <CardTitle className="text-xl font-bold">{t('currentBalanceTitle')}</CardTitle>
             <DollarSign className="h-6 w-6 text-white" />
           </CardHeader>
           <CardContent>
-            <CardDescription className="text-white text-opacity-80">Money box balance right now</CardDescription>
+            <CardDescription className="text-white text-opacity-80">{t('currentBalanceDesc')}</CardDescription>
             <div className="text-4xl font-extrabold mt-4">
               {displayCurrency === "USD" ? "$" : "S.P"} {displayBalance.toLocaleString()} - {displayCurrency}
             </div>

@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { Wallet, Minus, HandCoins } from "lucide-react";
+import { useTranslations } from 'next-intl';
 import {
   Card,
   CardAction,
@@ -47,6 +48,7 @@ import ChartDailyPurchase from '@/components/chart/chart-daily-purchase';
 import ChartMonthlyProfit from '@/components/chart/chart-monthly-profit';
 
 export default function Dashboard() {
+  const t = useTranslations('Dashboard');
   const router = useRouter();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -203,6 +205,7 @@ export default function Dashboard() {
 
   return (
     <>
+      <h2 className="text-2xl font-bold mb-4">{t('header')}</h2>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <div className='flex-1 space-y-6 p-6'>
           {/* Money Box Summary Row */}
@@ -212,23 +215,6 @@ export default function Dashboard() {
             <ExchangeRateCard exchangeRate={Number(box?.currentUSDToSYPRate)} loading={loading} />
           </div>
 
-          {/* <MoneyBoxCurrency currentCurrency="syp" exchangeRate={10000} value={100} /> */}
-
-          {/* <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Make a Sale</CardTitle>
-            <CardDescription>Start a new POS order</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button
-              className="w-full h-24 text-lg"
-              onClick={() => router.push("/pos/create")}
-            >
-              Make a Sale
-            </Button>
-          </CardContent>
-        </Card> */}
-
           {/* Money Box Actions Row */}
           <div className='grid gap-4 sm:grid-cols-1 lg:grid-cols-3'>
             <Card className='relative flex-1 bg-teal-100 dark:bg-teal-950'>
@@ -236,8 +222,8 @@ export default function Dashboard() {
                 <Wallet className="h-5 w-5 text-teal-700 dark:text-teal-300" />
               </div>
               <CardHeader>
-                <CardTitle className='text-base'>Deposit Operations</CardTitle>
-                <CardDescription>Add money to the money box</CardDescription>
+                <CardTitle className='text-base'>{t('depositTitle')}</CardTitle>
+                <CardDescription>{t('depositDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <DialogTrigger asChild>
@@ -249,7 +235,7 @@ export default function Dashboard() {
                       setCurrentAction('deposit');
                     }}
                   >
-                    Deposit
+                    {t('depositBtn')}
                   </Button>
                 </DialogTrigger>
               </CardContent>
@@ -259,8 +245,8 @@ export default function Dashboard() {
                 <Minus className="h-5 w-5 text-red-700 dark:text-red-300" />
               </div>
               <CardHeader>
-                <CardTitle className='text-base'>Withdraw Operations</CardTitle>
-                <CardDescription>Withdraw money from the money box</CardDescription>
+                <CardTitle className='text-base'>{t('withdrawTitle')}</CardTitle>
+                <CardDescription>{t('withdrawDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <DialogTrigger asChild>
@@ -272,7 +258,7 @@ export default function Dashboard() {
                       setCurrentAction('withdraw');
                     }}
                   >
-                    Withdraw
+                    {t('withdrawBtn')}
                   </Button>
                 </DialogTrigger>
               </CardContent>
@@ -282,8 +268,8 @@ export default function Dashboard() {
                 <HandCoins className="h-5 w-5 text-blue-700 dark:text-blue-300" />
               </div>
               <CardHeader>
-                <CardTitle className='text-base'>Reconcile Operations</CardTitle>
-                <CardDescription>Reconcile the money box</CardDescription>
+                <CardTitle className='text-base'>{t('reconcileTitle')}</CardTitle>
+                <CardDescription>{t('reconcileDesc')}</CardDescription>
               </CardHeader>
               <CardContent>
                 <DialogTrigger asChild>
@@ -295,7 +281,7 @@ export default function Dashboard() {
                       setCurrentAction('reconcile');
                     }}
                   >
-                    Reconcile
+                    {t('reconcileBtn')}
                   </Button>
                 </DialogTrigger>
               </CardContent>
@@ -305,11 +291,8 @@ export default function Dashboard() {
           {/* Transactions Section */}
           <Card className='border-0'>
             <CardContent className='p-0'>
-
               <div className='flex items-center justify-between mb-4'>
-                <div className='text-2xl font-semibold mb-4'>Transactions</div>
-
-
+                <div className='text-2xl font-semibold mb-4'>{t('transactionsTitle')}</div>
                 <TransactionFilter
                   startDate={filters.startDate}
                   endDate={filters.endDate}
@@ -317,7 +300,6 @@ export default function Dashboard() {
                   onApply={(data) => setFilters(data)}
                 />
               </div>
-
               {
                 isFetching ? <BaseSkeleton /> :
                   transactions?.content?.length ? (
@@ -326,18 +308,14 @@ export default function Dashboard() {
                         <TransactionCard item={el} key={el.id} />
                       ))}
                     </div>
-                  ) : <BaseNotFound item="Transaction" />
-
+                  ) : <BaseNotFound item={t('noTransactions')} />
               }
-
             </CardContent>
           </Card>
           <BasePagination
             pagination={pagination}
             onPaginationChange={setPagination}
           ></BasePagination>
-
-
 
           {/* Charts */}
           <div>
@@ -347,7 +325,6 @@ export default function Dashboard() {
             <ChartMonthlyPurchase startDate={startDate} endDate={endDate} />
 
             <div className='grid grid-cols-3 gap-4'>
-
               <div className='col-span-2 min-h-[300px]'>
                 <ChartMostSold startDate={startDate} endDate={endDate} />
               </div>
@@ -385,49 +362,43 @@ export default function Dashboard() {
             <DialogHeader>
               <DialogTitle>
                 {currentAction === 'deposit'
-                  ? 'Deposit'
+                  ? t('depositBtn')
                   : currentAction === 'withdraw'
-                    ? 'Withdraw'
-                    : 'Reconcile'} {currentAction === 'reconcile' ? ' reconciliation.' : ' transaction.'}
+                    ? t('withdrawBtn')
+                    : t('reconcileBtn')} {currentAction === 'reconcile' ? t('reconcileDialogTitle') : t('transactionDialogTitle')}
               </DialogTitle>
               <DialogDescription>
-                Enter the amount and description for this
-                {currentAction === 'reconcile' ? ' reconciliation.' : ' transaction.'}
+                {t('dialogDesc', { type: currentAction === 'reconcile' ? t('reconcileDialogTitle') : t('transactionDialogTitle') })}
               </DialogDescription>
             </DialogHeader>
             <div className='grid gap-4 py-4'>
               <div className='grid grid-cols-4 items-center gap-4'>
-
                 {currentAction != 'reconcile' &&
-
                   <>
                     <Label htmlFor='amount' className='grid-cols-1'>
-                      Amount
+                      {t('amount')}
                     </Label>
-
                     <Input
                       id='amount'
                       type='number'
                       value={amount}
-                      placeholder='Add the Amount'
+                      placeholder={t('amountPlaceholder')}
                       onChange={(e) => setAmount(parseFloat(String(e)))}
                       className='col-span-3'
                     />
-
                   </>
-
                 }
               </div>
               {currentAction === 'reconcile' && (
                 <div className='grid grid-cols-4 items-center gap-4'>
                   <Label htmlFor='actualCashAmount' className='text-right'>
-                    Actual Cash
+                    {t('actualCash')}
                   </Label>
                   <Input
                     id='actualCashAmount'
                     type='number'
                     value={actualCashAmount}
-                    placeholder='Add the Actual Cash Amount'
+                    placeholder={t('actualCashPlaceholder')}
                     onChange={(e) => setActualCashAmount(parseFloat(String(e)))}
                     className='col-span-3'
                   />
@@ -435,12 +406,12 @@ export default function Dashboard() {
               )}
               <div className='grid grid-cols-4 items-center gap-4'>
                 <Label htmlFor='description' className='text-right'>
-                  Description
+                  {t('description')}
                 </Label>
                 <Input
                   id='description'
                   value={description}
-                  placeholder='Add the Reason for this operation'
+                  placeholder={t('descriptionPlaceholder')}
                   onChange={(e) => setDescription(String(e))}
                   className='col-span-3'
                 />
@@ -453,7 +424,7 @@ export default function Dashboard() {
                 loading={loading}
                 disabled={loading || (currentAction === 'reconcile' ? !actualCashAmount :  !amount || !description)}
               >
-                Send
+                {t('sendBtn')}
               </Button>
             </DialogFooter>
           </DialogContent>

@@ -24,6 +24,7 @@ import { cn, isMasterProduct } from '@/lib/utils';
 import DeleteButton from '../base/delete-button';
 import MedicineTypeBadge from './medicine-type-badge';
 import { useTranslations } from 'next-intl';
+import { useRole } from '../providers/role-provider';
 
 interface Props {
   search: string;
@@ -34,6 +35,8 @@ interface Props {
 export function MedicineTable({ medicines, onDelete }: Props) {
   const router = useRouter();
   const t = useTranslations('Medicines');
+
+  const { role } = useRole()
 
   const columns: ColumnDef<Medicine>[] = [
     {
@@ -92,7 +95,7 @@ export function MedicineTable({ medicines, onDelete }: Props) {
           >
             <Pencil />
           </Button>
-          <DeleteButton disabled={isMasterProduct(row.original)} onDelete={() => onDelete?.(row.original)} />
+          <DeleteButton disabled={isMasterProduct(row.original) || role != 'PHARMACY_MANAGER'} onDelete={() => onDelete?.(row.original)} />
         </div>
       ),
     },

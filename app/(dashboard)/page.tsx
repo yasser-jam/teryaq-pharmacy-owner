@@ -46,6 +46,7 @@ import { ChartMostSold } from '@/components/chart/chart-most-sold';
 import { ChartMostSoldType } from '@/components/chart/chart-most-sold-type';
 import ChartDailyPurchase from '@/components/chart/chart-daily-purchase';
 import ChartMonthlyProfit from '@/components/chart/chart-monthly-profit';
+import { useRole } from '@/components/providers/role-provider';
 
 export default function Dashboard() {
   const t = useTranslations('Dashboard');
@@ -202,6 +203,10 @@ export default function Dashboard() {
   }, [filters]);
 
   const loading = isFetching || withdrawPending || depositePending || reconcilePending;
+
+  const {role} = useRole()
+
+  if (role == 'PHARMACY_TRAINEE') return 'Have no Permission'
 
   return (
     <>

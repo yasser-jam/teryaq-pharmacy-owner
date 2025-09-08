@@ -22,6 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {useTranslations} from 'next-intl';
+import { useRole } from "./providers/role-provider";
 export interface MenuItem {
   title: string;
   url: string;
@@ -60,7 +61,7 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
     return item.children?.some((child) => isActive(child.url)) || false;
   };
 
-  const menuItems = [
+  const menuItems : any[] = [
     {
       title: t('home'),
       url: "/",
@@ -123,6 +124,37 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
     // },
   ];
 
+  const traineeMenuItems = [
+    {
+      title: t('home'),
+      url: "/",
+      icon: Home,
+    },
+    {
+      title: t('sales'),
+      url: "/pos",
+      icon: ShoppingCart,
+    },
+    {
+      title: t('medicines'),
+      url: "/medicines",
+      icon: Pill,
+    },
+    {
+      title: t('stock'),
+      url: "/stock",
+      icon: Package,
+    },
+    {
+      title: t('customers'),
+      url: "/customers",
+      icon: Users,
+    },
+  ]
+
+  const { role } = useRole()
+
+  const selectedItems = role == 'PHARMACY_TRAINEE' ? traineeMenuItems : menuItems  
   return (
     <div className="flex sticky left-0 top-0 min-h-screen w-64 flex-col bg-white border-r border-sidebar-border">
       {/* Logo and Title */}
@@ -135,7 +167,7 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
       {/* Navigation Menu */}
       <nav className="flex-1 overflow-y-auto space-y-4">
         <ul className="space-y-2">
-          {menuItems?.map((item) => (
+          {selectedItems?.map((item) => (
             <li key={item.title}>
               {item?.children ? (
                 // Parent item with children

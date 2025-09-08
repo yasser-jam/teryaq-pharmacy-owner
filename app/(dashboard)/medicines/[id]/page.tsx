@@ -28,6 +28,7 @@ import { BaseSwitch } from "@/components/base/base-switch";
 import SysInfo from "@/components/sys/sys-info";
 import { successToast } from "@/lib/toast";
 import { useTranslations } from "next-intl";
+import { useRole } from "@/components/providers/role-provider";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -54,7 +55,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   useEffect(() => {
     if (product?.id) {
-      
+
       form.reset({
         ...product,
         formId: product.formId?.toString() || undefined,
@@ -139,6 +140,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     id === "create" ? create(data) : update(data);
   };
 
+  const { role } = useRole()
+
   return (
     <>
       <BasePageDialog
@@ -176,7 +179,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <FormItem>
                     <FormLabel>{t('tradeName')} (ar)</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={t('tradeName')}/>
+                      <Input {...field} placeholder={t('tradeName')} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -315,27 +318,31 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="barcodes"
-                render={({ field }) => (
-                  <FormItem className="col-span-2">
-                    <FormLabel>{t('barcodes')}</FormLabel>
-                    <FormControl>
-                      <BarcodeInput
-                        {...field}
-                        className="w-full"
-                        barcodes={field.value}
-                        onBarcodesChange={(val) => {
-                          form.setValue("barcodes", val)
-                          form.trigger("barcodes")
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {
+
+                role == 'PHARMACY_MANAGER' &&
+                <FormField
+                  control={form.control}
+                  name="barcodes"
+                  render={({ field }) => (
+                    <FormItem className="col-span-2">
+                      <FormLabel>{t('barcodes')}</FormLabel>
+                      <FormControl>
+                        <BarcodeInput
+                          {...field}
+                          className="w-full"
+                          barcodes={field.value}
+                          onBarcodesChange={(val) => {
+                            form.setValue("barcodes", val)
+                            form.trigger("barcodes")
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              }
 
               <FormField
                 control={form.control}

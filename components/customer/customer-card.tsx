@@ -33,7 +33,7 @@ export default function CustomerCard({
     : hasDebts
       ? 'bg-yellow-50 border-yellow-600 border-dashed'
       : 'bg-indigo-50 border-indigo-600 border-dashed'
-  }`;
+    }`;
 
   return (
     <>
@@ -51,7 +51,7 @@ export default function CustomerCard({
           )}
 
           <div className='absolute top-4 right-4'>
-            <ActionMenu editAction deleteAction onEdit={onEdit} onDelete={onDelete} />
+            <ActionMenu editAction deleteAction={!!!customer?.debts?.length} onEdit={onEdit} onDelete={onDelete} />
           </div>
         </CardContent>
       </Card>

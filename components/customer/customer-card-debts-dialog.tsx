@@ -46,7 +46,7 @@ export default function CustomerCardDebtsDialog({
       paymentAmount: number;
       paymentMethod: 'CASH' | 'BANK_ACCOUNT';
     }) =>
-      api(`/customer-debts/${customer?.id}/pay`, {
+      api(`/customer-debts/pay`, {
         body: {
           debtId,
           paymentAmount,
@@ -55,7 +55,7 @@ export default function CustomerCardDebtsDialog({
         method: 'POST',
       }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['customer-debts'] });
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
       successToast('Debt payment successful');
     },
   });
@@ -87,7 +87,7 @@ export default function CustomerCardDebtsDialog({
       successToast('Auto pay successful');
       setAutoPayAmount(0);
 
-      queryClient.invalidateQueries({ queryKey: ['customer-debts'] });
+      queryClient.invalidateQueries({ queryKey: ['customers'] });
     },
   });
 

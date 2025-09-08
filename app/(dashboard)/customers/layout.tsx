@@ -32,8 +32,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     queryFn: () => api("/customers"),
   });
 
-  const { mutate: filterWithDebts } = useMutation({
-    mutationFn: () => api("/customers/with-debts"),
+  const { mutate: filterWithDebts, isPending } = useMutation({
+    mutationFn: () => api("/customers/all-with-debts"),
     onSuccess: (data: Customer[]) => {
       setFilteredCustomers(data);
     },
@@ -113,7 +113,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </ToggleGroup>
       </div>
 
-      {isFetching ? (
+      {isFetching || isPending ? (
         <BaseSkeleton type="grid" />
       ) : filteredCustomers?.length ? (
         <div className="grid grid-cols-3 gap-8 mt-12">

@@ -64,7 +64,6 @@ export default function Page({ children }: { children: React.ReactNode }) {
   const t = useTranslations('Sale')
 
   const { role } = useRole()
-  console.log(role);
   
   return (
     <>

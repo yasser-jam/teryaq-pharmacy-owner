@@ -123,13 +123,13 @@ export default function Page() {
         title={t('title')}
         subtitle={t('subtitle')}
       >
+        <div className='flex items-center gap-2'>
+
         <Button onClick={() => router.push('/purchase-orders/create')}>
           <Plus className='mr-2 h-4 w-4' />
           {t('createButton')}
         </Button>
-      </BaseHeader>
 
-      <div className='mt-4'>
         <BaseDateRangeFilter
           startDate={startDate}
           endDate={endDate}
@@ -137,7 +137,8 @@ export default function Page() {
           onDateChange={handleDateChange}
           onSearch={() => refetch()}
         />
-      </div>
+        </div>
+      </BaseHeader>
 
       <Tabs 
         defaultValue='pending' 

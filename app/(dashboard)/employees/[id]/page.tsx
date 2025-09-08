@@ -287,7 +287,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             className="space-y-4"
           >
             {
-              id != 'create' &&
+              id == 'create' &&
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="general">{t("generalTab")}</TabsTrigger>
               <TabsTrigger value="working-hours">{t("workingHoursTab")}</TabsTrigger>

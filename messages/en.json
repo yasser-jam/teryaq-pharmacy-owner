@@ -1,4 +1,37 @@
 {
+  "Employees": {
+  "workingHoursInfo": "Set the working hours for this employee. Each day can only be assigned to one schedule type.",
+  "schedulePattern": "Schedule Pattern {number}",
+  "daysOfWeek": "Days of Week",
+  "addShift": "Add Shift",
+  "startTime": "Start Time",
+  "endTime": "End Time",
+  "description": "Description",
+  "descriptionPlaceholder": "e.g., Morning Shift",
+  "addScheduleType": "Add Another Schedule Type",
+    "detailsTitle": "Employee Details",
+    "detailsSubtitle": "Fill Employee Data",
+    "generalTab": "General",
+    "workingHoursTab": "Working Hours",
+    "firstNameLabel": "First Name",
+    "firstNamePlaceholder": "First Name",
+    "lastNameLabel": "Last Name",
+    "lastNamePlaceholder": "Last Name",
+    "phoneLabel": "Phone Number",
+    "phonePlaceholder": "Employee Phone Number",
+    "passwordLabel": "Password",
+    "dateOfHireLabel": "Date of Hire",
+    "roleLabel": "Role",
+    "statusTitle": "Employee Status",
+    "statusSubtitle": "Employee is active (Inactive Employees can not make operations)",
+    "createSuccess": "Employee created successfully",
+    "updateSuccess": "Employee updated successfully",
+    "listTitle": "Employees",
+    "listSubtitle": "Employees page for adding the employees to handle sales operations",
+    "addButton": "Add Employee",
+    "deleteSuccess": "Employee deleted successfully",
+    "notFound": "No employees found"
+  },
   "RefundCard": {
     "refundNumber": "Refund #{id}",
     "invoiceId": "Invoice ID: {id}",
@@ -265,7 +298,7 @@
     "cancel": "Cancel"
   },
   "Sale": {
- "pos": "Point of Sale",
+    "pos": "Point of Sale",
     "stockItems": "Stock Items",
     "scanHint": "You can scan barcode instead of searching products",
     "paymentDetails": "Payment Details",
@@ -305,6 +338,9 @@
     "globalReasonPlaceholder": "Add a general refund reason (optional)",
     "cancel": "Cancel",
     "confirm": "Confirm Refund"
+  },
+  "Common": {
+    "cancel": "Cancel",
+    "save": "Save"
   }
-    
-  }
+}

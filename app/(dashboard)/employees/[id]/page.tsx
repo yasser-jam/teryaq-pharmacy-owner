@@ -1,4 +1,6 @@
 "use client";
+
+import { useTranslations } from "next-intl";
 import BasePageDialog from "@/components/base/page-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +34,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("general");
+  const t = useTranslations("Employees");
+  const tCommon = useTranslations("Common");
 
   type FormData = z.infer<typeof EMPLOYEE_SCHEMA>;
 
@@ -77,7 +81,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["employees"] });
-      successToast("Employee created successfully");
+  successToast(t("createSuccess"));
       goBack();
     },
   });
@@ -98,7 +102,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["employees"] });
-      successToast("Employee updated successfully");
+  successToast(t("updateSuccess"));
       goBack();
     },
   });
@@ -142,9 +146,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+              <FormLabel>{t("firstNameLabel")}</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="First Name" />
+                <Input {...field} placeholder={t("firstNamePlaceholder")} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -156,9 +160,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           name="lastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>{t("lastNameLabel")}</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Last Name" />
+                <Input {...field} placeholder={t("lastNamePlaceholder")} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -171,12 +175,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone Number</FormLabel>
+              <FormLabel>{t("phoneLabel")}</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   prefix={<Phone />}
-                  placeholder="Employee Phone Number"
+                  placeholder={t("phonePlaceholder")}
                 />
               </FormControl>
               <FormMessage />
@@ -189,7 +193,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t("passwordLabel")}</FormLabel>
               <FormControl>
                 <BasePasswordInput disabled={id != "create"} {...field} />
               </FormControl>
@@ -203,7 +207,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           name="dateOfHire"
           render={({ field }) => (
             <FormItem className="col-span-2">
-              <FormLabel>Date of Hire</FormLabel>
+              <FormLabel>{t("dateOfHireLabel")}</FormLabel>
               <FormControl>
                 <BaseDatePicker useDefault {...field} onChange={field.onChange} />
               </FormControl>
@@ -220,7 +224,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               name="roleId"
               render={({ field }) => (
                 <FormItem className="col-span-2">
-                  <FormLabel>Role</FormLabel>
+                  <FormLabel>{t("roleLabel")}</FormLabel>
                   <FormControl>
                     <SysRoleSelect {...field} />
                   </FormControl>
@@ -239,8 +243,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <FormItem className="col-span-2">
               <FormControl>
                 <BaseSwitch
-                  title="Employee Status"
-                  subtitle="Employee is active (Inactive Employees can not make operations)"
+                  title={t("statusTitle")}
+                  subtitle={t("statusSubtitle")}
                   checked={field.value === "ACTIVE"}
                   onCheckedChange={(checked) =>
                     form.setValue("status", checked ? "ACTIVE" : "INACTIVE")
@@ -270,8 +274,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <BasePageDialog
-      title="Employee Details"
-      subtitle="Fill Employee Data"
+  title={t("detailsTitle")}
+  subtitle={t("detailsSubtitle")}
       className="w-[1200px]"
       onOpenChange={goBack}
     >
@@ -283,8 +287,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             className="space-y-4"
           >
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="general">General</TabsTrigger>
-              <TabsTrigger value="working-hours">Working Hours</TabsTrigger>
+              <TabsTrigger value="general">{t("generalTab")}</TabsTrigger>
+              <TabsTrigger value="working-hours">{t("workingHoursTab")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="general">
@@ -297,10 +301,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           </Tabs>
           <div className="flex items-center justify-end gap-2 mt-6 pt-4 border-t">
             <Button variant="ghost" onClick={goBack} type="button">
-              Cancel
+              {tCommon("cancel")}
             </Button>
             <Button loading={createPending || updatePending} type="submit">
-              Save
+              {tCommon("save")}
             </Button>
           </div>
         </form>

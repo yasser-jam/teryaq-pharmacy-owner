@@ -27,7 +27,7 @@ export default function EmployeeCard({
     <>
       <Card className="rounded-sm relative bg-gray-50 border-teal-600 border-dashed shadow-none">
         <CardContent>
-          <Avatar className="bg-teal-800 absolute -top-4 left-4 rounded-sm  flex justify-center items-center w-8 h-8">
+          <Avatar className="bg-teal-800 absolute -top-4 start-4 rounded-sm  flex justify-center items-center w-8 h-8">
             <AvatarFallback className="text-white">
               {employee?.firstName.split(" ")[0][0].toUpperCase()}
             </AvatarFallback>
@@ -35,7 +35,7 @@ export default function EmployeeCard({
           <div className="font-semibold text-lg">{employee?.firstName}</div>
           <div className="text-sm text-gray-500">{employee?.phoneNumber}</div>
 
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 end-4">
             <ActionMenu
               editAction
               deleteAction

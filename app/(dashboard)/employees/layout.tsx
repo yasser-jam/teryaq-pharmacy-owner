@@ -12,9 +12,11 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function Page({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const t = useTranslations('Employees');
 
   const { data: employees, isFetching, refetch } = useQuery<Employee[]>({
     queryKey: ['employees'],
@@ -26,21 +28,20 @@ export default function Page({ children }: { children: React.ReactNode }) {
       method: 'DELETE'
     }),
     onSuccess: () => {
-      refetch()
-
-      successToast('Employee Deleted Successfully')
+      refetch();
+      successToast(t('deleteSuccess'));
     }
-  })
+  });
 
   return (
     <>
       <BaseHeader
-        title='Employees'
-        subtitle='Employees page for adding the employees to handle sales operations'
+        title={t('listTitle')}
+        subtitle={t('listSubtitle')}
       >
         <Button onClick={() => router.push('/employees/create')}>
           <Plus />
-          Add Employee
+          {t('addButton')}
         </Button>
       </BaseHeader>
 
@@ -49,11 +50,10 @@ export default function Page({ children }: { children: React.ReactNode }) {
       ) : employees?.length ?  (
         <div className='grid grid-cols-3 gap-8 mt-12'>
           {employees?.map((el) => (
-            <EmployeeCard key={el.id} employee={el} onEdit={() => router.replace(`/employees/${el.id}`)} onDelete={() => removeEmployee(el.id)} ></EmployeeCard>
-            // <SupplierCard key={el.id} supplier={el} onEdit={() => router.replace(`/suppliers/${el.id}`)} onDelete={() => removeEmployee(el.id)}></SupplierCard>
+            <EmployeeCard key={el.id} employee={el} onEdit={() => router.replace(`/employees/${el.id}`)} onDelete={() => removeEmployee(el.id)} />
           ))}
         </div>
-      ) : <BaseNotFound item='Employee' />}
+      ) : <BaseNotFound item={t('notFound')} />}
 
       {children}
     </>

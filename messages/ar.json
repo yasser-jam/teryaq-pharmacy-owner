@@ -1,4 +1,37 @@
 {
+  "Employees": {
+  "workingHoursInfo": "حدد ساعات العمل لهذا الموظف. يمكن تعيين كل يوم لنوع جدول واحد فقط.",
+  "schedulePattern": "نمط الجدول {number}",
+  "daysOfWeek": "أيام الأسبوع",
+  "addShift": "إضافة وردية",
+  "startTime": "وقت البدء",
+  "endTime": "وقت الانتهاء",
+  "description": "الوصف",
+  "descriptionPlaceholder": "مثال: وردية صباحية",
+  "addScheduleType": "إضافة نوع جدول آخر",
+    "detailsTitle": "تفاصيل الموظف",
+    "detailsSubtitle": "أدخل بيانات الموظف",
+    "generalTab": "عام",
+    "workingHoursTab": "ساعات العمل",
+    "firstNameLabel": "الاسم الأول",
+    "firstNamePlaceholder": "الاسم الأول",
+    "lastNameLabel": "اسم العائلة",
+    "lastNamePlaceholder": "اسم العائلة",
+    "phoneLabel": "رقم الهاتف",
+    "phonePlaceholder": "رقم هاتف الموظف",
+    "passwordLabel": "كلمة المرور",
+    "dateOfHireLabel": "تاريخ التعيين",
+    "roleLabel": "الدور الوظيفي",
+    "statusTitle": "حالة الموظف",
+    "statusSubtitle": "الموظف نشط (الموظفون غير النشطين لا يمكنهم إجراء العمليات)",
+    "createSuccess": "تم إنشاء الموظف بنجاح",
+    "updateSuccess": "تم تحديث بيانات الموظف بنجاح",
+    "listTitle": "الموظفون",
+    "listSubtitle": "صفحة الموظفين لإضافة الموظفين لإدارة عمليات البيع",
+    "addButton": "إضافة موظف",
+    "deleteSuccess": "تم حذف الموظف بنجاح",
+    "notFound": "لا يوجد موظفون"
+  },
   "RefundCard": {
     "refundNumber": "مرتجع #{id}",
     "invoiceId": "رقم الفاتورة: {id}",
@@ -306,6 +339,9 @@
     "globalReasonPlaceholder": "أضف سببًا عامًا للإرجاع (اختياري)",
     "cancel": "إلغاء",
     "confirm": "تأكيد الإرجاع"
+  },
+  "Common": {
+    "cancel": "إلفاء",
+    "save": "حفظ"
   }
-    
-  }
+}

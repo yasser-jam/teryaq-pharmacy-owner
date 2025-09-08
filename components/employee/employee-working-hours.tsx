@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -84,6 +85,8 @@ export default function EmployeeWorkingHours({
   ],
   onChange,
 }: EmployeeWorkingHoursProps) {
+  
+  const t = useTranslations("Employees");
   const [workingHoursRequests, setWorkingHoursRequests] = useState<WorkingHoursRequest[]>(
     externalWorkingHours
   );
@@ -258,7 +261,7 @@ export default function EmployeeWorkingHours({
   return (
     <>
       <SysInfo
-        text="Set the working hours for this employee. Each day can only be assigned to one schedule type."
+        text={t("workingHoursInfo")}
         color="blue"
         className="mb-4"
       />
@@ -270,7 +273,7 @@ export default function EmployeeWorkingHours({
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2 text-lg">
                     <Calendar className="h-5 w-5 text-primary" />
-                    Schedule Pattern {requestIndex + 1}
+                    {t("schedulePattern", { number: requestIndex + 1 })}
                   </CardTitle>
                   {workingHoursRequests.length > 1 && (
                     <Button
@@ -288,7 +291,7 @@ export default function EmployeeWorkingHours({
               <CardContent className="space-y-6">
                 {/* Days of Week Selection */}
                 <div className="space-y-3">
-                  <Label className="text-sm font-medium">Days of Week</Label>
+                  <Label className="text-sm font-medium">{t("daysOfWeek")}</Label>
                   <div className="flex flex-wrap gap-2">
                     {DAYS_OF_WEEK.map((day) => {
                       const isDisabled = isDayUsedInOtherSchedules(
@@ -331,7 +334,7 @@ export default function EmployeeWorkingHours({
                       className="h-8"
                     >
                       <Plus className="h-4 w-4 mr-1" />
-                      Add Shift
+                      {t("addShift")}
                     </Button>
                   </div>
 
@@ -356,7 +359,7 @@ export default function EmployeeWorkingHours({
                               <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div className="space-y-2">
                                   <Label className="text-xs text-muted-foreground">
-                                    Start Time
+                                    {t("startTime")}
                                   </Label>
                                   <div className="relative">
                                     <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -381,7 +384,7 @@ export default function EmployeeWorkingHours({
 
                                 <div className="space-y-2">
                                   <Label className="text-xs text-muted-foreground">
-                                    End Time
+                                    {t("endTime")}
                                   </Label>
                                   <div className="relative">
                                     <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -406,10 +409,10 @@ export default function EmployeeWorkingHours({
 
                                 <div className="space-y-2">
                                   <Label className="text-xs text-muted-foreground">
-                                    Description
+                                    {t("description")}
                                   </Label>
                                   <Input
-                                    placeholder="e.g., Morning Shift"
+                                    placeholder={t("descriptionPlaceholder")}
                                     value={shift.description}
                                     onChange={(e) =>
                                       updateShift(
@@ -471,7 +474,7 @@ export default function EmployeeWorkingHours({
             className=""
           >
             <Plus className="h-4 w-4 mr-2" />
-            Add Another Schedule Type
+            {t("addScheduleType")}
           </Button>
 
           {/* <Button

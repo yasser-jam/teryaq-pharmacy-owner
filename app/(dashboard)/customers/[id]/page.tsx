@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { api } from '@/lib/api'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, use } from 'react'
+import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -25,6 +26,7 @@ import { Phone } from 'lucide-react';
 import { successToast } from '@/lib/toast';
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
+  const t = useTranslations('Customers')
   const { id } = use(params)
   const router = useRouter()
 
@@ -51,7 +53,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['customers'] })
-      successToast("Customer Created Successfully")
+      successToast(t('createSuccess'))
       goBack()
     },
   })
@@ -65,7 +67,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['customers'] })
-      successToast("Customer Updated Successfully")
+      successToast(t('updateSuccess'))
       goBack()
     },
   })
@@ -87,8 +89,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <>
       <BasePageDialog
-        title='Customer Details'
-        subtitle='Fill Customer Data'
+        title={t('detailsTitle')}
+        subtitle={t('detailsSubtitle')}
         className='w-[800px]'
         onOpenChange={goBack}
       >
@@ -100,9 +102,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name *</FormLabel>
+                    <FormLabel>{t('nameLabel')} *</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Customer Name' />
+                      <Input {...field} placeholder={t('namePlaceholder')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,9 +116,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name='phoneNumber'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>{t('phoneLabel')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Customer Phone Number' prefix={<Phone />} />
+                      <Input {...field} placeholder={t('phonePlaceholder')} prefix={<Phone />} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -128,9 +130,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name='address'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Address</FormLabel>
+                    <FormLabel>{t('addressLabel')}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Customer Address' />
+                      <Input {...field} placeholder={t('addressPlaceholder')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -142,9 +144,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 name='notes'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Note</FormLabel>
+                    <FormLabel>{t('notesLabel')}</FormLabel>
                     <FormControl>
-                      <Textarea {...field} placeholder='Notes about the customer' />
+                      <Textarea {...field} placeholder={t('notesPlaceholder')} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,9 +155,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </div>
             <div className='col-span-2 flex items-center justify-end gap-2 mt-4'>
               <Button type='button' variant='ghost' onClick={goBack}>
-                Cancel
+                {t('cancel')}
               </Button>
-              <Button loading={createPending || updatePending}>Save</Button>
+              <Button loading={createPending || updatePending}>{t('save')}</Button>
             </div>
           </form>
         </Form>

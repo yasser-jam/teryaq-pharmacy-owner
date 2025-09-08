@@ -15,8 +15,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const t = useTranslations('CustomersList');
   const router = useRouter();
 
   const queryClient = useQueryClient();
@@ -60,8 +62,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }),
     onSuccess: () => {
       refetch();
-
-      successToast("Customer Deleted Successfully");
+      successToast(t('deleteSuccess'));
     },
   });
 
@@ -84,31 +85,30 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <BaseHeader
-        title="Customers"
-        subtitle="Customers page for adding the customers to handle sales operations"
+        title={t('header')}
+        subtitle={t('subtitle')}
       >
-        <Button onClick={() => router.push("/customers/create")}>
+        <Button onClick={() => router.push("/customers/create")}> 
           <Plus />
-          Add Customer
+          {t('addButton')}
         </Button>
       </BaseHeader>
 
       <div className="my-4">
         <ToggleGroup type="single" defaultValue="all" className="mx-auto" variant={'outline'} onValueChange={filterCustomers}>
-          <ToggleGroupItem value="debts" className={cn("w-[100px] checked:bg-primary")} aria-label="With Debts">
-            With Debts
+          <ToggleGroupItem value="debts" className={cn("w-[100px] checked:bg-primary")} aria-label={t('withDebts')}>
+            {t('withDebts')}
           </ToggleGroupItem>
-{/*           
-          <ToggleGroupItem value="over" className="w-[100px] checked:bg-primary" aria-label="Overdo">
-            With Overdue
-          </ToggleGroupItem> */}
-
+          {/*
+          <ToggleGroupItem value="over" className="w-[100px] checked:bg-primary" aria-label={t('withOverdue')}>
+            {t('withOverdue')}
+          </ToggleGroupItem>*/}
           <ToggleGroupItem
             value="all"
             className="w-[100px]"
-            aria-label="All"
+            aria-label={t('all')}
           >
-            All
+            {t('all')}
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
@@ -127,7 +127,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           ))}
         </div>
       ) : (
-        <BaseNotFound item="Customer" />
+        <BaseNotFound item={t('notFoundItem')} />
       )}
 
       {children}

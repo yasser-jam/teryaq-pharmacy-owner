@@ -1,4 +1,33 @@
 {
+  "CustomerDebtsDialog": {
+    "showAllDebts": "عرض جميع الديون",
+    "debtsFor": "الديون لـ {name}",
+    "debtsTab": "الديون",
+    "autoPayTab": "دفع تلقائي",
+    "debtsListDesc": "قائمة بجميع الديون المستحقة.",
+    "dueDate": "تاريخ الاستحقاق:",
+    "remaining": "المتبقي:",
+    "paidOf": "{paid} / {total}",
+    "pay": "دفع",
+    "payDebtTitle": "دفع دين",
+    "payDebtDesc": "أدخل المبلغ المراد دفعه لهذا الدين.",
+    "amount": "المبلغ",
+    "send": "إرسال",
+    "autoPayDesc": "دفع الديون تلقائيًا حتى مبلغ محدد. إجمالي الديون المتبقية:",
+    "autoPayAmountPlaceholder": "المبلغ للدفع التلقائي",
+    "paySuccess": "تم دفع الدين بنجاح",
+    "autoPaySuccess": "تم الدفع التلقائي بنجاح"
+  },
+  "CustomersList": {
+    "header": "العملاء",
+    "subtitle": "صفحة العملاء لإضافة العملاء لإدارة عمليات البيع",
+    "addButton": "إضافة عميل",
+    "withDebts": "مع ديون",
+    "withOverdue": "مع ديون متأخرة",
+    "all": "الكل",
+    "deleteSuccess": "تم حذف العميل بنجاح",
+    "notFoundItem": "عميل"
+  },
   "NotFound": {
     "noData": "لا توجد بيانات متاحة"
   },
@@ -404,5 +433,21 @@
     "delete": "حذف",
     "deleteConfirmTitle": "هل أنت متأكد تمامًا؟",
     "deleteConfirmDescription": "هل أنت متأكد أنك تريد حذف هذا {item}؟ لا يمكن التراجع عن هذا الإجراء."
+  },
+  "Customers": {
+    "detailsTitle": "تفاصيل العميل",
+    "detailsSubtitle": "أدخل بيانات العميل",
+    "nameLabel": "الاسم",
+    "namePlaceholder": "اسم العميل",
+    "phoneLabel": "رقم الهاتف",
+    "phonePlaceholder": "رقم هاتف العميل",
+    "addressLabel": "العنوان",
+    "addressPlaceholder": "عنوان العميل",
+    "notesLabel": "ملاحظة",
+    "notesPlaceholder": "ملاحظات عن العميل",
+    "createSuccess": "تم إنشاء العميل بنجاح",
+    "updateSuccess": "تم تحديث بيانات العميل بنجاح",
+    "cancel": "إلغاء",
+    "save": "حفظ"
   }
 }

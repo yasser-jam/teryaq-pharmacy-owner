@@ -15,6 +15,7 @@ import PaymentMethodSelect from '../sys/payment-method-select';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
+import { useTranslations } from 'next-intl';
 
 interface CustomerCardDebtsDialogProps {
   customer: Customer;
@@ -97,30 +98,32 @@ export default function CustomerCardDebtsDialog({
       0
     ) || 0;
 
+  const t = useTranslations('CustomerDebtsDialog')
+
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant='link' className='px-0 pt-4'>
-          Show All Debts
+          {t('showAllDebts')}
         </Button>
       </DialogTrigger>
 
       <DialogContent className='sm:max-w-[600px] max-h-[500px] bg-white overflow-y-auto'>
         <DialogHeader>
-          <DialogTitle>Debts for {customer?.name}</DialogTitle>
+          <DialogTitle>{t('debtsFor', { name: customer?.name })}</DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue='debts' className='w-full'>
           <TabsList className='grid w-full grid-cols-2'>
-            <TabsTrigger value='debts'>Debts</TabsTrigger>
-            <TabsTrigger value='auto-pay'>Auto Pay</TabsTrigger>
+            <TabsTrigger value='debts'>{t('debtsTab')}</TabsTrigger>
+            <TabsTrigger value='auto-pay'>{t('autoPayTab')}</TabsTrigger>
           </TabsList>
 
           <TabsContent value='debts'>
             <div className='grid gap-4 py-4'>
               <div className='space-y-2'>
                 <p className='text-sm text-muted-foreground'>
-                  List of all outstanding debts.
+                  {t('debtsListDesc')}
                 </p>
               </div>
 
@@ -136,13 +139,14 @@ export default function CustomerCardDebtsDialog({
                     >
                       <div className='flex flex-col'>
                         <span className='text-sm font-medium'>
-                          Due Date: {debt.dueDate}
+                          {t('dueDate')}
+                          {debt.dueDate}
                         </span>
                         <span className='text-xs text-muted-foreground'>
-                          Remaining: {remainingAmount.toFixed(2)}
+                          {t('remaining', { remaining: remainingAmount.toFixed(2) })}
                         </span>
                       </div>
-                  
+
                       <div className='flex items-center space-x-2'>
                         <span className='text-sm text-gray-700'>
                           {debt.paidAmount?.toFixed(2) || '0.00'} /{' '}
@@ -152,17 +156,17 @@ export default function CustomerCardDebtsDialog({
                           <Popover>
                             <PopoverTrigger asChild>
                               <Button variant='outline' loading={payDebtPending} size='sm'>
-                                Pay
+                                {t('pay')}
                               </Button>
                             </PopoverTrigger>
                             <PopoverContent className='w-72'>
                               <div className='grid gap-4'>
                                 <div className='space-y-2'>
                                   <h4 className='font-medium leading-none'>
-                                    Pay Debt
+                                    {t('payDebtTitle')}
                                   </h4>
                                   <p className='text-sm text-muted-foreground'>
-                                    Enter amount to pay for this debt.
+                                    {t('payDebtDesc')}
                                   </p>
                                 </div>
                                 <div className='grid gap-2'>
@@ -203,11 +207,11 @@ export default function CustomerCardDebtsDialog({
                                       !paymentAmount[debt.id!] ||
                                       paymentAmount[debt.id!] <= 0 ||
                                       paymentAmount[debt.id!] >
-                                        remainingAmount ||
+                                      remainingAmount ||
                                       payDebtPending
                                     }
                                   >
-                                    Send
+                                    {t('send')}
                                   </Button>
                                 </div>
                               </div>
@@ -225,14 +229,14 @@ export default function CustomerCardDebtsDialog({
             <div className='grid gap-4 py-4'>
               <div className='space-y-2'>
                 <p className='text-sm text-muted-foreground'>
-                  Automatically pay off debts up to a specified amount. Total
-                  remaining debt: {totalRemainingDebt.toFixed(2)}
+                  {t('autoPayDesc')}
+                  {t('amount')}: {totalRemainingDebt.toFixed(2)}
                 </p>
               </div>
               <div className='grid gap-2'>
                 <Input
                   type='number'
-                  placeholder='Amount to auto pay'
+                  placeholder={t('autoPayAmountPlaceholder')}
                   value={autoPayAmount === '' ? '' : autoPayAmount}
                   onChange={(e) => setAutoPayAmount(Number(e))}
                   min={0}
@@ -251,7 +255,7 @@ export default function CustomerCardDebtsDialog({
                     autoPayAmount > totalRemainingDebt
                   }
                 >
-                  Pay
+                  {t('pay')}
                 </Button>
               </div>
             </div>

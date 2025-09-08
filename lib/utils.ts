@@ -45,6 +45,8 @@ export const debugCookies = () => {
 };
 
 export const getProductType = (type: ProductType) => {
+  console.log('type  is ', type);
+  
   return type == "MASTER" || type == "مركزي" ? "MASTER" : "PHARMACY";
 }
 

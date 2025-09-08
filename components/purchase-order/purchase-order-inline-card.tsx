@@ -33,7 +33,7 @@ export default function PurchaseOrderInlineCard({
 
   const isFixedPrice = purchaseItem.productType === 'مركزي' || purchaseItem.productType === 'MASTER';
   const refSellingPrice = purchaseItem.medicine?.refSellingPrice || 0;
-
+console.log(purchaseItem)
   return (
     <div className={cn(
       "flex items-center gap-4 p-3 border border-dashed bg-slate-50 rounded-sm",
@@ -49,7 +49,7 @@ export default function PurchaseOrderInlineCard({
       
       <div className="flex-1">
         <div className="font-medium text-sm">
-          {purchaseItem.medicine?.tradeName || 'Item'}
+          {purchaseItem.productName || 'Item'}
         </div>
         <div className="text-xs text-muted-foreground">
           {purchaseItem.barcode} • {purchaseItem.productType}

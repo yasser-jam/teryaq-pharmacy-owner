@@ -12,7 +12,7 @@ import { errorToast, successToast } from "@/lib/toast";
 import BasePageDialog from "@/components/base/page-dialog";
 import PurchaseOrderHeader from "@/components/purchase-order/purchase-order-header";
 import { Input } from "@/components/ui/input";
-import { getProductType } from "@/lib/utils";
+import { getProductType, isMasterProduct } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -83,8 +83,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   // Handle item selection
   const selectMedicine = (med: Medicine) => {
-    // Toggle item selection
-    if (items.find((el) => el.productId === med.id)) {
+    if (items.find((el) => el.productId === med.id && getProductType(el.productType) == getProductType(med.productTypeName))) {
       setItems((prev) => prev.filter((el) => el.productId !== med.id));
       return;
     }
@@ -119,13 +118,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
       return isEditMode && orderId
         ? api(`purchase-orders/${orderId}`, {
-            method: "PUT",
-            body: payload,
-          })
+          method: "PUT",
+          body: payload,
+        })
         : api("purchase-orders", {
-            method: "POST",
-            body: payload,
-          });
+          method: "POST",
+          body: payload,
+        });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["purchase-orders"] });
@@ -202,18 +201,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               onChange={(e) => setSearch(String(e))}
             />
             <div className="grid gap-2 max-h-[400px] overflow-auto">
-              {filteredMedicines?.map((medicine) => {
-                const isSelected = items.some(
+              {filteredMedicines?.map((medicine, index) => {
+
+                const isSelected = () => items.some(
                   (item) => item.productId === medicine.id
                 );
                 return (
                   <div
-                    key={medicine.id}
-                    className={`p-2 rounded cursor-pointer border-dashed border-2 ${
-                      isSelected
-                        ? "bg-blue-50 border border-blue-200"
-                        : "hover:bg-gray-50"
-                    }`}
+                    key={index}
+                    className={`p-2 rounded cursor-pointer border-dashed border-2 ${isSelected()
+                      ? "bg-blue-50 border border-blue-200"
+                      : "hover:bg-gray-50"
+                      }`}
                     onClick={() => selectMedicine(medicine)}
                   >
                     <div className="font-medium">{medicine.tradeName}</div>

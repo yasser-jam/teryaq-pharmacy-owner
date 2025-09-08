@@ -232,7 +232,7 @@ export default function Dashboard() {
           {/* Money Box Actions Row */}
           <div className='grid gap-4 sm:grid-cols-1 lg:grid-cols-3'>
             <Card className='relative flex-1 bg-teal-100 dark:bg-teal-950'>
-              <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-teal-200 dark:bg-teal-800 flex items-center justify-center">
+              <div className="absolute top-4 end-4 h-10 w-10 rounded-full bg-teal-200 dark:bg-teal-800 flex items-center justify-center">
                 <Wallet className="h-5 w-5 text-teal-700 dark:text-teal-300" />
               </div>
               <CardHeader>
@@ -255,7 +255,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             <Card className='relative flex-1 bg-red-100 dark:bg-red-950'>
-              <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-red-200 dark:bg-red-800 flex items-center justify-center">
+              <div className="absolute top-4 end-4 h-10 w-10 rounded-full bg-red-200 dark:bg-red-800 flex items-center justify-center">
                 <Minus className="h-5 w-5 text-red-700 dark:text-red-300" />
               </div>
               <CardHeader>
@@ -278,7 +278,7 @@ export default function Dashboard() {
               </CardContent>
             </Card>
             <Card className='relative flex-1 bg-blue-100 dark:bg-blue-950'>
-              <div className="absolute top-4 right-4 h-10 w-10 rounded-full bg-blue-200 dark:bg-blue-800 flex items-center justify-center">
+              <div className="absolute top-4 end-4 h-10 w-10 rounded-full bg-blue-200 dark:bg-blue-800 flex items-center justify-center">
                 <HandCoins className="h-5 w-5 text-blue-700 dark:text-blue-300" />
               </div>
               <CardHeader>
@@ -351,7 +351,7 @@ export default function Dashboard() {
               <div className='col-span-2 min-h-[300px]'>
                 <ChartMostSold startDate={startDate} endDate={endDate} />
               </div>
-                <ChartMostSoldType startDate={startDate} endDate={endDate} />
+              <ChartMostSoldType startDate={startDate} endDate={endDate} />
             </div>
 
             <div className='grid grid-cols-3 gap-4 my-6'>
@@ -400,11 +400,11 @@ export default function Dashboard() {
 
                 {currentAction != 'reconcile' &&
 
-
-                  <div>
-                    <Label htmlFor='amount' className='text-right'>
+                  <>
+                    <Label htmlFor='amount' className='grid-cols-1'>
                       Amount
                     </Label>
+
                     <Input
                       id='amount'
                       type='number'
@@ -414,7 +414,7 @@ export default function Dashboard() {
                       className='col-span-3'
                     />
 
-                  </div>
+                  </>
 
                 }
               </div>
@@ -451,7 +451,7 @@ export default function Dashboard() {
                 type='submit'
                 onClick={handleAction}
                 loading={loading}
-                disabled={!amount || !description || loading || (currentAction === 'reconcile' && !actualCashAmount)}
+                disabled={loading || (currentAction === 'reconcile' ? !actualCashAmount :  !amount || !description)}
               >
                 Send
               </Button>

@@ -162,6 +162,8 @@
       "customers": "Customers"
     },
     "Medicines": {
+      "title": "Medicines",
+      "subtitle": "Pharmacy and Master Products",
       "addButton": "Add Medicine",
       "deleteSuccess": "Medicine deleted successfully",
       "searchPlaceholder": "Search for Medicine",

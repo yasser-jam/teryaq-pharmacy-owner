@@ -162,6 +162,8 @@
     "customers": "العملاء"
   },
   "Medicines": {
+    "title": "الأدوية",
+    "subtitle": "الأدوية الرئيسية وأدوية الصيدلية",
     "addButton": "إضافة دواء",
     "deleteSuccess": "تم حذف الدواء بنجاح",
     "searchPlaceholder": "ابحث عن دواء",

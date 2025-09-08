@@ -71,8 +71,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <BaseHeader
-        title="Medicines"
-        subtitle="Pharmacy and Master Products"
+        title={t("Medicines.title")}
+        subtitle={t("Medicines.subtitle")}
       >
       </BaseHeader>
       <div className="flex items-center gap-4 my-4">

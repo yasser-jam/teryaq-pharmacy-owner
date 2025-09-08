@@ -363,7 +363,7 @@ export interface PurchaseChartData {
   "pharmacyId": number
   "generatedAt": [number, number, number, number, number, number, number],
   "currency": Currency
-  "language": "EN" | 'AR'
+  "language": "en" | 'ar'
   "startDate": [number, number, number]
   "endDate": [number, number, number]
   "dailyData": [

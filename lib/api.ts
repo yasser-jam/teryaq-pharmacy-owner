@@ -47,7 +47,7 @@ export const api = async function (
       },
       params: {
         ...options.params,
-        lang: locale
+        language: locale
       }, // Axios handles URLSearchParams internally
       data: options.body, // Axios uses `data` instead of `body`
     })

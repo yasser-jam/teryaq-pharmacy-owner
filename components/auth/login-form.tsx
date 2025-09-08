@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
 import { successToast } from '@/lib/toast';
-import { setCookie } from '@/lib/utils';
+import { setCookie, debugCookies } from '@/lib/utils';
 
 import BasePasswordInput from '@/components/base/base-password-input';
 import Link from 'next/link';
@@ -38,7 +38,17 @@ export default function LoginForm() {
       }),
     onSuccess(response) {
       successToast(t('loginSuccess'));
+      
+      // Debug cookie setting
+      // debugCookies();
+      
       setCookie('tp.access-token', response.token);
+      
+      // Verify cookie was set
+      // setTimeout(() => {
+      //   console.log('Cookie after setting:', document.cookie);
+      //   debugCookies();
+      // }, 100);
 
       // complete register (if not) or redirect to home page
       if (response?.isActive) router.push('/');

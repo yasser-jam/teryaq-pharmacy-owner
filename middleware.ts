@@ -9,6 +9,15 @@ export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get('tp.access-token')?.value;
   // const accessToken = useLocalStorageState('tp.access-token');
 
+  // Debug logging in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Middleware Debug:');
+    console.log('- Path:', request.nextUrl.pathname);
+    console.log('- Has Token:', !!accessToken);
+    console.log('- Token Value:', accessToken ? 'Present' : 'Missing');
+    console.log('- All Cookies:', request.cookies.getAll().map(c => `${c.name}=${c.value}`));
+  }
+
   // If the request is not authenticated and the pathname does not include 'auth', redirect to /auth/login
   if (!accessToken && !request.nextUrl.pathname.includes('/login')) {
     return NextResponse.redirect(new URL('/auth/login', request.url));

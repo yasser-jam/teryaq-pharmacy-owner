@@ -124,6 +124,64 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
     // },
   ];
 
+  const employeeItems : any[] = [
+    {
+      title: t('home'),
+      url: "/",
+      icon: Home,
+    },
+    {
+      title: t('sales'),
+      url: "/pos",
+      icon: ShoppingCart,
+    },
+    {
+      title: t('refunds'),
+      url: "/refunds",
+      icon: ReceiptText,
+    },
+    {
+      title: t('medicines'),
+      url: "/medicines",
+      icon: Pill,
+    },
+    {
+      title: t('suppliers'),
+      url: "/suppliers",
+      icon: Cable,
+    },
+    {
+      title: t('purchaseOrders'),
+      url: "/purchase-orders",
+      icon: ShoppingCart,
+    },
+    {
+      title: t('stock'),
+      url: "/stock",
+      icon: Package,
+    },
+    {
+      title: t('customers'),
+      url: "/customers",
+      icon: Users,
+    },
+    // {
+    //   title: "Customers",
+    //   url: "/customers",
+    //   icon: Users,
+    //   children: [
+    //     {
+    //       title: "List",
+    //       url: "/customers/list",
+    //     },
+    //     {
+    //       title: "Debts",
+    //       url: "/customers/debts",
+    //     },
+    //   ],
+    // },
+  ];
+
   const traineeMenuItems = [
     {
       title: t('home'),
@@ -154,7 +212,7 @@ export function AppSidebar({ logoTitle = "Teryaq", onLogout }: SidebarProps) {
 
   const { role } = useRole()
 
-  const selectedItems = role == 'PHARMACY_TRAINEE' ? traineeMenuItems : menuItems  
+  const selectedItems = role == 'PHARMACY_TRAINEE' ? traineeMenuItems : role == "PHARMACY_EMPLOYEE" ? employeeItems :  menuItems  
   return (
     <div className="flex sticky left-0 top-0 min-h-screen w-64 flex-col bg-white border-r border-sidebar-border">
       {/* Logo and Title */}

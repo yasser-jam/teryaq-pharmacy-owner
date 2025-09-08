@@ -121,6 +121,7 @@ export interface Employee {
   phoneNumber: string;
   email: string;
   role?: string;
+  roleName?: string
   dateOfHire?: string;
   workingHours: WorkingHour[];
 }

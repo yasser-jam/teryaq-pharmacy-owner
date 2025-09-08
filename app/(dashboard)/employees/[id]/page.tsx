@@ -217,7 +217,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         />
 
         {
-          id != 'create' && (
+          id == 'create' && (
 
             <FormField
               control={form.control}

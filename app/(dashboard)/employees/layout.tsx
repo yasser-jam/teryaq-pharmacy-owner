@@ -13,6 +13,7 @@ import { Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useTranslations } from 'next-intl';
+import { useRole } from '@/components/providers/role-provider';
 
 export default function Page({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -33,6 +34,9 @@ export default function Page({ children }: { children: React.ReactNode }) {
     }
   });
 
+  const { role } = useRole()
+
+  if (role == 'PHARMACY_EMPLOYEE') return <BaseNotFound item="employee" />
   return (
     <>
       <BaseHeader

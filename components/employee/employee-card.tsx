@@ -33,18 +33,18 @@ export default function EmployeeCard({
             </AvatarFallback>
           </Avatar>
           <div className="font-semibold text-lg">{employee?.firstName}</div>
-          <div className="text-sm text-gray-500">{employee?.phoneNumber}</div>
+          <div className="text-sm text-gray-500">{employee?.email}</div>
 
           <div className="absolute top-4 end-4">
             <ActionMenu
               editAction
-              deleteAction
+              deleteAction={employee.roleName != 'PHARMACY_MANAGER'}
               onEdit={onEdit}
               onDelete={onDelete}
             >
-              <DropdownMenuItem onClick={() => setWorkingOpen(true)}>
+              {/* <DropdownMenuItem onClick={() => setWorkingOpen(true)}>
                 <Calendar /> Set Working Hours
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </ActionMenu>
           </div>
         </CardContent>

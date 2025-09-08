@@ -152,7 +152,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               />
             </div>
             <div className='col-span-2 flex items-center justify-end gap-2 mt-4'>
-              <Button variant='ghost' onClick={goBack}>
+              <Button type='button' variant='ghost' onClick={goBack}>
                 Cancel
               </Button>
               <Button loading={createPending || updatePending}>Save</Button>

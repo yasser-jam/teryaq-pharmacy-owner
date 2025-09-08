@@ -26,6 +26,7 @@ import { BaseSwitch } from "@/components/base/base-switch";
 import SysRoleSelect from "@/components/sys/role-select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EmployeeWorkingHours from "@/components/employee/employee-working-hours";
+import BasePasswordInput from "@/components/base/base-password-input";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -62,7 +63,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const queryClient = useQueryClient();
 
   const { mutate: create, isPending: createPending } = useMutation({
-    mutationKey: ["supplier-create"],
+    mutationKey: ["employee-create"],
     mutationFn: (data: FormData) => {
       return api("/employees", {
         body: {
@@ -75,8 +76,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       })
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["suppliers"] });
-      successToast("Supplier created successfully");
+      await queryClient.invalidateQueries({ queryKey: ["employees"] });
+      successToast("Employee created successfully");
       goBack();
     },
   });
@@ -87,12 +88,17 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       api(`/employees/${id}`, {
         body: {
           ...data,
-          roleId: Number(data.roleId),
+          id: undefined,
+          pharmacyId: undefined,
+          workingHours: undefined,
+          workingHoursRequests: data.workingHours,
+          roleId: Number(data.roleId)
         },
         method: "PUT",
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["employees"] });
+      successToast("Employee updated successfully");
       goBack();
     },
   });
@@ -101,6 +107,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (employee) {
       form.reset({
         ...employee,
+        roleId: '3',
         workingHours: employee.workingHours && employee.workingHours.length > 0 ? employee.workingHours : [
           {
             daysOfWeek: [],
@@ -124,6 +131,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const onSubmit = (data: FormData) => {
     id == "create" ? create(data) : update(data);
   };
+
+  
 
   function GeneralTab({ form }: { form: any }) {
     return (
@@ -166,7 +175,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <FormControl>
                 <Input
                   {...field}
-                  prefix={<Phone />} 
+                  prefix={<Phone />}
                   placeholder="Employee Phone Number"
                 />
               </FormControl>
@@ -177,9 +186,23 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
         <FormField
           control={form.control}
-          name="dateOfHire"
+          name="password"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <BasePasswordInput disabled={id != "create"} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="dateOfHire"
+          render={({ field }) => (
+            <FormItem className="col-span-2">
               <FormLabel>Date of Hire</FormLabel>
               <FormControl>
                 <BaseDatePicker useDefault {...field} onChange={field.onChange} />
@@ -189,19 +212,25 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="roleId"
-          render={({ field }) => (
-            <FormItem className="col-span-2">
-              <FormLabel>Role</FormLabel>
-              <FormControl>
-                <SysRoleSelect {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {
+          id != 'create' && (
+
+            <FormField
+              control={form.control}
+              name="roleId"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <SysRoleSelect {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+          )
+        }
 
         <FormField
           control={form.control}

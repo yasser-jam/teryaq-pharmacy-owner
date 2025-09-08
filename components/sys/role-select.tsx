@@ -19,9 +19,8 @@ export default function SysRoleSelect({
   //   })
 
   const items = [
-    { id: 2, name: "PHARMACY_MANAGER" },
-    { id: 3, name: "PHARMACY_EMPLOYEE" },
-    { id: 4, name: "PHARMACY_TRAINEE" },
+    { id: 3, name: "Pharmacy Employee" },
+    { id: 4, name: "Pharmacy Trainee" },
   ];
 
   return (

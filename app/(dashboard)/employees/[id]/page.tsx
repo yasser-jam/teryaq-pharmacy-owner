@@ -286,10 +286,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             onValueChange={setActiveTab}
             className="space-y-4"
           >
+            {
+              id != 'create' &&
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="general">{t("generalTab")}</TabsTrigger>
               <TabsTrigger value="working-hours">{t("workingHoursTab")}</TabsTrigger>
             </TabsList>
+            }
 
             <TabsContent value="general">
               <GeneralTab form={form} />

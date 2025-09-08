@@ -266,18 +266,6 @@
     "cancel": "إلغاء"
   },
   "Sale": {
-  },
-  "RefundItemsDialog": {
-    "title": "عناصر المرتجع",
-    "description": "حدد العناصر المراد إرجاعها وأدخل الأسباب.",
-    "available": "المتوفر",
-    "quantity": "الكمية",
-    "itemReasonPlaceholder": "سبب الإرجاع (اختياري)",
-    "globalReasonLabel": "سبب الإرجاع",
-    "globalReasonPlaceholder": "أضف سببًا عامًا للإرجاع (اختياري)",
-    "cancel": "إلغاء",
-    "confirm": "تأكيد الإرجاع"
-  },
     "pos": "نقطة البيع",
     "stockItems": "عناصر المخزون",
     "scanHint": "يمكنك مسح الباركود بدلاً من البحث عن المنتجات",
@@ -307,4 +295,17 @@
     "salesSubtitle": "صفحة المبيعات لإدارة عمليات البيع",
     "makeNewSale": "إجراء عملية بيع جديدة",
     "saleNotFound": "لا توجد مبيعات"
+  },
+  "RefundItemsDialog": {
+    "title": "عناصر المرتجع",
+    "description": "حدد العناصر المراد إرجاعها وأدخل الأسباب.",
+    "available": "المتوفر",
+    "quantity": "الكمية",
+    "itemReasonPlaceholder": "سبب الإرجاع (اختياري)",
+    "globalReasonLabel": "سبب الإرجاع",
+    "globalReasonPlaceholder": "أضف سببًا عامًا للإرجاع (اختياري)",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد الإرجاع"
+  }
+    
   }

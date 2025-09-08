@@ -265,19 +265,7 @@
     "cancel": "Cancel"
   },
   "Sale": {
-  },
-  "RefundItemsDialog": {
-    "title": "Refund Items",
-    "description": "Select items to refund and provide reasons.",
-    "available": "Available",
-    "quantity": "Quantity",
-    "itemReasonPlaceholder": "Refund reason (optional)",
-    "globalReasonLabel": "Refund Reason",
-    "globalReasonPlaceholder": "Add a general refund reason (optional)",
-    "cancel": "Cancel",
-    "confirm": "Confirm Refund"
-  },
-    "pos": "Point of Sale",
+ "pos": "Point of Sale",
     "stockItems": "Stock Items",
     "scanHint": "You can scan barcode instead of searching products",
     "paymentDetails": "Payment Details",
@@ -306,4 +294,17 @@
     "salesSubtitle": "Sales page to handle sales operations",
     "makeNewSale": "Make new Sale",
     "saleNotFound": "No sales found"
+  },
+  "RefundItemsDialog": {
+    "title": "Refund Items",
+    "description": "Select items to refund and provide reasons.",
+    "available": "Available",
+    "quantity": "Quantity",
+    "itemReasonPlaceholder": "Refund reason (optional)",
+    "globalReasonLabel": "Refund Reason",
+    "globalReasonPlaceholder": "Add a general refund reason (optional)",
+    "cancel": "Cancel",
+    "confirm": "Confirm Refund"
+  }
+    
   }

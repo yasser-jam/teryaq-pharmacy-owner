@@ -1,5 +1,6 @@
 "use client";
 import { AppSidebar } from "@/components/app-sidebar";
+import { RoleProvider } from "@/components/providers/role-provider";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { api } from "@/lib/api";
@@ -24,21 +25,24 @@ export default function Page({ children }: { children: React.ReactNode }) {
         } as React.CSSProperties
       }
     >
-      <div className="relative">
-        <AppSidebar />
-      </div>
+      <RoleProvider>
 
-      <SidebarInset className="flex flex-col gap-4 min-h-screen">
-        <SiteHeader loading={isFetching} />
-        <div className="px-4">
-          <div
-            className="container px-4 py-2 bg-white rounded-sm"
-            style={{ minHeight: "calc(100vh - 100px)" }}
-          >
-            {children}
-          </div>
+        <div className="relative">
+          <AppSidebar />
         </div>
-      </SidebarInset>
+
+        <SidebarInset className="flex flex-col gap-4 min-h-screen">
+          <SiteHeader loading={isFetching} />
+          <div className="px-4">
+            <div
+              className="container px-4 py-2 bg-white rounded-sm"
+              style={{ minHeight: "calc(100vh - 100px)" }}
+            >
+              {children}
+            </div>
+          </div>
+        </SidebarInset>
+      </RoleProvider>
     </SidebarProvider>
   );
 }

@@ -17,6 +17,7 @@ import { initPagination } from '@/lib/init';
 import BasePagination from '@/components/base/pagination';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
+import { useRole } from '@/components/providers/role-provider';
 
 export default function Page({ children }: { children: React.ReactNode }) {
   let { data, isFetching, refetch, isError } = useQuery<SaleInvoice[]>({
@@ -62,6 +63,9 @@ export default function Page({ children }: { children: React.ReactNode }) {
 
   const t = useTranslations('Sale')
 
+  const { role } = useRole()
+  console.log(role);
+  
   return (
     <>
       <BaseHeader title={t('salesHeader')} subtitle={t('salesSubtitle')}>

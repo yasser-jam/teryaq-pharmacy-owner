@@ -30,7 +30,8 @@ export const validateTimeOverlaps = (
 ): ValidationError[] => {
   const errors: ValidationError[] = [];
 
-  requests.forEach((request, requestIndex) => {
+  if (requests?.length) {
+    requests.forEach((request, requestIndex) => {
     // Check for overlaps within each day
     request.daysOfWeek.forEach((day) => {
       const dayShifts = request.shifts.map((shift, shiftIndex) => ({
@@ -73,6 +74,7 @@ export const validateTimeOverlaps = (
       }
     });
   });
+  }
 
   return errors;
 };

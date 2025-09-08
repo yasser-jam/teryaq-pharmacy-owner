@@ -81,7 +81,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["employees"] });
-  successToast(t("createSuccess"));
+      successToast(t("createSuccess"));
       goBack();
     },
   });
@@ -92,6 +92,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       api(`/employees/${id}`, {
         body: {
           ...data,
+          password: undefined,
           id: undefined,
           pharmacyId: undefined,
           workingHours: undefined,
@@ -102,7 +103,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["employees"] });
-  successToast(t("updateSuccess"));
+      successToast(t("updateSuccess"));
       goBack();
     },
   });
@@ -111,7 +112,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     if (employee) {
       form.reset({
         ...employee,
-        roleId: '3',
+        roleId: employee.roleName == 'PHARMACY_MANAGER' ? 3 : employee.roleName == 'PHARMACY_EMPLOYEE' ? 4 : 5,
+        password: '*********',
         workingHours: employee.workingHours && employee.workingHours.length > 0 ? employee.workingHours : [
           {
             daysOfWeek: [],
@@ -133,10 +135,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   };
 
   const onSubmit = (data: FormData) => {
+    
     id == "create" ? create(data) : update(data);
   };
 
-  
+
 
   function GeneralTab({ form }: { form: any }) {
     return (
@@ -274,8 +277,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <BasePageDialog
-  title={t("detailsTitle")}
-  subtitle={t("detailsSubtitle")}
+      title={t("detailsTitle")}
+      subtitle={t("detailsSubtitle")}
       className="w-[1200px]"
       onOpenChange={goBack}
     >
@@ -287,11 +290,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             className="space-y-4"
           >
             {
+              // id == 'create' &&
               id == 'create' &&
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="general">{t("generalTab")}</TabsTrigger>
-              <TabsTrigger value="working-hours">{t("workingHoursTab")}</TabsTrigger>
-            </TabsList>
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="general">{t("generalTab")}</TabsTrigger>
+                <TabsTrigger value="working-hours">{t("workingHoursTab")}</TabsTrigger>
+              </TabsList>
             }
 
             <TabsContent value="general">

@@ -130,10 +130,11 @@ export default function EmployeeWorkingHours({
 
   useEffect(() => {
     // Initial validation when component mounts or externalWorkingHours changes
-    if (externalWorkingHours) {
+    if (externalWorkingHours && externalWorkingHours?.length) {
       const errors = validateTimeOverlaps(workingHoursRequests);
       setValidationErrors(errors);
     }
+    
   }, [externalWorkingHours]);
 
   // Update parent when workingHoursRequests changes - this useEffect will now trigger after setWorkingHoursRequests in updateWorkingHoursRequests
@@ -179,13 +180,13 @@ export default function EmployeeWorkingHours({
 
   const isDayUsedInOtherSchedules = (requestIndex: number, day: DayOfWeek) => {
     return workingHoursRequests.some(
-      (req, idx) => idx !== requestIndex && req.daysOfWeek.includes(day)
+      (req, idx) => idx !== requestIndex && req.daysOfWeek?.includes(day)
     );
   };
 
   const updateDaysOfWeek = (requestIndex: number, day: DayOfWeek) => {
     const isDaySelected =
-      workingHoursRequests[requestIndex].daysOfWeek.includes(day);
+      workingHoursRequests[requestIndex]?.daysOfWeek?.includes(day);
 
     if (isDayUsedInOtherSchedules(requestIndex, day)) {
       // Optionally, you could show a message here or prevent the action.
@@ -239,6 +240,9 @@ export default function EmployeeWorkingHours({
     updatedRequests[requestIndex].shifts[shiftIndex] = shift;
     updateWorkingHoursRequests(updatedRequests);
   };
+
+  console.log(workingHoursRequests);
+  
 
   // const { mutate: updateWorkingHours, isPending } = useMutation({
   //   mutationFn: (payload: WorkingHoursPayload) =>
@@ -298,7 +302,7 @@ export default function EmployeeWorkingHours({
                         requestIndex,
                         day
                       );
-                      const isSelected = request.daysOfWeek.includes(day);
+                      const isSelected = request.daysOfWeek?.includes(day);
 
                       return (
                         <Badge
@@ -328,6 +332,7 @@ export default function EmployeeWorkingHours({
                   <div className="flex items-center justify-between">
                     <Label className="text-sm font-medium">Shifts</Label>
                     <Button
+                    type="button"
                       variant="outline"
                       size="sm"
                       onClick={() => addShift(requestIndex)}
@@ -470,6 +475,7 @@ export default function EmployeeWorkingHours({
         <div className="flex justify-between gap-3">
           <Button
             variant="outline"
+            type="button"
             onClick={addWorkingHoursRequest}
             className=""
           >

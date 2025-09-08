@@ -37,7 +37,8 @@ export default function EmployeeCard({
 
           <div className="absolute top-4 end-4">
             <ActionMenu
-              editAction
+            // Todo: fix
+              editAction={false}
               deleteAction={employee.roleName != 'PHARMACY_MANAGER'}
               onEdit={onEdit}
               onDelete={onDelete}

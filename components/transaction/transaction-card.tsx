@@ -79,6 +79,12 @@ const transactionConfig: Record<
     bgColor: "bg-blue-100",
     borderColor: "border-blue-200",
   },
+  DEBT_PAYMENT: {
+    icon: PiggyBank,
+    color: "text-blue-800",
+    bgColor: "bg-blue-100",
+    borderColor: "border-blue-200",
+  },
 };
 
 export default function TransactionCard({ item }: TransactionCardProps) {

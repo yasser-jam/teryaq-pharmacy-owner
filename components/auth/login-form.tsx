@@ -3,7 +3,7 @@
 import type React from 'react';
 
 import { useState } from 'react';
-import { Smartphone } from 'lucide-react';
+import { AtSign, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -91,8 +91,7 @@ export default function LoginForm() {
 
           <Input
             id='email'
-            type='tel'
-            prefix={<Smartphone />}
+            prefix={<AtSign />}
             placeholder={t('emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(String(e))}

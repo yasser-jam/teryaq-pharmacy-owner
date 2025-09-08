@@ -292,6 +292,7 @@ export type TransactionType =
   | "PURCHASE_PAYMENT"
   | "INCOME"
   | "ADJUSTMENT"
+  | "DEBT_PAYMENT"
   | "CLOSING_BALANCE";
 
 export type ReferenceType =

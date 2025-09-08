@@ -62,7 +62,7 @@ export const api = async function (
       Cookies.remove('tp.access-token')
 
       // redirect to login page
-      window.location.replace('/login')
+      window.location.replace('/auth/login')
     }
 
     if (options.showToaster !== false) {

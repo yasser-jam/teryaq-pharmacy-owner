@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import BaseDateRangeFilter from "@/components/base/base-date-range-filter";
 import dayjs from "dayjs";
+import { useTranslations } from "next-intl";
 
 export default function Page({ children }: { children: React.ReactNode }) {
   const [startDate, setStartDate] = useState<string | undefined>(
@@ -48,11 +49,13 @@ export default function Page({ children }: { children: React.ReactNode }) {
     setEndDate(end);
   };
 
+  const t = useTranslations('Refunds')
+
   return (
     <>
       <BaseHeader
-        title="Refunds"
-        subtitle="Refund Operations"
+        title={t('header')}
+        subtitle={t('subtitle')}
       >
         <BaseDateRangeFilter
           startDate={startDate}
@@ -71,7 +74,7 @@ export default function Page({ children }: { children: React.ReactNode }) {
           ))}
         </div>
       ) : (
-        <BaseNotFound item="Sale" />
+        <BaseNotFound item={t('notFound')} />
       )}
 
       {children}

@@ -23,12 +23,12 @@ export default function POSInvoiceItems({
     
   }, [invoice.currency])
 
-  const t = useTranslations('POS')
+  const t = useTranslations('Sale')
   return (
     <div className="space-y-2">
       {invoice.items.length === 0 ? (
         <p className="text-gray-500 text-center py-4">
-          {t('InvoiceItemsEmpty')}
+          {t('invoiceItemsEmpty')}
         </p>
       ) : (
         invoice.items?.map((item, index) => {

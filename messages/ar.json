@@ -1,4 +1,25 @@
 {
+  "RefundCard": {
+    "refundNumber": "مرتجع #{id}",
+    "invoiceId": "رقم الفاتورة: {id}",
+    "date": "التاريخ",
+    "totalAmount": "إجمالي المبلغ",
+    "reason": "السبب",
+    "refundedItems": "العناصر المرتجعة",
+    "noItems": "لا توجد عناصر مرتجعة.",
+    "unitPrice": "سعر الوحدة",
+    "subtotal": "المجموع الفرعي",
+    "quantity": "الكمية",
+    "itemRefundReason": "سبب إرجاع العنصر",
+    "stockRestored": "تمت إعادة المخزون",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "Refunds": {
+    "header": "المرتجعات",
+    "subtitle": "عمليات المرتجعات",
+    "notFound": "لا توجد مرتجعات"
+  },
   "Auth": {
     "welcomeBack": "مرحباً بعودتك",
     "signInToContinue": "سجّل الدخول إلى حسابك للمتابعة",
@@ -10,7 +31,26 @@
     "loginButton": "تسجيل الدخول",
     "loginSuccess": "تم تسجيل الدخول بنجاح",
     "noAccount": "ليس لديك حساب؟",
-    "contactUs": "تواصل معنا!"
+    "contactUs": "تواصل معنا!",
+    "registerTitle": "إكمال التسجيل",
+    "registerSubtitle": "أدخل تفاصيل الصيدلية",
+    "registerButton": "إكمال التسجيل",
+    "registerSuccess": "تم إكمال التسجيل بنجاح",
+    "managerFirstNameLabel": "الاسم الأول للمدير",
+    "managerFirstNamePlaceholder": "أدخل الاسم الأول",
+    "managerLastNameLabel": "اسم العائلة للمدير",
+    "managerLastNamePlaceholder": "أدخل اسم العائلة",
+    "pharmacyEmailLabel": "البريد الإلكتروني للصيدلية",
+    "pharmacyEmailPlaceholder": "example@domain.com",
+    "pharmacyPhoneLabel": "هاتف الصيدلية",
+    "pharmacyPhonePlaceholder": "09********",
+    "areaLabel": "المنطقة",
+    "locationLabel": "الموقع (العنوان)",
+    "locationPlaceholder": "الموقع التفصيلي",
+    "newPasswordLabel": "كلمة مرور جديدة",
+    "newPasswordPlaceholder": "أدخل كلمة مرور جديدة",
+    "startTimeLabel": "وقت البدء",
+    "endTimeLabel": "وقت الانتهاء"
   },
   "Roles": {
     "PHARMACY_MANAGER": "مدير",
@@ -226,6 +266,18 @@
     "cancel": "إلغاء"
   },
   "Sale": {
+  },
+  "RefundItemsDialog": {
+    "title": "عناصر المرتجع",
+    "description": "حدد العناصر المراد إرجاعها وأدخل الأسباب.",
+    "available": "المتوفر",
+    "quantity": "الكمية",
+    "itemReasonPlaceholder": "سبب الإرجاع (اختياري)",
+    "globalReasonLabel": "سبب الإرجاع",
+    "globalReasonPlaceholder": "أضف سببًا عامًا للإرجاع (اختياري)",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد الإرجاع"
+  },
     "pos": "نقطة البيع",
     "stockItems": "عناصر المخزون",
     "scanHint": "يمكنك مسح الباركود بدلاً من البحث عن المنتجات",
@@ -256,4 +308,3 @@
     "makeNewSale": "إجراء عملية بيع جديدة",
     "saleNotFound": "لا توجد مبيعات"
   }
-}

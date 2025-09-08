@@ -1,4 +1,25 @@
 {
+  "RefundCard": {
+    "refundNumber": "Refund #{id}",
+    "invoiceId": "Invoice ID: {id}",
+    "date": "Date",
+    "totalAmount": "Total Amount",
+    "reason": "Reason",
+    "refundedItems": "Refunded Items",
+    "noItems": "No items refunded.",
+    "unitPrice": "Unit Price",
+    "subtotal": "Subtotal",
+    "quantity": "Qty",
+    "itemRefundReason": "Item Refund Reason",
+    "stockRestored": "Stock Restored",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "Refunds": {
+    "header": "Refunds",
+    "subtitle": "Refund Operations",
+    "notFound": "No refunds found"
+  },
   "Auth": {
     "welcomeBack": "Welcome Back",
     "signInToContinue": "Sign in to your account to continue",
@@ -10,7 +31,26 @@
     "loginButton": "Login",
     "loginSuccess": "Logged in Successfully",
     "noAccount": "Don't have an account?",
-    "contactUs": "Contact with US!"
+    "contactUs": "Contact with US!",
+    "registerTitle": "Complete Registration",
+    "registerSubtitle": "Enter your pharmacy details",
+    "registerButton": "Complete Registration",
+    "registerSuccess": "Registration completed successfully",
+    "managerFirstNameLabel": "Manager First Name",
+    "managerFirstNamePlaceholder": "Enter first name",
+    "managerLastNameLabel": "Manager Last Name",
+    "managerLastNamePlaceholder": "Enter last name",
+    "pharmacyEmailLabel": "Pharmacy Email",
+    "pharmacyEmailPlaceholder": "example@domain.com",
+    "pharmacyPhoneLabel": "Pharmacy Phone",
+    "pharmacyPhonePlaceholder": "09********",
+    "areaLabel": "Area",
+    "locationLabel": "Location (Address)",
+    "locationPlaceholder": "Detailed Address",
+    "newPasswordLabel": "New Password",
+    "newPasswordPlaceholder": "Enter new password",
+    "startTimeLabel": "Start Time",
+    "endTimeLabel": "End Time"
   },
   "Roles": {
     "PHARMACY_MANAGER": "Manager",
@@ -225,6 +265,18 @@
     "cancel": "Cancel"
   },
   "Sale": {
+  },
+  "RefundItemsDialog": {
+    "title": "Refund Items",
+    "description": "Select items to refund and provide reasons.",
+    "available": "Available",
+    "quantity": "Quantity",
+    "itemReasonPlaceholder": "Refund reason (optional)",
+    "globalReasonLabel": "Refund Reason",
+    "globalReasonPlaceholder": "Add a general refund reason (optional)",
+    "cancel": "Cancel",
+    "confirm": "Confirm Refund"
+  },
     "pos": "Point of Sale",
     "stockItems": "Stock Items",
     "scanHint": "You can scan barcode instead of searching products",
@@ -255,4 +307,3 @@
     "makeNewSale": "Make new Sale",
     "saleNotFound": "No sales found"
   }
-}

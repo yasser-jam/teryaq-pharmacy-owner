@@ -95,7 +95,7 @@ const BaseDateRangeFilter: React.FC<BaseDateRangeFilterProps> = ({
       </Button>
 
       {isVisible && (
-        <div className='flex flex-col gap-3 border-2 border-dashed p-3 rounded-md w-[320px] absolute top-16 -left-44 shadow-xl bg-white z-[9]'>
+        <div className='flex flex-col gap-3 border-2 border-dashed p-3 rounded-md w-[320px] absolute top-16 -start-44 shadow-xl bg-white z-[9]'>
           <BaseDatePicker
             value={startDate}
             onChange={(dateString) => {

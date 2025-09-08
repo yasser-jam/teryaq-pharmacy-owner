@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import {
   Dialog,
   DialogContent,
@@ -42,6 +43,7 @@ export function RefundItemsDialog({
   onSubmit,
   loading
 }: RefundItemsDialogProps) {
+  const t = useTranslations('RefundItemsDialog');
   const [selectedItems, setSelectedItems] = useState<{
     [key: number]: { quantity: number; reason: string };
   }>({});
@@ -108,9 +110,9 @@ export function RefundItemsDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Refund Items</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
           <DialogDescription>
-            Select items to refund and provide reasons.
+            {t('description')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4 max-h-[400px] overflow-auto">
@@ -128,24 +130,25 @@ export function RefundItemsDialog({
                   }
                 />
                 <Label htmlFor={`item-${item.id}`} className="flex-1">
-                  {item.productName} (Available: {item.availableForRefund})
+                  {item.productName} ({t('available')}: {item.availableForRefund})
                 </Label>
                 {selectedItems[item.id] && (
                   <Input
                     type="number"
                     value={selectedItems[item.id]?.quantity || ""}
                     onChange={(e) =>
-                      handleQuantityChange(item.id, String(e))
+                      handleQuantityChange(item.id, e.target.value)
                     }
                     min="0"
                     max={item.availableForRefund}
                     className="w-24"
+                    placeholder={t('quantity')}
                   />
                 )}
               </div>
               {selectedItems[item.id] && (
                 <Textarea
-                  placeholder="Refund reason (optional)"
+                  placeholder={t('itemReasonPlaceholder')}
                   value={selectedItems[item.id]?.reason || ""}
                   onChange={(e) =>
                     handleReasonChange(item.id, e.target.value)
@@ -157,10 +160,10 @@ export function RefundItemsDialog({
           ))}
 
           <div className="grid gap-2">
-            <Label htmlFor="global-refund-reason">Refund Reason</Label>
+            <Label htmlFor="global-refund-reason">{t('globalReasonLabel')}</Label>
             <Textarea
               id="global-refund-reason"
-              placeholder="Add a general refund reason (optional)"
+              placeholder={t('globalReasonPlaceholder')}
               value={globalRefundReason}
               onChange={(e) => setGlobalRefundReason(e.target.value)}
             />
@@ -168,7 +171,7 @@ export function RefundItemsDialog({
         </div>
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             type="submit"
@@ -176,7 +179,7 @@ export function RefundItemsDialog({
             disabled={Object.keys(selectedItems).length === 0}
             loading={loading}
           >
-            Confirm Refund
+            {t('confirm')}
           </Button>
         </DialogFooter>
       </DialogContent>

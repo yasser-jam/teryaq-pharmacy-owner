@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from 'next-intl';
 
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
@@ -30,6 +31,7 @@ type RegisterFormData = z.infer<typeof REGISTER_SCHEMA>;
 
 export default function RegisterForm() {
   const router = useRouter();
+  const t = useTranslations('Auth');
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(REGISTER_SCHEMA),
@@ -48,7 +50,7 @@ export default function RegisterForm() {
         },
       }),
     onSuccess: async () => {
-      successToast('Registration completed successfully');
+      successToast(t('registerSuccess'));
       setCookie('tp.complete-account', 'true');
 
       // open the moneybox
@@ -70,10 +72,10 @@ export default function RegisterForm() {
     <div className='space-y-8'>
       <div className='text-center space-y-2'>
         <h1 className='text-2xl font-bold tracking-tight'>
-          Complete Registration
+          {t('registerTitle')}
         </h1>
         <p className='text-muted-foreground text-sm'>
-          Enter your pharmacy details
+          {t('registerSubtitle')}
         </p>
       </div>
 
@@ -85,9 +87,9 @@ export default function RegisterForm() {
               name='managerFirstName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Manager First Name</FormLabel>
+                  <FormLabel>{t('managerFirstNameLabel')}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='Enter first name' />
+                    <Input {...field} placeholder={t('managerFirstNamePlaceholder')} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,9 +101,9 @@ export default function RegisterForm() {
               name='managerLastName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Manager Last Name</FormLabel>
+                  <FormLabel>{t('managerLastNameLabel')}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='Enter last name' />
+                    <Input {...field} placeholder={t('managerLastNamePlaceholder')} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -113,12 +115,12 @@ export default function RegisterForm() {
               name='pharmacyEmail'
               render={({ field }) => (
                 <FormItem className='col-span-2'>
-                  <FormLabel>Pharmacy Email</FormLabel>
+                  <FormLabel>{t('pharmacyEmailLabel')}</FormLabel>
                   <FormControl>
                     <Input
                       type='email'
                       {...field}
-                      placeholder='example@domain.com'
+                      placeholder={t('pharmacyEmailPlaceholder')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -131,9 +133,9 @@ export default function RegisterForm() {
               name='pharmacyPhone'
               render={({ field }) => (
                 <FormItem className='col-span-2'>
-                  <FormLabel>Pharmacy Phone</FormLabel>
+                  <FormLabel>{t('pharmacyPhoneLabel')}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder={'09********'} prefix={<Phone />} />
+                    <Input {...field} placeholder={t('pharmacyPhonePlaceholder')} prefix={<Phone />} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -145,7 +147,7 @@ export default function RegisterForm() {
               name='areaId'
               render={({ field }) => (
                 <FormItem className='col-span-2'>
-                  <FormLabel>Area</FormLabel>
+                  <FormLabel>{t('areaLabel')}</FormLabel>
                   <FormControl>
                     <SysAreaSelect {...field} />
                   </FormControl>
@@ -158,9 +160,9 @@ export default function RegisterForm() {
               name='location'
               render={({ field }) => (
                 <FormItem className='col-span-2'>
-                  <FormLabel>Location (Address)</FormLabel>
+                  <FormLabel>{t('locationLabel')}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='City, Country' />
+                    <Input {...field} placeholder={t('locationPlaceholder')} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -172,9 +174,9 @@ export default function RegisterForm() {
               name='newPassword'
               render={({ field }) => (
                 <FormItem className='col-span-2'>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>{t('newPasswordLabel')}</FormLabel>
                   <FormControl>
-                    <BasePasswordInput {...field} />
+                    <BasePasswordInput {...field} placeholder={t('newPasswordPlaceholder')} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -186,7 +188,7 @@ export default function RegisterForm() {
               name='startTime'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Start Time</FormLabel>
+                  <FormLabel>{t('startTimeLabel')}</FormLabel>
                   <FormControl>
                     <Input type='time' {...field} />
                   </FormControl>
@@ -200,7 +202,7 @@ export default function RegisterForm() {
               name='endTime'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>End Time</FormLabel>
+                  <FormLabel>{t('endTimeLabel')}</FormLabel>
                   <FormControl>
                     <Input type='time' {...field} />
                   </FormControl>
@@ -215,7 +217,7 @@ export default function RegisterForm() {
             className='w-full'
             loading={submitMutation.isPending}
           >
-            Complete Registration
+            {t('registerButton')}
           </Button>
         </form>
       </Form>

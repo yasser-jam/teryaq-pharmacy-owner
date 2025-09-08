@@ -4,21 +4,23 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Package, ReceiptText, CalendarDays, DollarSign, TextQuote, Tag } from "lucide-react";
+import { useTranslations } from 'next-intl';
 
 interface RefundCardProps {
   refund: Refund;
 }
 
 export function RefundCard({ refund }: RefundCardProps) {
+  const t = useTranslations('RefundCard');
   return (
     <Card className="border-2 border-dashed rounded-lg shadow-sm bg-white p-2">
       <CardHeader className="pb-2 pt-0 px-0">
         <CardTitle className="flex items-center gap-1.5 text-lg font-semibold text-gray-700">
           <ReceiptText className="h-5 w-5 text-gray-500" />
-          <span>Refund #{refund.refundId}</span>
+          <span>{t('refundNumber', { id: refund.refundId || 0 })}</span>
           {refund.saleInvoiceId && (
             <Badge variant="secondary" className="ml-auto text-xs px-1.5 py-0">
-              Invoice ID: {refund.saleInvoiceId}
+              {t('invoiceId', { id: refund.saleInvoiceId })}
             </Badge>
           )}
         </CardTitle>
@@ -27,14 +29,14 @@ export function RefundCard({ refund }: RefundCardProps) {
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-1.5 text-gray-600">
             <CalendarDays className="h-4 w-4 text-gray-500" />
-            <span className="font-medium">Date:</span>
+            <span className="font-medium">{t('date')}:</span>
             <Badge variant="outline" className="bg-blue-50 text-blue-700 text-xs px-2 py-0.5">
               {refund.refundDate ? new Date(refund.refundDate).toLocaleString() : "—"}
             </Badge>
           </div>
           <div className="flex items-center gap-1.5 text-gray-600 ml-auto">
             <DollarSign className="h-4 w-4 text-green-600" />
-            <span className="font-medium">Total Amount:</span>
+            <span className="font-medium">{t('totalAmount')}:</span>
             <span className="font-bold text-green-700">{refund.totalRefundAmount?.toFixed(2) || "0.00"}</span>
           </div>
         </div>
@@ -42,7 +44,7 @@ export function RefundCard({ refund }: RefundCardProps) {
         {refund.refundReason && (
           <div className="flex items-start gap-1.5 text-gray-600 bg-gray-50 p-2 rounded-md">
             <TextQuote className="h-4 w-4 mt-0.5 text-gray-500" />
-            <span className="font-medium">Reason:</span>
+            <span className="font-medium">{t('reason')}:</span>
             <p className="flex-1 text-gray-700 leading-snug">{refund.refundReason}</p>
           </div>
         )}
@@ -51,7 +53,7 @@ export function RefundCard({ refund }: RefundCardProps) {
 
         <h3 className="font-semibold text-base flex items-center gap-1.5 mb-1 text-gray-700">
           <Package className="h-5 w-5 text-gray-500" />
-          Refunded Items
+          {t('refundedItems')}
         </h3>
         {refund.refundedItems && refund.refundedItems.length > 0 ? (
           <Accordion type="single" collapsible className="w-full">
@@ -59,21 +61,21 @@ export function RefundCard({ refund }: RefundCardProps) {
               <AccordionItem key={index} value={`item-${index}`} className="border rounded-md mb-1 bg-white shadow-sm last:mb-0">
                 <AccordionTrigger className="flex justify-between items-center py-1.5 px-3 hover:bg-gray-50 rounded-t-md text-gray-700 font-medium">
                   <span className="text-sm">{item.productName}</span>
-                  <Badge variant="outline" className="text-xs px-1.5 py-0">Qty: {item.quantity}</Badge>
+                  <Badge variant="outline" className="text-xs px-1.5 py-0">{t('quantity')}: {item.quantity}</Badge>
                 </AccordionTrigger>
                 <AccordionContent className="px-3 py-1.5 text-xs bg-gray-50 rounded-b-md border-t border-gray-100">
                   <div className="grid gap-0.5">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Unit Price:</span>
+                      <span className="text-gray-600">{t('unitPrice')}:</span>
                       <span className="font-medium text-gray-800">{item.unitPrice?.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Subtotal:</span>
+                      <span className="text-gray-600">{t('subtotal')}:</span>
                       <span className="font-medium text-gray-800">{item.subtotal?.toFixed(2)}</span>
                     </div>
                     {item.itemRefundReason && (
                       <div className="flex flex-col mt-1 pt-1 border-t border-gray-100">
-                        <span className="text-gray-600 font-medium mb-0.5">Item Refund Reason:</span>
+                        <span className="text-gray-600 font-medium mb-0.5">{t('itemRefundReason')}:</span>
                         <p className="text-gray-700 leading-tight">{item.itemRefundReason}</p>
                       </div>
                     )}
@@ -83,16 +85,16 @@ export function RefundCard({ refund }: RefundCardProps) {
             ))}
           </Accordion>
         ) : (
-          <p className="text-gray-500 italic text-center py-1.5">No items refunded.</p>
+          <p className="text-gray-500 italic text-center py-1.5">{t('noItems')}</p>
         )}
 
         <Separator className="my-1 bg-gray-100" />
 
         <div className="flex items-center gap-1.5 text-gray-600">
           <Tag className="h-4 w-4 text-gray-500" />
-          <span className="font-medium">Stock Restored:</span>
+          <span className="font-medium">{t('stockRestored')}:</span>
           <Badge variant={refund.stockRestored ? "default" : "destructive"} className={`${refund.stockRestored ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"} text-xs px-1.5 py-0.5`}>
-            {refund.stockRestored ? "Yes" : "No"}
+            {refund.stockRestored ? t('yes') : t('no')}
           </Badge>
         </div>
       </CardContent>

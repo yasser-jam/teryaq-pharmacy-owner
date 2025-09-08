@@ -98,7 +98,7 @@ export default function PurchaseOrderSupplierCard({
               {getStatusTranslation(order.status)}
             </Badge>
 
-            {onViewDetails && (
+            {/* {onViewDetails && (
               <Button
                 variant="outline"
                 size="sm"
@@ -108,7 +108,7 @@ export default function PurchaseOrderSupplierCard({
                 {t('viewDetails')}
                 <ArrowRight className="h-3 w-3 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
-            )}
+            )} */}
           </div>
         </div>
       </CardContent>

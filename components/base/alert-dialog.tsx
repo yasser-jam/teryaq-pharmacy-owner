@@ -19,6 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 const iconVariants = cva("mx-auto size-16", {
   variants: {
     variant: {
@@ -65,6 +66,8 @@ export default function AlertDialog({
     if (onOpenChange) onOpenChange(open);
   };
 
+  const t = useTranslations('Common')
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -85,7 +88,7 @@ export default function AlertDialog({
             onClick={() => (onOpenChange ? onOpenChange(false) : false)}
             variant="outline"
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             onClick={() => (onAction ? onAction() : null)}

@@ -9,7 +9,7 @@ import SupplierCard from '@/components/supplier/supplier-card';
 import SysInfo from '@/components/sys/sys-info';
 import { Button } from '@/components/ui/button';
 import { api } from '@/lib/api';
-import { successToast } from '@/lib/toast';
+import { errorToast, successToast } from '@/lib/toast';
 import { Supplier } from '@/types';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Plus } from 'lucide-react';
@@ -39,6 +39,10 @@ export default function Page({ children }: { children: React.ReactNode }) {
     onSuccess: () => {
       refetch()
       successToast(t('deleted'))
+    },
+    onError: () => {
+      
+      errorToast(t('supplierDelete'))
     }
   })
 

@@ -1,5 +1,6 @@
 "use client"
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 
 import { EditPencil, Eye, InfoCircle, MoreVert, Trash } from 'iconoir-react'
 
@@ -39,17 +40,19 @@ export default function ActionMenu({
   onDelete?: () => any
   onView?: () => void
 }) {
+
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const t = useTranslations('ActionMenu')
 
   const handleDelete = async () => {
     if (!onDelete) return
-
     setLoading(true)
-
-    await onDelete()?.finally(() => {
+    onDelete()?.then(() => {
       setLoading(false)
-
+      setDeleteOpen(false)
+    })?.finally(() => {
+      setLoading(false)
       setDeleteOpen(false)
     })
   }
@@ -61,17 +64,17 @@ export default function ActionMenu({
         <DropdownMenuContent align="end">
           {viewAction && (
             <DropdownMenuItem onClick={() => (onView ? onView() : null)}>
-              <Eye /> View
+              <Eye /> {t('view')}
             </DropdownMenuItem>
           )}
           {editAction && (
             <DropdownMenuItem onClick={() => (onEdit ? onEdit() : null)}>
-              <EditPencil /> Edit
+              <EditPencil /> {t('edit')}
             </DropdownMenuItem>
           )}
           {deleteAction && (
             <DropdownMenuItem onClick={() => setDeleteOpen(true)}>
-              <Trash /> Delete
+              <Trash /> {t('delete')}
             </DropdownMenuItem>
           )}
           {children}
@@ -82,9 +85,9 @@ export default function ActionMenu({
         onOpenChange={open => setDeleteOpen(open)}
         Icon={InfoCircle}
         variant="destructive"
-        action="Delete"
-        title="Are you absolutely sure?"
-        subtitle={`Are you sure you want to delete this ${item}, this cannot be undone`}
+        action={t('delete')}
+        title={t('deleteConfirmTitle')}
+        subtitle={t('deleteConfirmDescription', { item })}
         onAction={handleDelete}
         loading={loading}
       ></AlertDialog>

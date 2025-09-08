@@ -329,7 +329,8 @@
       "deleted": "Supplier Deleted Successfully",
       "supplier": "Supplier",
       "search": "Search...",
-      "info": "This page is responsible for adding suppliers and update their data in order to make orders"
+      "info": "This page is responsible for adding suppliers and update their data in order to make orders",
+      "supplierDelete": "Failed to delete supplier who has orders"
     },
     "SupplierDetails": {
       "title": "Supplier Details",
@@ -394,6 +395,14 @@
     },
     "Common": {
       "cancel": "Cancel",
-      "save": "Save"
+      "save": "Save",
+      "orders": "Orders"
+    },
+    "ActionMenu": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteConfirmTitle": "Are you absolutely sure?",
+      "deleteConfirmDescription": "Are you sure you want to delete this {item}, this cannot be undone"
     }
-  }
+}

@@ -120,7 +120,7 @@ export default function PurchaseOrderCard({
             <Package className="h-4 w-4" />
             {t('items', { count: order.items.length })}
           </h4>
-          <div className="space-y-2">
+          <div className="space-y-2 max-h-[250px] overflow-y-auto">
             {order.items.map((item, index) => (
               <div
                 key={index}

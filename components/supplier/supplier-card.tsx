@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { ListOrdered } from 'lucide-react';
 import { EditPencil } from 'iconoir-react';
 import { DropdownMenuItem } from '../ui/dropdown-menu';
+import { useTranslations } from 'next-intl';
 
 interface SupplierCardProps {
   supplier?: Supplier;
@@ -20,6 +21,8 @@ export default function SupplierCard({
   onDelete,
 }: SupplierCardProps) {
   const router = useRouter();
+
+  const t = useTranslations('')
   return (
     <>
       <Card className='rounded-sm relative bg-gray-50 border-teal-600 border-dashed shadow-none w-full'>
@@ -44,7 +47,7 @@ export default function SupplierCard({
                   router.replace(`/suppliers/${supplier?.id}/orders`)
                 }
               >
-                <ListOrdered /> Orders
+                <ListOrdered /> {t('Common.orders')}
               </DropdownMenuItem>
             </ActionMenu>
           </div>
